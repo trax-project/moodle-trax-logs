@@ -1,0 +1,7 @@
+{
+    "require-dev": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require": {
+    }
+}
