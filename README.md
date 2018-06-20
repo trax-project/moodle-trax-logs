@@ -1,54 +1,39 @@
 # Trax Logs for Moodle
 
-> Ce plugin génère les traces xAPI reflétant l'activité de l'apprenant dans Moodle, et les enregistre dans un LRS .
+> This plugin transforms Moodle logs into xAPI statements, and sends then to your LRS.
+
+[Documentation en français](docs/fr/README)
+
+## Why this plugin?
+
+The idea of transforming Moodle logs into xAPI Statements is not new. 
+It has been experimented with [Logstore xAPI](https://moodle.org/plugins/view/logstore_xapi).
+
+Trax Logs for Moodle is a completely new plugin which aims to bring some key improvements:
+* [Statements design following best practices](docs/en/best-practices.md),
+* [Reinforcement of data privacy](docs/en/privacy.md),
+* [Simple and extensible architecture](docs/en/tech.md).
 
 
-## Pourquoi ce plugin ?
+## Currently supported events
 
-L'idée de transformer des événements issus de Moodle en traces xAPI n'est pas nouvelle. 
-Elle a été expérimentée avec le plugin [Logstore xAPI](https://moodle.org/plugins/view/logstore_xapi).
+The current version of the plugin supports [general navigation events](docs/en/events.md) :
+* Login and logout,
+* Course access,
+* Course module access: all standard modules supported, except Assignement.
 
-Les retours d'expérience que j'ai pu collecter m'ont toutefois conduit à imaginer un nouveau plugin apportant plusieurs améliorations clés :
-* [L'application de bonnes pratiques concernant la définition des traces xAPI](docs/best-practices.md) ;
-* [Un renforcement de la protection des données personnelles](docs/privacy.md) ;
-* [Une architecture simple à comprendre, à maintenir et à enrichir](docs/tech.md).
-
-
-## Evénements actuellement pris en charge
-
-La version actuelle permet de tracer la [navigation générale de l'apprenant au sein de la plateforme](docs/events.md) :
-* Connexion et déconnexion à la plateforme ;
-* Accès aux cours ;
-* Accès à tous les types de ressources et activités standards de Moodle (hors devoir).
-
-La palette des traces générées sera progressivement élargie aux domaines suivants :
-* Progression, complétion, réussite et acquisition de compétences ;
-* Interactions spécifiques à chaque type d'activité.
+The number of supported events will increase during the next months, including:
+* Progress, completion, success and competency development,
+* Specific interactions for each type of course module.
 
 
-## Maturité du plugin
+## Plugin maturity
 
-Trax Logs est actuellement en version Alpha. Il est susceptible de subir des transformations significatives. 
-C'est notamment le cas du formatage des traces xAPI dont la définition va s'affiner dans les prochains mois.
-A ce stade, il n'est donc pas conseillé de l'utiliser en production.
+Trax Logs is currently in Alpha version, which means that significant changes may come.
+For example, the structure of generated Statements may change, as well as the vocabulary used.
+So we recommend not to use this version on a production server.
 
-Je vous encourage toutefois à l'[installer](docs/tech.md), à le tester, et à partager vos impressions.
+However, you are encouraged to [install](docs/en/tech.md) the plugin, to test it, and to share feedbacks.
 
-
-## Roadmap
-
-* Gestion des échecs de transmission des Statements avec possibilité de reprise
-* Envoi des Statements par tâche planifiée (CRON)
-* Traitement des logs passés issus de la table de logs standard de Moodle
-* Fonction de droit à l'oubli / refus de suivi d'un utilisateur
-* Import/export de la table des acteurs 
-* Import/export de la table des activités 
-* Ajout d'un système de génération de Registration
-* Définition des extensions d'activités, pour tous les types d'activités (incl. local-type = Moodle type)
-* Prise en charge des catégories de cours et sections de cours dans les Statements
-* Prise en charge des informations de progression, complétion, réussite et acquisition de compétences
-* Prise en charge des événements spécifiques à chaque activité standard de Moodle
-* Activation ou désactivation des groupes d'événements à traiter
-* Finalisation du vocabulaire utilisé
 
 

@@ -2,8 +2,7 @@
 
 ## Installation
 
-Télécharger le plugin correspondant à votre version de Moodle :
-* [Trax Logs for Moodle 3.5](http://traxlrs.fr/download/moodle-trax-logs-35.zip)
+Télécharger le plugin correspondant à votre version de Moodle sur https://moodle.org/plugins/logstore_trax.
 
 Faites glisser le fichier ZIP dans "http://mon-adresse-moodle.com/admin/tool/installaddon/index.php". 
 
@@ -19,7 +18,7 @@ Une fois installé, le plugin doit être activité dans "Administration > Plugin
 
 Un jeu de tests est fourni avec le plugin.
 Il permet de tester la génération et l'envoi au LRS de tous les types d'événements supportés.
-Les tests ne vérifient toutefois pas que le LRS a bien enregistré les Statements, ni que ces Statements sont correctement formatés. 
+Les tests ne vérifient toutefois pas que le LRS a bien enregistré les Statements. 
 Pour le moment, cette vérification doit se faire manuellement dans le LRS.
 
 Pour lancer le test :

@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 // Plugin
 
 $string['pluginname'] = 'Trax Logs';
-$string['pluginname_desc'] = 'A log plugin which transforms Moodle logs into xAPI statements, and send then to your LRS.';
+$string['pluginname_desc'] = 'A log plugin which transforms Moodle logs into xAPI statements, and sends then to your LRS.';
 
 
 // Settings

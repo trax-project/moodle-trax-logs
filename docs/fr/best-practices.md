@@ -5,8 +5,9 @@
 Il n’existe actuellement aucun profil xAPI officiel concernant le suivi des activités d’un LMS. 
 Ce projet doit donc contribuer à la définition d’un tel profil.
 
-A de rares exceptions près, le vocabulaire actuellement utilisé est fédéré et documenté sous le domaine http://vocab.xapi.fr, 
-qui offre un cadre de travail stable, avec une terminologie complète, claire et cohérente pour le sujet qui nous concerne.
+A de rares exceptions près, le vocabulaire actuellement utilisé est fédéré et documenté sous le domaine http://vocab.xapi.fr.
+Bien qu'il ne s'agisse pas d'un domaine officiellement reconnu pour définir un vocabulaire xAPI, 
+nous l'utilisons comme un cadre de travail stable, avec une terminologie complète, claire et cohérente pour le sujet qui nous concerne.
 
 Ce domaine doit être considéré comme un alias temporaire. A terme, il sera remplacé par une identification officielle, 
 idéalement fédérée sous le domaine http://w3id.org/xapi. Une table de correspondance définitive sera alors établie afin de faciliter les migrations.
@@ -16,12 +17,12 @@ idéalement fédérée sous le domaine http://w3id.org/xapi. Une table de corres
 
 Le plugin Trax Logs identifie les acteurs en utilisant le format "account".
 
-La propriété "homePage" fait référence à la plateforme Moodle utilisée. 
+La propriété "account.homePage" fait référence à la plateforme Moodle utilisée. 
 Elle s’appuie sur un identifiant de plateforme (IRI) qui doit être précisé dans les réglages du plugin. 
 L’IRI renseignée doit être définitive. Elle diffère en cela de l’URL de la plateforme Moodle 
 qui est susceptible de changer dans le temps (ex. migration vers un autre domaine ou sous-domaine).
 
-La propriété "name" permet d’identifier l’acteur au sein de la plateforme Moodle. 
+La propriété "account.name" permet d’identifier l’acteur au sein de la plateforme Moodle. 
 Le plugin utilise pour cela un UUID attribué à chaque acteur, identifiant qui peut être considéré comme stable dans le temps. 
 L’UUID attribué diffère en cela du nom d'utilisateur, de l'adresse email, et même de l’identifiant interne à Moodle, 
 qui sont tous susceptibles de changer dans le temps.
