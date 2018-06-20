@@ -2,7 +2,7 @@
 
 ## Installation
 
-Download the plugin for you Moodle version: https://moodle.org/plugins/logstore_trax.
+Download the plugin for your Moodle version: https://moodle.org/plugins/logstore_trax.
 
 Drag and drop the ZIP file in "http://my-moodle-address.com/admin/tool/installaddon/index.php". 
 
@@ -19,7 +19,7 @@ Once it is done, you must activate the plugin in "Administration > Plugins > Log
 A test file is included with the plugin, so you can test all the supported events 
 by generating the matching Statements and sending them to your LRS.
 However, the test function doesn't check that the Statements are successfully sent to the LRS.
-So you will have to open your LRS to see if the Statements are recorded.
+So you will have to manually open your LRS to check it.
 
 To launch the test:
 
@@ -80,7 +80,7 @@ For instance:
 
 Activity classes are implemented in "TRAX_PLUGIN/classes/activities".
 
-For events coming from third-party plugins, it is possible to implement custom activity classes in "THIRD_PARTY_PLUGIN/classes/xapi/activities/".
+For events coming from third-party plugins, you can implement custom activity classes in "THIRD_PARTY_PLUGIN/classes/xapi/activities/".
 
 
 

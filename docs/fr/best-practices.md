@@ -27,10 +27,8 @@ Le plugin utilise pour cela un UUID attribué à chaque acteur, identifiant qui 
 L’UUID attribué diffère en cela du nom d'utilisateur, de l'adresse email, et même de l’identifiant interne à Moodle, 
 qui sont tous susceptibles de changer dans le temps.
 
-
-## Protection des données personnelles
-
-Cet aspect est pris très au sérieux et fait l'objet d'une [documentation spécifique](privacy.md).
+L'autre avantage de cette technique est que l'UUID garantit que l'utilisateur reste identifié de manière anonyme.
+Se référer à la documentation sur la [protection des données personnelles](privacy.md) pour plus de détails.
 
 
 ## Identification des activités
