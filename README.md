@@ -1,8 +1,8 @@
+[Cette documentation existe aussi en français](docs/fr/README.md)
+
 # Trax Logs for Moodle
 
 > This plugin transforms Moodle logs into xAPI statements, and sends then to your LRS.
-
-[Documentation en français](docs/fr/README.md)
 
 ## Why this plugin?
 
