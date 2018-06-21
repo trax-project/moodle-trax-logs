@@ -10,7 +10,7 @@
         }
     },
     "verb": {
-        "id": "https://vocab.xapi.fr/verbs/accessed"
+        "id": "http://vocab.xapi.fr/verbs/accessed"
     },
     "object": {
         "objectType": "Activity",

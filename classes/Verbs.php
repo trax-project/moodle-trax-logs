@@ -42,7 +42,7 @@ class Verbs {
             'iri' => 'https://w3id.org/xapi/adl/verbs/logged-out',
         ],
         'viewed' => [
-            'iri' => 'https://vocab.xapi.fr/verbs/accessed',
+            'iri' => 'http://vocab.xapi.fr/verbs/accessed',
         ],
 
     ];
