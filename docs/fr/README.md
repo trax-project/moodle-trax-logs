@@ -1,6 +1,6 @@
 [This page has been translated in english.](../../README.md)
 
-# Trax Logs for Moodle
+# Trax Logs pour Moodle
 
 > Ce plugin génère les traces xAPI reflétant l'activité de l'apprenant dans Moodle, et les enregistre dans un LRS .
 
