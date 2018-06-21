@@ -65,7 +65,7 @@ trait ActivityTypes {
         ],
         'chat' => [
             'db' => 103, 
-            'type' => 'http://vocab.xapi.fr/activities/chat-Room',
+            'type' => 'http://vocab.xapi.fr/activities/chat-room',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'choice' => [
