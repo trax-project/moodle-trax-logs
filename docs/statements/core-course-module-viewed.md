@@ -38,7 +38,7 @@
             ],
             "category": [
                 {
-                    "id": "http://vocab.xapi.fr/activities/learning-unit",
+                    "id": "http://vocab.xapi.fr/categories/learning-unit",
                     "definition": {
                         "type": "http://vocab.xapi.fr/activities/granularity-level"
                     }
