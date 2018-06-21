@@ -23,7 +23,7 @@ So the LRS must endorse this responsability, given the UUID of the user.
 
 ## Contents
 
-* [Home page](../../README.md)
+* [In a nutshell](../../README.md)
 * [Supported events](events.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)

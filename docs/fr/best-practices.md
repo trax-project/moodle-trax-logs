@@ -111,7 +111,7 @@ La génération des identifiants de Statements est laissée à l'initiative du L
 
 ## Sommaire
 
-* [Accueil](README.md)
+* [En bref](README.md)
 * [Evénements pris en charge par le plugin](events.md)
 * [Bonnes pratiques relatives à la conception des Statements](best-practices.md)
 * [Protection des données personnelles](privacy.md)

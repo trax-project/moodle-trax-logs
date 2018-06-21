@@ -37,4 +37,11 @@ A ce stade, il n'est donc pas conseillé de l'utiliser en production.
 Je vous encourage toutefois à l'[installer](tech.md), à le tester, et à partager vos impressions.
 
 
+## Sommaire
+
+* [En bref](README.md)
+* [Evénements pris en charge par le plugin](events.md)
+* [Bonnes pratiques relatives à la conception des Statements](best-practices.md)
+* [Protection des données personnelles](privacy.md)
+* [Documentation technique](tech.md)
 

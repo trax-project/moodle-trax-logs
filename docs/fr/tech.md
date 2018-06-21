@@ -87,7 +87,7 @@ qui doivent être localisées dans "PLUGIN_TIERS/classes/xapi/activities/".
 
 ## Sommaire
 
-* [Accueil](README.md)
+* [En bref](README.md)
 * [Evénements pris en charge par le plugin](events.md)
 * [Bonnes pratiques relatives à la conception des Statements](best-practices.md)
 * [Protection des données personnelles](privacy.md)

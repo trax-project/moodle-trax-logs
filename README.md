@@ -36,4 +36,11 @@ So we recommend not to use this version on a production server.
 However, you are encouraged to [install](docs/en/tech.md) the plugin, to test it, and to share feedbacks.
 
 
+## Contents
+
+* [In a nutshell](README.md)
+* [Supported events](docs/en/events.md)
+* [Best pratices in designing Statements](docs/en/best-practices.md)
+* [Data privacy](docs/en/privacy.md)
+* [Technical documentation](docs/en/tech.md)
 

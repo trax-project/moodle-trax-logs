@@ -87,7 +87,7 @@ For events coming from third-party plugins, you can implement custom activity cl
 
 ## Contents
 
-* [Home page](../../README.md)
+* [In a nutshell](../../README.md)
 * [Supported events](events.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)
