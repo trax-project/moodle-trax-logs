@@ -1,3 +1,5 @@
+[This page has been translated in english.](../en/tech.md)
+
 # Documentation technique
 
 ## Installation
@@ -83,4 +85,11 @@ Pour les plugins tiers, il est possible d'implémenter des classes d'activités 
 qui doivent être localisées dans "PLUGIN_TIERS/classes/xapi/activities/".
 
 
+## Sommaire
+
+* [Accueil](README.md)
+* [Evénements pris en charge par le plugin](events.md)
+* [Bonnes pratiques relatives à la conception des Statements](best-practices.md)
+* [Protection des données personnelles](privacy.md)
+* [Documentation technique](tech.md)
 

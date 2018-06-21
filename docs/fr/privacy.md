@@ -1,3 +1,5 @@
+[This page has been translated in english.](../en/privacy.md)
+
 # Protection des données personnelles
 
 La protection des données personnelles est au coeur des préoccupations de ce projet.
@@ -20,3 +22,11 @@ Actuellement, le plugin ne permet pas de présenter à l'utilisateur les donnée
 C'est donc au LRS d'assurer le droit d'accès aux données personnelles et leur transférabilité.
 Il suffit pour cela à l'utilisateur de fournir son UUID.
 
+
+## Sommaire
+
+* [Accueil](README.md)
+* [Evénements pris en charge par le plugin](events.md)
+* [Bonnes pratiques relatives à la conception des Statements](best-practices.md)
+* [Protection des données personnelles](privacy.md)
+* [Documentation technique](tech.md)

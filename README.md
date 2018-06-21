@@ -1,4 +1,4 @@
-[Cette documentation existe aussi en français](docs/fr/README.md)
+[Cette page existe aussi en français.](docs/fr/README.md)
 
 # Trax Logs for Moodle
 

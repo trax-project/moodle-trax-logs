@@ -1,3 +1,5 @@
+[This page has been translated in english.](../en/events.md)
+
 # Evénements pris en charge par le plugin
 
 Evénement Moodle | Classe Trax Logs | Exemple
@@ -26,3 +28,10 @@ Evénement Moodle | Classe Trax Logs | Exemple
 \mod_workshop\event\course_module_viewed | logstore_trax\statements\core\CourseModuleViewed | ^
 
 
+## Sommaire
+
+* [Accueil](README.md)
+* [Evénements pris en charge par le plugin](events.md)
+* [Bonnes pratiques relatives à la conception des Statements](best-practices.md)
+* [Protection des données personnelles](privacy.md)
+* [Documentation technique](tech.md)

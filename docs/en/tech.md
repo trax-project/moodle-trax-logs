@@ -1,3 +1,5 @@
+[Cette page existe aussi en français.](../fr/tech.md)
+
 # Technical documentation
 
 ## Installation
@@ -18,8 +20,8 @@ Once it is done, you must activate the plugin in "Administration > Plugins > Log
 
 A test file is included with the plugin, so you can test all the supported events 
 by generating the matching Statements and sending them to your LRS.
-However, the test function doesn't check that the Statements are successfully sent to the LRS.
-So you will have to manually open your LRS to check it.
+However, the current test function doesn't check that the LRS recorded the Statements.
+So you will have to open your LRS and check it manually.
 
 To launch the test:
 
@@ -28,7 +30,7 @@ To launch the test:
 ```
 php admin/tool/phpunit/cli/init.php
 ```
-2. In "admin/tool/log/store/trax/tests/store_test.php", change the LRS access params at the begining of the script.
+2. In "admin/tool/log/store/trax/tests/store_test.php", change the LRS access settings at the begining of the script.
 3. Launch the test with: 
 ```
 vendor/bin/phpunit store_test admin/tool/log/store/trax/tests/store_test.php
@@ -42,7 +44,7 @@ To support a new event, you need to implement a single class which inherits from
 In this class, you must implement the "statement()" function, which returns the Statement to be sent to the LRS, given a Moodle event
 which is stored in "$this->event".
 
-Your implementation should use some available services:
+Your implementation should use the following services:
 * $this->actors, which generates actors given a type and a Moodle ID,
 * $this->verbs, which generates verbs given their code,
 * $this->activities, which generates activities given a type and a Moodle ID.
@@ -83,4 +85,11 @@ Activity classes are implemented in "TRAX_PLUGIN/classes/activities".
 For events coming from third-party plugins, you can implement custom activity classes in "THIRD_PARTY_PLUGIN/classes/xapi/activities/".
 
 
+## Contents
+
+* [Home page](../../README.md)
+* [Supported events](events.md)
+* [Best pratices in designing Statements](best-practices.md)
+* [Data privacy](privacy.md)
+* [Technical documentation](tech.md)
 

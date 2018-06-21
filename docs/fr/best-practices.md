@@ -1,3 +1,5 @@
+[This page has been translated in english.](../en/best-practices.md)
+
 # Bonnes pratiques relatives à la conception des Statements
 
 ## Vocabulaire utilisé
@@ -7,7 +9,7 @@ Ce projet doit donc contribuer à la définition d’un tel profil.
 
 A de rares exceptions près, le vocabulaire actuellement utilisé est fédéré et documenté sous le domaine http://vocab.xapi.fr.
 Bien qu'il ne s'agisse pas d'un domaine officiellement reconnu pour définir un vocabulaire xAPI, 
-nous l'utilisons comme un cadre de travail stable, avec une terminologie complète, claire et cohérente pour le sujet qui nous concerne.
+nous l'utilisons comme un cadre de travail stable, avec une terminologie complète et cohérente pour le sujet qui nous concerne.
 
 Ce domaine doit être considéré comme un alias temporaire. A terme, il sera remplacé par une identification officielle, 
 idéalement fédérée sous le domaine http://w3id.org/xapi. Une table de correspondance définitive sera alors établie afin de faciliter les migrations.
@@ -71,10 +73,13 @@ Trax Logs définit pour tous les Statements dont l’objet est une activité de 
 
 ## Eléments descriptifs
 
-Trax Logs ne renseigne ni les noms des acteurs (anonymisation oblige), ni les intitulés des verbes (jugé verbieux et peu utile).
+Trax Logs ne renseigne pas les noms des acteurs pour garantir l'anonymisation.
+
+Les intitulés des verbes ne sont pas non plus renseignés pour alléger les Statements. Les outils de reporting seront chargés d'associer les intitulés dans la langue souhaitée.
 
 Les noms et descriptions des activités sont transmis chaque fois que l’activité est l’objet du Statement. 
 Ils ne sont en revanche pas transmis pour les activités contextuelles, afin d’alléger le poids des Statements.
+On part du principe que les activités contextuelles importantes (ex. système, cours) seront transmises en tant qu'objet de Statements spécifiques (ex. connexion au système, inscription ou accès au cours, etc.), et que le LRS accèdera à leurs noms et descriptions par ce biais.
 
 
 ## Extensions
@@ -102,3 +107,12 @@ A ce stade, les seuls autres éléments d'information transmis par Trax Logs son
 * Context.platform (Moodle)
 
 La génération des identifiants de Statements est laissée à l'initiative du LRS.
+
+
+## Sommaire
+
+* [Accueil](README.md)
+* [Evénements pris en charge par le plugin](events.md)
+* [Bonnes pratiques relatives à la conception des Statements](best-practices.md)
+* [Protection des données personnelles](privacy.md)
+* [Documentation technique](tech.md)

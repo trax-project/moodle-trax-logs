@@ -1,3 +1,5 @@
+[Cette page existe aussi en français.](../fr/events.md)
+
 # Supported events
 
 Moodle Event | Trax Logs Class | Example
@@ -25,4 +27,11 @@ Moodle Event | Trax Logs Class | Example
 \mod_wiki\event\course_module_viewed | logstore_trax\statements\core\CourseModuleViewed | ^
 \mod_workshop\event\course_module_viewed | logstore_trax\statements\core\CourseModuleViewed | ^
 
+## Contents
+
+* [Home page](../../README.md)
+* [Supported events](events.md)
+* [Best pratices in designing Statements](best-practices.md)
+* [Data privacy](privacy.md)
+* [Technical documentation](tech.md)
 

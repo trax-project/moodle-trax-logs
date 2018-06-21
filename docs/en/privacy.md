@@ -1,3 +1,5 @@
+[Cette page existe aussi en français.](../fr/privacy.md)
+
 # Data privacy
 
 Data privacy is an important aspect of this project.
@@ -18,3 +20,11 @@ Keeping these Statements may be of interest for statistical analytics.
 
 Currently, Trax Logs plugin does not have the feature to present personal data (i.e. Statements) of a user when the user requests it, except its UUID.
 So the LRS must endorse this responsability, given the UUID of the user.
+
+## Contents
+
+* [Home page](../../README.md)
+* [Supported events](events.md)
+* [Best pratices in designing Statements](best-practices.md)
+* [Data privacy](privacy.md)
+* [Technical documentation](tech.md)
