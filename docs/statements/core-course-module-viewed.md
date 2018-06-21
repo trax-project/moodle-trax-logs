@@ -44,7 +44,7 @@
                     }
                 },
                 {
-                    "id": "http://vocab.xapi.fr/profiles/vle",
+                    "id": "http://vocab.xapi.fr/categories/vle-profile",
                     "definition": {
                         "type": "http://adlnet.gov/expapi/activities/profile"
                     }

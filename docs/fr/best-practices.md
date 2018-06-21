@@ -64,7 +64,7 @@ Pour plus de détails, se référer à http://vocab.xapi.fr.
 
 Trax Logs définit pour tous les Statements :
 * Une activité "grouping" identifiant la plateforme Moodle impliquée, de type "système" ;
-* Une activité "category" précisant le profil xAPI, ici "http://vocab.xapi.fr/profiles/vle".
+* Une activité "category" précisant le profil xAPI, ici "http://vocab.xapi.fr/categories/vle-profile".
 
 Trax Logs définit pour tous les Statements dont l’objet est une activité de type "unité d'apprentissage" (correspondant aux modules Moodle) :
 * Une activité parente qui correspond au cours dans lequel l’activité a lieu ;

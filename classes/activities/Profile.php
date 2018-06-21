@@ -40,7 +40,7 @@ class Profile extends Activity
      */
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
         return [
-            'id' => 'http://vocab.xapi.fr/profiles/vle',
+            'id' => 'http://vocab.xapi.fr/categories/vle-profile',
             'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
         ];
     }
