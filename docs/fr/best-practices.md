@@ -9,9 +9,9 @@ Ce projet doit donc contribuer à la définition d’un tel profil.
 
 A de rares exceptions près, le vocabulaire actuellement utilisé est fédéré et documenté sous le domaine http://vocab.xapi.fr.
 Bien qu'il ne s'agisse pas d'un domaine officiellement reconnu pour définir un vocabulaire xAPI, 
-nous l'utilisons comme un cadre de travail stable, avec une terminologie complète et cohérente pour le sujet qui nous concerne.
+nous l'utilisons comme un cadre de travail, permettant de définir et de documenter avec une terminologie complète et cohérente pour le sujet qui nous concerne.
 
-Ce domaine doit être considéré comme un alias temporaire. A terme, il sera remplacé par une identification officielle, 
+Ce domaine doit être considéré comme un alias temporaire. A terme, l'objectif est de la remplacer par une identification officielle, 
 idéalement fédérée sous le domaine http://w3id.org/xapi. Une table de correspondance définitive sera alors établie afin de faciliter les migrations.
 
 

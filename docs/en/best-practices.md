@@ -8,11 +8,10 @@ There is currently no official xAPI profile regarding LMS or VLE activities.
 I hope this project will be a contribution in defining such a profile. 
 
 Most of the vocabulary used by this plugin is based on the http://vocab.xapi.fr domain.
-Although it is not an official domain to define xAPI vocabulary, it is used as a temporary working domain,
+Although it is not an official domain to define xAPI vocabulary, we use it as a temporary working domain,
 where we can define a comprehensive and consistent set of concepts for the LMS/VLE purpose.
 
-Ideally, this vocabulary will be replaced by an official one, based on the http://w3id.org/xapi domain,
-when an xAPI LMS/VLE profile will be created. 
+This domain should be considered as temporary. Ideally, it will be replaced by an official one (http://w3id.org/xapi) when our work will be stabilized and recognized. 
 A matching vocabulary table will be released to facilitate migration of existing implementations. 
 
 
