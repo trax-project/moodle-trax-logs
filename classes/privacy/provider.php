@@ -31,6 +31,7 @@ use context_system;
 
 use core_privacy\local\metadata\collection;
 use core_privacy\local\request\contextlist;
+use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\metadata\provider as metadata_provider;
 use tool_log\local\privacy\logstore_provider;
 
