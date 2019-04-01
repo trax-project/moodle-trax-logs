@@ -101,7 +101,6 @@ abstract class Statement {
     protected function baseStatement($activityType) {
         return [
             'context' => $this->baseContext($activityType),
-            'version' => '1.0.3',
             'timestamp' => date('c', $this->event->timecreated),
         ];
     }
