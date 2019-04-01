@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -53,8 +53,9 @@ class Actors extends Index {
      * @param bool $full Give the full definition of the item?
      * @return array
      */
-    public function get(string $type, int $mid = 0, bool $full = false) {
-        $entry = $this->getOrCreateDbEntry($mid, $type);
+    public function get(string $type, int $mid = 0, bool $full = false, $entry = null)
+    {
+        if (!isset($entry)) $entry = $this->getOrCreateDbEntry($mid, $type);
         return [
             'objectType' => $this->types->$type->object_type,
             'account' => [
@@ -62,6 +63,20 @@ class Actors extends Index {
                 'name' => $entry->uuid,
             ],
         ];
+    }
+
+    /**
+     * Get an actor, given a Moodle ID and an actor type.
+     * 
+     * @param string $type Type of actor (user, cohort...)
+     * @param int $mid Moodle ID of the activity
+     * @param bool $full Give the full definition of the item?
+     * @return array
+     */
+    public function getExisting(string $type, int $mid = 0, bool $full = false)
+    {
+        $entry = $this->getDbEntryOrFail($mid, $type);
+        return $this->get($type, $mid, $full, $entry);
     }
 
 

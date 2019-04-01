@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -46,16 +46,22 @@ class Activities extends Index {
      * @param bool $full Give the full definition of the activity?
      * @param string $model Model to be used, when there is no class mathcing with the type (ex. module)
      * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
+     * @param stdClass $entry DB entry
      * @return array
      */
-    public function get(string $type, int $mid = 0, bool $full = true, string $model = 'activity', string $plugin = null) {
-        $entry = $this->getOrCreateDbEntry($mid, $type);
+    public function get(string $type, int $mid = 0, bool $full = true, string $model = 'activity', string $plugin = null, $entry = null) {
+        if (!isset($entry)) $entry = $this->getOrCreateDbEntry($mid, $type);
 
-        // First, search in the plugin folder
+        // Check if it is a known module
+        if (isset($this->types->$type) && isset($this->types->$type->level) && $this->types->$type->level == 'http://vocab.xapi.fr/categories/learning-unit') {
+            $model = 'module';
+        }
+
+        // Search in the plugin folder
         if (isset($plugin))
             $class = '\\'.$plugin.'\\xapi\\activities\\'.ucfirst($model);
 
-        // Then, search in Trax Logs, based on the $type
+        // Search in Trax Logs, based on the $type
         if (!isset($plugin) || !class_exists($class))
             $class = '\\logstore_trax\\activities\\'.str_replace('_', '', ucwords($type, '_'));
         
@@ -64,6 +70,22 @@ class Activities extends Index {
             $class = '\\logstore_trax\\activities\\'.ucfirst($model);
                     
         return (new $class($this->config, $this->types))->get($type, $mid, $entry->uuid, $full);
+    }
+
+    /**
+     * Get an existing activity, given a Moodle ID and an activity type.
+     * 
+     * @param string $type Type of activity
+     * @param int $mid Moodle ID of the activity
+     * @param bool $full Give the full definition of the activity?
+     * @param string $model Model to be used, when there is no class mathcing with the type (ex. module)
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
+     * @return array
+     */
+    public function getExisting(string $type, int $mid = 0, bool $full = true, string $model = 'activity', string $plugin = null)
+    {
+        $entry = $this->getDbEntryOrFail($mid, $type);
+        return $this->get($type, $mid, $full, $model, $plugin, $entry);
     }
 
     /**

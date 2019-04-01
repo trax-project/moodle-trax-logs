@@ -18,17 +18,35 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_logstore_standard_upgrade($oldversion) {
-    global $CFG;
+function xmldb_logstore_trax_upgrade($oldversion) {
+    global $DB;
 
-    // Automatically generated Moodle v3.5.0 release upgrade line.
-    // Put any upgrade step following this.
+    $dbman = $DB->get_manager();
+
+    // Index UUID are no longer unique.
+    if ($oldversion < 2018050801) {
+
+        // Actors index
+        $table = new xmldb_table('logstore_trax_actors');
+        $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
+        //if ($dbman->index_exists($table, $index)) 
+        $dbman->drop_index($table, $index);
+
+        // Activities index
+        $table = new xmldb_table('logstore_trax_activities');
+        $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
+        //if ($dbman->index_exists($table, $index)) 
+        $dbman->drop_index($table, $index);
+        
+        // Savepoint
+        upgrade_plugin_savepoint(true, 2018050802, 'logstore', 'trax');
+    }
 
     return true;
 }

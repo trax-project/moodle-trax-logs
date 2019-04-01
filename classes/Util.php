@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

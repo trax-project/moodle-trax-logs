@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -55,19 +55,32 @@ class Statements {
      *
      * @param stdClass $config xAPI configuration
      */
-    public function __construct($config) {
-        $this->actors = new Actors($config);
-        $this->verbs = new Verbs($config);
-        $this->activities = new Activities($config);
+    public function __construct($actors, $verbs, $activities) {
+        $this->actors = $actors;
+        $this->verbs = $verbs;
+        $this->activities = $activities;
     }
 
     /**
-     * Get a Statement value, given an event data.
+     * Get an array of Statements given an array of events.
+     *
+     * @param array $events Moodle events data
+     * @return array
+     */
+    public function getFromEvents(array $events)
+    {
+        return array_filter(array_map(function ($event) {
+            return $this->getFromEvent($event);
+        }, $events));
+    }
+
+    /**
+     * Get a Statement given an event.
      *
      * @param array $event Moodle event data
      * @return array|null
      */
-    public function get(array $event) {
+    public function getFromEvent(array $event) {
         $event = (object)$event;
         $parts = explode('\\', $event->eventname);
         $plugin = $parts[1];

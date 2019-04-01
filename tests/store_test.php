@@ -18,28 +18,20 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-class store_test extends advanced_testcase {
-    
-    /**
-     * Test config.
-     */
-    protected $lrs_endpoint = 'http://traxlrs.test/trax/ws/xapi';
-    protected $lrs_username = 'testsuite';
-    protected $lrs_password = 'password';
-    protected $platform_iri = 'http://xapi.moodle.test';
+require_once(__DIR__ . '/test_config.php');
 
-    
+class store_test extends test_config {
+        
     /**
      * A collection of events.
      */
     public function test_access_events() {
-        global $DB;
         $user = $this->prepare_session();
         $course = $this->getDataGenerator()->create_course();
         
@@ -47,7 +39,7 @@ class store_test extends advanced_testcase {
             'objectid' => $user->id,
             'other' => ['username' => $user->username],
         ])->trigger();
-
+        
         \core\event\course_viewed::create([
             'context' => context_course::instance($course->id), 
         ])->trigger();
@@ -172,32 +164,6 @@ class store_test extends advanced_testcase {
             'objectid' => $user->id,
             'other' => ['username' => $user->username],
         ])->trigger();
-
-    }
-        
-    /**
-     * Prepare test session.
-     */
-    protected function prepare_session() {
-        global $DB;
-
-        // Prepare testing context
-        $this->resetAfterTest(true);
-        $this->preventResetByRollback();
-        
-        // Enable logging plugin and configure it.
-        set_config('enabled_stores', 'logstore_trax', 'tool_log');
-        set_config('lrs_endpoint', $this->lrs_endpoint, 'logstore_trax');
-        set_config('lrs_username', $this->lrs_username, 'logstore_trax');
-        set_config('lrs_password', $this->lrs_password, 'logstore_trax');
-        set_config('platform_iri', $this->platform_iri, 'logstore_trax');
-        set_config('buffersize', 0, 'logstore_trax');
-
-        // Create a user
-        $this->setAdminUser();
-        $user = $this->getDataGenerator()->create_user();
-        $this->setUser($user);
-        return $user;
     }
 
 }

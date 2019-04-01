@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,9 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
-use logstore_trax\Statements;
-use logstore_trax\Client;
-
 class Controller {
 
     /**
@@ -39,6 +36,27 @@ class Controller {
      * @var Statements $statements
      */
     protected $statements;
+
+    /**
+     * Actors index.
+     * 
+     * @var Actors $actors
+     */
+    protected $actors;
+
+    /**
+     * Verbs index.
+     * 
+     * @var Verbs $actors
+     */
+    protected $verbs;
+
+    /**
+     * Activities index.
+     * 
+     * @var Activities $activities
+     */
+    protected $activities;
 
     /**
      * LRS client.
@@ -52,9 +70,15 @@ class Controller {
      * Constructs a new controller.
      */
     public function __construct() {
-        $this->statements = new Statements((object)[
-            'platform_iri' => get_config('logstore_trax', 'platform_iri'),
-        ]);
+
+        // APIs
+        $config = (object)['platform_iri' => get_config('logstore_trax', 'platform_iri')];
+        $this->actors = new Actors($config);
+        $this->verbs = new Verbs($config);
+        $this->activities = new Activities($config);
+        $this->statements = new Statements($this->actors, $this->verbs, $this->activities);
+
+        // HTTP Client
         $this->client = new Client((object)[
             'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
             'username' => get_config('logstore_trax', 'lrs_username'),
@@ -68,20 +92,32 @@ class Controller {
      * @param array $events Moodle events data
      */
     public function process_events(array $events) {
-        $statements = $this->statements($events);
+        $statements = $this->statements->getFromEvents($events);
         $this->client->statements()->post($statements);
     }
 
     /**
-     * Transform Moodle events data into Statements array.
-     *
-     * @param array $events Moodle events data
+     * Get an existing actor, given a Moodle ID and an actor type.
+     * 
+     * @param string $type Type of actor
+     * @param int $mid Moodle ID of the actor
      * @return array
      */
-    protected function statements(array $events) {
-        return array_filter(array_map(function($event) {
-            return $this->statements->get($event);
-        }, $events));
+    public function actor(string $type, int $mid = 0)
+    {
+        return $this->actors->getExisting($type, $mid, false);
+    }
+
+    /**
+     * Get an existing activity, given a Moodle ID and an activity type.
+     * 
+     * @param string $type Type of activity
+     * @param int $mid Moodle ID of the activity
+     * @return array
+     */
+    public function activity(string $type, int $mid = 0)
+    {
+        return $this->activities->getExisting($type, $mid, false);
     }
 
 

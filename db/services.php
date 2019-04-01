@@ -22,11 +22,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die;
 
-$plugin->version = 2018050802;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
+$functions = array(
 
-$plugin->release = 'v0.2';
-$plugin->maturity = MATURITY_ALPHA;
+    'logstore_trax_get_actors' => array(
+        'classname'     => 'logstore_trax_external',
+        'methodname'    => 'get_actors',
+        'description'   => 'Get xAPI actors from Moodle IDs and types.',
+        'type'          => 'read'
+    ),
+    
+    'logstore_trax_get_activities' => array(
+        'classname' => 'logstore_trax_external',
+        'methodname' => 'get_activities',
+        'description' => 'Get xAPI activities from Moodle IDs and types.',
+        'type' => 'read'
+    )
+);

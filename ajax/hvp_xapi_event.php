@@ -22,11 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- defined('MOODLE_INTERNAL') || die();
+require_once('../../../../../../config.php');
 
-$plugin->version = 2018050802;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
+require_login();
 
-$plugin->release = 'v0.2';
-$plugin->maturity = MATURITY_ALPHA;
+echo 'H5P xAPI Event';
+

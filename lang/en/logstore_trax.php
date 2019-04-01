@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -46,6 +46,11 @@ $string['platform_iri_help'] = "An IRI that will identify your platform and will
 
 $string['buffersize'] = 'Buffer size';
 $string['buffersize_help'] = "Number of events that can be grouped to be sent in a single request.";
+
+
+// Exceptions
+$string['activity_entry_not_found'] = 'Activity entry not found.';
+$string['actor_entry_not_found'] = 'Actor entry not found.';
 
 
 // Privacy metadata

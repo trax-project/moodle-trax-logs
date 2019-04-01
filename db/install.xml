@@ -16,7 +16,6 @@
       </KEYS>
       <INDEXES>
         <INDEX NAME="mid-type" UNIQUE="true" FIELDS="mid, type"/>
-        <INDEX NAME="uuid" UNIQUE="true" FIELDS="uuid"/>
       </INDEXES>
     </TABLE>
 
@@ -32,7 +31,6 @@
       </KEYS>
       <INDEXES>
         <INDEX NAME="mid-type" UNIQUE="true" FIELDS="mid, type"/>
-        <INDEX NAME="uuid" UNIQUE="true" FIELDS="uuid"/>
       </INDEXES>
     </TABLE>
   </TABLES>

@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -46,6 +46,11 @@ $string['platform_iri_help'] = "Il s'agit d'une IRI qui identifie votre platefor
 
 $string['buffersize'] = 'Taille du tampon';
 $string['buffersize_help'] = "Nombre d'événements qui peuvent être mis en attente afin d'être transmis en une seule requête.";
+
+
+// Exceptions
+$string['activity_entry_not_found'] = "L'activité n'existe pas.";
+$string['actor_entry_not_found'] = "L'acteur n'existe pas.";
 
 
 // Privacy metadata

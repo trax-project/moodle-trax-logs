@@ -18,7 +18,7 @@
  * Trax Logs for Moodle.
  *
  * @package    logstore_trax
- * @copyright  2018 Sébastien Fraysse {@link http://fraysse.eu}
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -26,14 +26,9 @@ namespace logstore_trax;
 
 defined('MOODLE_INTERNAL') || die();
 
-abstract class Index {
+use moodle_exception;
 
-    /**
-     * Types of items.
-     * 
-     * @var array $types
-     */
-    // protected $types = [];
+abstract class Index {
 
     /**
      * Config.
@@ -79,16 +74,10 @@ abstract class Index {
      * @param string $type Type of item
      * @return stdClass
      */
-    protected function getOrCreateDbEntry(int $mid, string $type) {
+    protected function getOrCreateDbEntry(int $mid, string $type)
+    {
         global $DB;
-
-        // Try to get the entry
-        $entry = $DB->get_record($this->table, [
-            'mid' => $mid,
-            'type' => $this->types->$type->db,
-        ]);
-        
-        // Create it if it does not exist
+        $entry = $this->getDbEntry($mid, $type);
         if (!$entry) {
             $entry = (object)[
                 'mid' => $mid,
@@ -98,6 +87,36 @@ abstract class Index {
             $entry->id = $DB->insert_record($this->table, $entry);
         }
         return $entry;
+    }
+
+    /**
+     * Get an entry from the DB, and rise an exception if the entry does not exist.
+     * 
+     * @param int $mid Moodle ID of the item
+     * @param string $type Type of item
+     * @return stdClass
+     */
+    protected function getDbEntryOrFail(int $mid, string $type)
+    {
+        $entry = $this->getDbEntry($mid, $type);
+        if (!$entry) throw new moodle_exception('activity_entry_not_found', 'logstore_trax');
+        return $entry;
+    }
+
+    /**
+     * Get an entry from the DB.
+     * 
+     * @param int $mid Moodle ID of the item
+     * @param string $type Type of item
+     * @return stdClass
+     */
+    protected function getDbEntry(int $mid, string $type)
+    {
+        global $DB;
+        return $DB->get_record($this->table, [
+            'mid' => $mid,
+            'type' => $this->types->$type->db,
+        ]);
     }
 
 }
