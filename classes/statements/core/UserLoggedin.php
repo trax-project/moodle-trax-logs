@@ -38,7 +38,7 @@ class UserLoggedin extends Statement {
     protected function statement() {
         return array_replace($this->baseStatement('system'), [
             'actor' => $this->actors->get('user', $this->event->objectid),
-            'verb' => $this->verbs->get('loggedin'),
+            'verb' => $this->verbs->get('logged-in'),
             'object' => $this->activities->get('system'),
         ]);
     }

@@ -75,17 +75,17 @@ trait ActivityTypes {
         ],
         'data' => [
             'db' => 105, 
-            'type' => 'http://vocab.xapi.fr/activities/web-content',
+            'type' => 'http://vocab.xapi.fr/activities/collaborative-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'feedback' => [
             'db' => 106, 
-            'type' => 'http://vocab.xapi.fr/activities/survey',
+            'type' => 'http://vocab.xapi.fr/activities/poll',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'folder' => [
             'db' => 107, 
-            'type' => 'http://vocab.xapi.fr/activities/file-collection',
+            'type' => 'http://vocab.xapi.fr/activities/resources',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'forum' => [
@@ -95,12 +95,12 @@ trait ActivityTypes {
         ],
         'glossary' => [
             'db' => 109, 
-            'type' => 'http://vocab.xapi.fr/activities/glossary',
+            'type' => 'http://vocab.xapi.fr/activities/collaborative-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'imscp' => [
             'db' => 110, 
-            'type' => 'http://vocab.xapi.fr/activities/content-package',
+            'type' => 'http://vocab.xapi.fr/activities/web-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'lesson' => [
@@ -125,12 +125,12 @@ trait ActivityTypes {
         ],
         'resource' => [
             'db' => 115, 
-            'type' => 'http://vocab.xapi.fr/activities/file',
+            'type' => 'http://adlnet.gov/expapi/activities/file',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'scorm' => [
             'db' => 116, 
-            'type' => 'http://vocab.xapi.fr/activities/content-package',
+            'type' => 'http://vocab.xapi.fr/activities/web-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'survey' => [
@@ -145,7 +145,7 @@ trait ActivityTypes {
         ],
         'wiki' => [
             'db' => 119, 
-            'type' => 'http://vocab.xapi.fr/activities/wiki',
+            'type' => 'http://vocab.xapi.fr/activities/collaborative-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
         ],
         'workshop' => [

@@ -38,7 +38,7 @@ class CourseModuleViewed extends Statement {
     protected function statement() {
         return array_replace($this->baseStatement($this->event->objecttable), [
             'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $this->verbs->get('viewed'),
+            'verb' => $this->verbs->get('navigated-in'),
             'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module'),
         ]);
     }

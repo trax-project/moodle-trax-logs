@@ -35,14 +35,14 @@ class Verbs {
      */
     protected $verbs = [
         
-        'loggedin' => [
+        'logged-in' => [
             'iri' => 'https://w3id.org/xapi/adl/verbs/logged-in',
         ],
-        'loggedout' => [
+        'logged-out' => [
             'iri' => 'https://w3id.org/xapi/adl/verbs/logged-out',
         ],
-        'viewed' => [
-            'iri' => 'http://vocab.xapi.fr/verbs/accessed',
+        'navigated-in' => [
+            'iri' => 'http://vocab.xapi.fr/verbs/navigated-in',
         ],
 
     ];
