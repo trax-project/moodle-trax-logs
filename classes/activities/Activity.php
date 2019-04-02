@@ -76,15 +76,27 @@ class Activity {
      * @param string $uuid UUID of the activity
      * @return array
      */
-    protected function baseActivity(string $type, string $uuid = '') {
-        if (!empty($uuid)) $uuid = '/'.$uuid;
+    protected function baseActivity(string $type, string $uuid = '')
+    {
         return [
             'objectType' => 'Activity',
-            'id' => $this->config->platform_iri.'/xapi/activities/'.$type.$uuid,
+            'id' => $this->baseActivityId($type, $uuid),
             'definition' => [
                 'type' => $this->types->$type->type,
             ],
         ];
+    }
+
+    /**
+     * Get base activity ID.
+     * 
+     * @param string $uuid UUID of the activity
+     * @return string
+     */
+    protected function baseActivityId(string $type, string $uuid = '')
+    {
+        if (!empty($uuid)) $uuid = '/' . $uuid;
+        return $this->config->platform_iri . '/xapi/activities/' . $type . $uuid;
     }
 
 

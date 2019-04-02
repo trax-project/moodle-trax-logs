@@ -43,13 +43,27 @@ class System extends Activity
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
         $activity = $this->baseActivity($type);
         if ($full) {
+
+            // Name & description
             global $DB;
             $course = $DB->get_record('course', array('id' => 1));
             $activity['definition']['name'] = Util::langString($course->fullname, $course);
-            if (!empty($course->summary))
+            if (!empty($course->summary)) {
                 $activity['definition']['description'] = Util::langString($course->summary, $course);
+            }
         }
         return $activity;
+    }
+
+    /**
+     * Get base activity ID.
+     * 
+     * @param string $uuid UUID of the activity
+     * @return string
+     */
+    protected function baseActivityId(string $type, string $uuid = '')
+    {
+        return $this->config->platform_iri;
     }
 
 
