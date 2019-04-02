@@ -43,11 +43,18 @@ class Course extends Activity
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
         $activity = $this->baseActivity($type, $uuid);
         if ($full) {
+
+            // Name & description
             global $DB;
             $course = $DB->get_record('course', array('id' => $mid));
             $activity['definition']['name'] = Util::langString($course->fullname, $course);
-            if (!empty($course->summary))
+            if (!empty($course->summary)) {
                 $activity['definition']['description'] = Util::langString($course->summary, $course);
+            }
+
+            // Extensions
+            $activity['definition']['extensions'] = [];
+            $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/platform-concept'] = $type;
         }
         return $activity;
     }

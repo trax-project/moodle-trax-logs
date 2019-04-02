@@ -43,12 +43,25 @@ class Module extends Activity
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
         $activity = $this->baseActivity($type, $uuid);
         if ($full) {
+
+            // Name & description
             global $DB;
             $module = $DB->get_record($type, array('id' => $mid));
             $course = $DB->get_record('course', array('id' =>$module->course));
             $activity['definition']['name'] = Util::langString($module->name, $course);
-            if (!empty($module->intro))
+            if (!empty($module->intro)) {
                 $activity['definition']['description'] = Util::langString($module->intro, $course);
+            }
+
+            // Extensions
+            $activity['definition']['extensions'] = [];
+            $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/platform-concept'] = $type;
+            if (isset($this->types->$type->familly)) {
+                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/concept-familly'] = $this->types->$type->familly;
+            }
+            if (isset($this->types->$type->standard)) {
+                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/standard'] = $this->types->$type->standard;
+            }
         }
         return $activity;
     }
