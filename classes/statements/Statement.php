@@ -98,9 +98,9 @@ abstract class Statement {
      * 
      * @return array
      */
-    protected function baseStatement($activityType) {
+    protected function baseStatement($activityType, $withSystem = true) {
         return [
-            'context' => $this->baseContext($activityType),
+            'context' => $this->baseContext($activityType, $withSystem),
             'timestamp' => date('c', $this->event->timecreated),
         ];
     }
@@ -110,22 +110,28 @@ abstract class Statement {
      * 
      * @return array
      */
-    protected function baseContext($activityType) {
+    protected function baseContext($activityType, $withSystem = true) {
 
         // Categories
         $categories = $this->activities->getCategories($activityType);
         $categories[] = $this->activities->get('profile');
 
-        // Context
-        return [
+        // Base context
+        $res = [
             'platform' => 'Moodle',
             'contextActivities' => [
-                'grouping' => [
-                    $this->activities->get('system', 0, false)
-                ],
                 'category' => $categories,
             ],
         ];
+
+        // System grouping
+        if ($withSystem) {
+            $res['contextActivities']['grouping'] = [
+                $this->activities->get('system', 0, false)
+            ];
+        }
+
+        return $res;
     }
 
 }

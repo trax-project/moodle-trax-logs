@@ -36,7 +36,7 @@ class UserLoggedout extends Statement {
      * @return array
      */
     protected function statement() {
-        return array_replace($this->baseStatement('system'), [
+        return array_replace($this->baseStatement('system', false), [
             'actor' => $this->actors->get('user', $this->event->objectid),
             'verb' => $this->verbs->get('logged-out'),
             'object' => $this->activities->get('system'),
