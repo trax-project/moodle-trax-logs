@@ -54,8 +54,7 @@ Les types d’activités sont répartis entre :
 
 Ces types d’activités ont été définis de la manière la plus générique possible. En particulier : 
 * Aucune référence à des concepts qui seraient propres à Moodle ;
-* Aucune référence à la notion de LMS, qui n'a pas le monopole de la diffusion de formations digitales (cf MOOC, site Web, etc) ;
-* Généralisation de certains concepts trop spécifiques ou techniques (ex. les packages IMSCP et SCORM sont indifféremment typés "packages de contenus").
+* Généralisation de certains concepts trop spécifiques ou techniques (ex. les packages IMSCP et SCORM sont indifféremment typés "contenus Web").
 
 Pour plus de détails, se référer à http://vocab.xapi.fr.
 
@@ -63,8 +62,10 @@ Pour plus de détails, se référer à http://vocab.xapi.fr.
 ## Activités contextuelles
 
 Trax Logs définit pour tous les Statements :
-* Une activité "grouping" identifiant la plateforme Moodle impliquée, de type "système" ;
 * Une activité "category" précisant le profil xAPI, ici "http://vocab.xapi.fr/categories/vle-profile".
+
+Trax Logs définit pour tous les Statements dont l’objet n'est la plateforme elle-même :
+* Une activité "grouping" identifiant la plateforme Moodle impliquée, de type "système" ;
 
 Trax Logs définit pour tous les Statements dont l’objet est une activité de type "unité d'apprentissage" (correspondant aux modules Moodle) :
 * Une activité parente qui correspond au cours dans lequel l’activité a lieu ;
@@ -84,13 +85,12 @@ On part du principe que les activités contextuelles importantes (ex. système, 
 
 ## Extensions
 
-Trax Logs n'utilise actuellement aucune extension. 
+3 extensions d'activités sont actuellement utilisées :
+- `http://vocab.xapi.fr/extensions/platform-concept` pour définir le type d'activité tel qu'il apparait dans Moodle (ex. book) ;
+- `http://vocab.xapi.fr/extensions/concept-familly` pour classer l'activité dans une famille plus large ;
+- `http://vocab.xapi.fr/extensions/standard` pour préciser si l'activité se conforme à un standard officiel (ex. scorm).
 
-L'utilisation d'extensions d'activité et de résultat propres à chaque type d'activité doit toutefois être étudiée,
-de même que pour les cours et le système.
-
-Dans tous les cas, l'ajout d'extensions ne devrait pas introduire d'information propre à Moodle, 
-mais au contraire viser à décrire les concepts de la manière la plus générique possible.
+Pour plus de détails, se référer à http://vocab.xapi.fr.
 
 
 ## Registration
@@ -102,7 +102,6 @@ afin de faciliter le regroupement des Statements décrivant l'expérience d'appr
 ## Autres éléments
 
 A ce stade, les seuls autres éléments d'information transmis par Trax Logs sont :
-* Version (1.0.3)
 * Timestamp
 * Context.platform (Moodle)
 

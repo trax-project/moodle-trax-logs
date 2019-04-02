@@ -10,18 +10,23 @@
         }
     },
     "verb": {
-        "id": "http://vocab.xapi.fr/verbs/accessed"
+        "id": "http://vocab.xapi.fr/verbs/navigated-in"
     },
     "object": {
         "objectType": "Activity",
-        "id": "http://xapi.moodle.test/xapi/activities/book/c1595f9a-4347-404b-9057-51c461fcd1b7",
+        "id": "http://xapi.moodle.test/xapi/activities/scorm/c1595f9a-4347-404b-9057-51c461fcd1b7",
         "definition": {
             "type": "http://vocab.xapi.fr/activities/web-content",
             "name": {
-                "en": "Book 1"
+                "en": "Content 1"
             },
             "description": {
-                "en": "Book 1 description"
+                "en": "Content 1 description"
+            },
+            "extensions": {
+                "http://vocab.xapi.fr/extensions/platform-concept": "scorm",
+                "http://vocab.xapi.fr/extensions/concept-familly": "resource",
+                "http://vocab.xapi.fr/extensions/standard": "scorm"
             }
         }
     },
@@ -33,6 +38,15 @@
                     "id": "http://xapi.moodle.test/xapi/activities/course/ba297687-b1aa-4477-9efd-a782c8fdb90a",
                     "definition": {
                         "type": "http://vocab.xapi.fr/activities/course"
+                    }
+                }
+            ],
+            "grouping": [
+                {
+                    "objectType": "Activity",
+                    "id": "http://xapi.moodle.test",
+                    "definition": {
+                        "type": "http://vocab.xapi.fr/activities/system"
                     }
                 }
             ],
@@ -49,20 +63,10 @@
                         "type": "http://adlnet.gov/expapi/activities/profile"
                     }
                 }
-            ],
-            "grouping": [
-                {
-                    "objectType": "Activity",
-                    "id": "http://xapi.moodle.test/xapi/activities/system",
-                    "definition": {
-                        "type": "http://vocab.xapi.fr/activities/system"
-                    }
-                }
             ]
         },
         "platform": "Moodle"
     },
-    "version": "1.0.3",
     "timestamp": "2018-06-20T16:04:18+08:00"
 }
 ```

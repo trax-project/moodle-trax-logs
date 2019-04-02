@@ -4,7 +4,7 @@
 
 ## Installation
 
-[Télécharger le plugin pour Moodle 3.5.](http://xapi.fr/download/trax-logs/logstore_trax_moodle35_2018050801.zip)
+[Télécharger la dernière version du plugin pour Moodle 3.5.](https://github.com/trax-project/moodle-trax-logs/releases)
 
 Faites glisser le fichier ZIP dans "http://mon-adresse-moodle.com/admin/tool/installaddon/index.php". 
 

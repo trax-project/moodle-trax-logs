@@ -31,20 +31,10 @@
                         "type": "http://adlnet.gov/expapi/activities/profile"
                     }
                 }
-            ],
-            "grouping": [
-                {
-                    "objectType": "Activity",
-                    "id": "http://xapi.moodle.test/xapi/activities/system",
-                    "definition": {
-                        "type": "http://vocab.xapi.fr/activities/system"
-                    }
-                }
             ]
         },
         "platform": "Moodle"
     },
-    "version": "1.0.3",
     "timestamp": "2018-06-20T16:04:17+08:00"
 }
 ```

@@ -49,9 +49,8 @@ Activity types are related to:
 * Other types : granularity level.
 
 These activity types have been defined in a generic way:
-* There is no reference to Moodle specific concept.
-* There is no explicit reference to the LMS concept, because other kinds of platforms may support similar learning activities (cf MOOC, Web sites, etc).
-* Some specific or technical concepts have been generalized (e.g. IMSCP and SCORM packages are just "content packages").
+* There is no reference to Moodle specific concepts.
+* Some specific or technical concepts have been generalized (e.g. IMSCP and SCORM packages are just "Web content").
 
 Please, refer to http://vocab.xapi.fr for further details.
 
@@ -59,8 +58,10 @@ Please, refer to http://vocab.xapi.fr for further details.
 ## Contextual activities
 
 Trax Logs defines for all the Statements:
-* A "grouping" activity which identifies the Moodle platform in which the activity occurs,
 * A "category" activity which identifies the xAPI profile used (currently http://vocab.xapi.fr/categories/vle-profile).
+
+Trax Logs defines for all the Statements whose object is not the LMS platform itself :
+* A "grouping" activity which identifies the Moodle platform in which the activity occurs,
 
 Trax Logs defines for all the Statements whose object is a learning unit (i.e. a Moodle course module):
 * A "parent" activity which identifies the Moodle course in which the activity occurs,
@@ -78,10 +79,12 @@ Activity names and descriptions are included in Statement objects, but not in co
 
 ## Extensions
 
-Currently, no extension is used.
+3 activity extensions are currently used:
+- `http://vocab.xapi.fr/extensions/platform-concept` in order to define the type of activity as it appears in Moodle (e.g. book).
+- `http://vocab.xapi.fr/extensions/concept-familly` in order to classify activities in larger families.
+- `http://vocab.xapi.fr/extensions/standard` in order to define an official standard that the activity conform with (e.g. scorm).
 
-However, extensions may be used in the future in order to provide details related to activities and results.
-Such extensions should not be based on Moodle specific concepts.
+Please, refer to http://vocab.xapi.fr for further details.
 
 
 ## Registration
@@ -95,7 +98,6 @@ in order to make it easier to group all the Statements related to the same learn
 ## Other elements
 
 Trax Logs includes the following elements in all Statements:
-* Version (1.0.3)
 * Timestamp
 * Context.platform (Moodle)
 
