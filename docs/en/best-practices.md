@@ -81,7 +81,7 @@ Activity names and descriptions are included in Statement objects, but not in co
 
 3 activity extensions are currently used:
 - `http://vocab.xapi.fr/extensions/platform-concept` in order to define the type of activity as it appears in Moodle (e.g. book).
-- `http://vocab.xapi.fr/extensions/concept-familly` in order to classify activities in larger families.
+- `http://vocab.xapi.fr/extensions/concept-family` in order to classify activities in larger families.
 - `http://vocab.xapi.fr/extensions/standard` in order to define an official standard that the activity conform with (e.g. scorm).
 
 Please, refer to http://vocab.xapi.fr for further details.

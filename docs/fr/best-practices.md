@@ -87,7 +87,7 @@ On part du principe que les activités contextuelles importantes (ex. système, 
 
 3 extensions d'activités sont actuellement utilisées :
 - `http://vocab.xapi.fr/extensions/platform-concept` pour définir le type d'activité tel qu'il apparait dans Moodle (ex. book) ;
-- `http://vocab.xapi.fr/extensions/concept-familly` pour classer l'activité dans une famille plus large ;
+- `http://vocab.xapi.fr/extensions/concept-family` pour classer l'activité dans une famille plus large ;
 - `http://vocab.xapi.fr/extensions/standard` pour préciser si l'activité se conforme à un standard officiel (ex. scorm).
 
 Pour plus de détails, se référer à http://vocab.xapi.fr.

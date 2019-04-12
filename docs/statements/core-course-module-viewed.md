@@ -25,7 +25,7 @@
             },
             "extensions": {
                 "http://vocab.xapi.fr/extensions/platform-concept": "scorm",
-                "http://vocab.xapi.fr/extensions/concept-familly": "resource",
+                "http://vocab.xapi.fr/extensions/concept-family": "resource",
                 "http://vocab.xapi.fr/extensions/standard": "scorm"
             }
         }

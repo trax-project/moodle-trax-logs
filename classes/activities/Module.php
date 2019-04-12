@@ -56,8 +56,8 @@ class Module extends Activity
             // Extensions
             $activity['definition']['extensions'] = [];
             $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/platform-concept'] = $type;
-            if (isset($this->types->$type->familly)) {
-                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/concept-familly'] = $this->types->$type->familly;
+            if (isset($this->types->$type->family)) {
+                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/concept-family'] = $this->types->$type->family;
             }
             if (isset($this->types->$type->standard)) {
                 $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/standard'] = $this->types->$type->standard;
