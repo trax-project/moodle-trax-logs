@@ -7,7 +7,7 @@
 The idea of transforming Moodle logs into xAPI Statements is not new. 
 It has been experimented with [Logstore xAPI](https://moodle.org/plugins/view/logstore_xapi).
 
-Trax Logs for Moodle is a completely new plugin which aims to bring some key improvements:
+However, Trax Logs for Moodle aims to bring some key improvements:
 * [Statements designed following best practices](doc/best-practices.md),
 * [Reinforcement of data privacy](doc/privacy.md),
 * [Simple and extensible architecture](doc/tech.md).

@@ -5,7 +5,7 @@
 ### LRS installation
 
 First of all, you will need a Learning Record Store (LRS) in order to use this plugin.
-If you are familiar with the PHP stack, you can use [TRAX LRS](https://github.com/trax-project/trax-lrs) which is Open Source and has been certified compliant.
+If you are familiar with the PHP stack, you should install [TRAX LRS](https://github.com/trax-project/trax-lrs) which is Open Source and has been certified compliant.
 
 ### Moodle plugin installation
 
@@ -13,19 +13,19 @@ If you are familiar with the PHP stack, you can use [TRAX LRS](https://github.co
 
 Drag and drop the ZIP file in `http://my-moodle-address.com/admin/tool/installaddon/index.php`. 
 
-For a manual instllation, unzip the plugin file in `my-moodle-install-folder/admin/tool/log/store/`.
+For a manual installation, unzip the plugin file in `my-moodle-install-folder/admin/tool/log/store/`.
 Then, go to the Moodle administration area. The presence of the plugin will be detected.
 
-In both cases, confirm the plugin installation and follow the procedure and settings instructions.
+In both cases, confirm the plugin installation and follow the procedure.
 
-Once it is done, you must activate the plugin in `Administration > Plugins > Logstore`.
+Once it is done, the plugin can be (de)activate and configured in `Administration > Plugins > Logstore`.
 
 
 ## Testing
 
 A test file is included with the plugin, so you can test all the supported events 
-by generating the matching Statements and sending them to your LRS.
-However, the current test function doesn't check that the LRS recorded the Statements.
+by generating the matching statements and sending them to your LRS.
+However, the current test function doesn't check that the LRS recorded the statements.
 So you will have to open your LRS and check it manually.
 
 To launch the test:
@@ -38,9 +38,9 @@ To launch the test:
 
 ## Supporting new events
 
-### Implementing the Statement class
+### Implementing the statement class
 
-To support a new event, you need to implement a single class which inherits from the abstract class `logstore_trax\src\statements\statement`. In this class, you must implement the `statement()` function, which returns the Statement to be sent to the LRS, given a Moodle event which is stored in `$this->event`.
+To support a new event, you need to implement a single class which inherits from the abstract class `logstore_trax\src\statements\statement`. In this class, you must implement the `statement()` function, which returns the statement to be sent to the LRS, given a Moodle event which is stored in `$this->event`.
 
 Your implementation should use the following services:
 * `$this->actors`, which generates actors given a type and a Moodle ID,
@@ -50,28 +50,28 @@ Your implementation should use the following services:
 For furthur details, you can look at the source code which is documented.
 
 
-### Naming the Statement class
+### Naming the statement class
 
-Your Statement class must be correctly named in order to be detected by the plugin.
+Your statement class must be correctly named in order to be detected by the plugin.
 The name is based on the name of the Moodle event. For example:
 * `core\event\course_module_viewed` must be implemented by a class named `course_module_viewed`.
 * `mod_forum\event\course_module_viewed` must also be implemented by a class named `course_module_viewed`.
 * `core\event\user_loggedout` must be implemented by a class named `user_loggedout`.
 
 
-### Placing the Statement class in the right folder
+### Placing the statement class in the right folder
 
-For Moodle native events, Statement classes must be located in `TRAX_PLUGIN/classes/src/statements/CORE_OR_PLUGIN_NAME/`.
+For Moodle native events, statement classes must be located in `TRAX_PLUGIN/classes/src/statements/CORE_OR_PLUGIN_NAME/`.
 For example:
 * `core\event\course_module_viewed` must be implemented by a class located in `TRAX_PLUGIN/classes/src/statements/core/`.
 * `mod_forum\event\course_module_viewed` may be implemented by a class located in `TRAX_PLUGIN/classes/src/statements/mod_forum/`, or in `TRAX_PLUGIN/classes/src/statements/core/`.
 
-For events coming from third-party plugins, Statement classes must be located in `THIRD_PARTY_PLUGIN/classes/xapi/statements/`.
+For events coming from third-party plugins, statement classes must be located in `THIRD_PARTY_PLUGIN/classes/xapi/statements/`.
 
 
 ### Using the right namespace
 
-The namespace of the Statement class must be consistent with its location.
+The namespace of the statement class must be consistent with its location.
 For instance:
 * If the class is located in `TRAX_PLUGIN/classes/src/statements/core/`, the namespace must be `logstore_trax\src\statements\core`.
 * If the class is located in `TRAX_PLUGIN/classes/src/statements/mod_forum/`, the namespace must be `logstore_trax\src\statements\mod_forum`.
