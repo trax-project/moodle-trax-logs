@@ -33,6 +33,13 @@ use logstore_trax\src\services\activities;
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
 
+/**
+ * Trax Logs controller.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class controller {
 
     /**

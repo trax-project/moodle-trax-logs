@@ -28,6 +28,13 @@ defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\vocab\verbs as verbs_vocab;
 
+/**
+ * Verbs service.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class verbs {
 
     use verbs_vocab;

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * xAPI transformation of an xAPI profile.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -26,6 +26,13 @@ namespace logstore_trax\src\activities;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * xAPI transformation of an xAPI profile.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class profile extends activity
 {
 

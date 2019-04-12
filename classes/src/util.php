@@ -26,6 +26,13 @@ namespace logstore_trax\src;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Some util functions.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class util {
 
     /**

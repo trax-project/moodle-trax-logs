@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Unit tests: generate Moodle events and transform them into xAPI statements.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -26,6 +26,13 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/test_config.php');
 
+/**
+ * Unit tests: generate Moodle events and transform them into xAPI statements.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class store_test extends test_config {
         
     /**

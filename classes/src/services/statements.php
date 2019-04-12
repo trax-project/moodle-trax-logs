@@ -26,6 +26,13 @@ namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Statements service.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class statements {
 
     /**
@@ -53,7 +60,9 @@ class statements {
     /**
      * Constructs a new statement map.
      *
-     * @param stdClass $config xAPI configuration
+     * @param actors $actors Actors service
+     * @param verbs $verbs Verbs service
+     * @param activities $activities Activities service
      */
     public function __construct(actors $actors, verbs $verbs, activities $activities) {
         $this->actors = $actors;

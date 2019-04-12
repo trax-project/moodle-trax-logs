@@ -31,6 +31,13 @@ use logstore_trax\src\services\verbs;
 use logstore_trax\src\services\activities;
 use logstore_trax\src\util;
 
+/**
+ * Abstract class to implement an xAPI statement.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 abstract class statement {
 
     /**
@@ -63,12 +70,13 @@ abstract class statement {
 
 
     /**
-     * Constructs a new statement.
+     * Constructor.
      *
      * @param stdClass $event Moodle event data
      * @param actors $actors Actors service
      * @param verbs $verbs Verbs service
      * @param activities $activites Activities service
+     * @return void
      */
     public function __construct($event, actors $actors, verbs $verbs, activities $activities) {
         $this->event = $event;
@@ -96,6 +104,8 @@ abstract class statement {
     /**
      * Build the base Statement.
      * 
+     * @param string $activityType Type of activity
+     * @param bool $withSystem Include the system activity in the context?
      * @return array
      */
     protected function baseStatement($activityType, $withSystem = true) {
@@ -108,6 +118,8 @@ abstract class statement {
     /**
      * Build the context.
      * 
+     * @param string $activityType Type of activity
+     * @param bool $withSystem Include the system activity in the context?
      * @return array
      */
     protected function baseContext($activityType, $withSystem = true) {

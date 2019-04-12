@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * xAPI transformation of a base activity.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -28,6 +28,13 @@ defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\vocab\activity_types;
 
+/**
+ * xAPI transformation of a base activity.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class activity {
 
     use activity_types;
@@ -41,10 +48,10 @@ class activity {
 
 
     /**
-     * Constructs a new statement.
+     * Constructor.
      *
      * @param stdClass $config Config
-     * @param stdClass $types Activity types
+     * @return void
      */
     public function __construct($config) {
         $this->config = $config;
@@ -85,6 +92,7 @@ class activity {
     /**
      * Get base activity ID.
      * 
+     * @param string $type Type of activity
      * @param string $uuid UUID of the activity
      * @return string
      */

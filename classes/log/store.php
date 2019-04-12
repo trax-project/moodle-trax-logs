@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Entry point of the log store plugin.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -34,6 +34,13 @@ use \tool_log\helper\buffered_writer as helper_writer;
 use \logstore_trax\src\controller as trax_controller;
 
 
+/**
+ * Entry point of the log store plugin.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class store implements log_writer {
     use helper_store;
     use helper_writer;

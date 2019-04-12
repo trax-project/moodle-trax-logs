@@ -29,6 +29,13 @@ defined('MOODLE_INTERNAL') || die();
 use moodle_exception;
 use logstore_trax\src\util;
 
+/**
+ * Abstract class used to implement an index of xAPI resources (e.g. actors, activities).
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 abstract class index {
 
     /**

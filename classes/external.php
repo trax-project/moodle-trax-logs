@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Standard functions to implement the external API (web services).
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -28,6 +28,13 @@ require_once("$CFG->libdir/externallib.php");
 
 use \logstore_trax\src\controller as trax_controller;
 
+/**
+ * Standard functions to implement the external API (web services).
+ * 
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class logstore_trax_external extends external_api {
 
     /**

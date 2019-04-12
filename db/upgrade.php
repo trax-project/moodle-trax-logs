@@ -24,6 +24,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Update database.
+ *
+ * @param int $oldversion Previous version of the plugin.
+ * @return bool
+ */
 function xmldb_logstore_trax_upgrade($oldversion) {
     global $DB;
 

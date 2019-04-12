@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Index of activities stored by the plugin.
+ * Activities service.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -28,6 +28,13 @@ defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\vocab\activity_types;
 
+/**
+ * Activities service.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class activities extends index {
 
     use activity_types;

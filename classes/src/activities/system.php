@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * xAPI transformation of the system level activity.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -28,6 +28,13 @@ defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\util;
 
+/**
+ * xAPI transformation of the system level activity.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class system extends activity
 {
 
@@ -58,6 +65,7 @@ class system extends activity
     /**
      * Get base activity ID.
      * 
+     * @param string $type Type of activity
      * @param string $uuid UUID of the activity
      * @return string
      */

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Data privacy implementation.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -35,6 +35,13 @@ use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\metadata\provider as metadata_provider;
 use tool_log\local\privacy\logstore_provider;
 
+/**
+ * Data privacy implementation.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class provider implements metadata_provider, logstore_provider
 {
 

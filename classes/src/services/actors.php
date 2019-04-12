@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Index of actors stored by the plugin.
+ * Actors service.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -26,6 +26,13 @@ namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Actors service.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class actors extends index {
 
     /**
@@ -51,6 +58,7 @@ class actors extends index {
      * @param string $type Type of actor (user, cohort...)
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the item?
+     * @param stdClass $entry DB entry
      * @return array
      */
     public function get(string $type, int $mid = 0, bool $full = false, $entry = null)

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Configuration for unit tests.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -24,14 +24,41 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Configuration for unit tests.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class test_config extends advanced_testcase {
-    
+
     /**
-     * Test config.
+     * LRS endpoint.
+     * 
+     * @var string $lrs_endpoint
      */
     protected $lrs_endpoint = 'http://trax.test/trax/ws/xapi';
+
+    /**
+     * Basic HTTP username.
+     * 
+     * @var string $lrs_username
+     */
     protected $lrs_username = 'testsuite';
+
+    /**
+     * Basic HTTP password.
+     * 
+     * @var string $lrs_password
+     */
     protected $lrs_password = 'password';
+
+    /**
+     * Moodle platform IRI.
+     * 
+     * @var string $platform_iri
+     */
     protected $platform_iri = 'http://xapi.moodle.test';
 
     
