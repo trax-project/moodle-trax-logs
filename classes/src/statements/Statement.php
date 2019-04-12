@@ -15,42 +15,42 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Abstract class to implement an xAPI statement.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\statements;
+namespace logstore_trax\src\statements;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\Actors;
-use logstore_trax\Verbs;
-use logstore_trax\Activities;
-use logstore_trax\Util;
+use logstore_trax\src\services\actors;
+use logstore_trax\src\services\verbs;
+use logstore_trax\src\services\activities;
+use logstore_trax\src\util;
 
-abstract class Statement {
+abstract class statement {
 
     /**
-     * Actors index.
+     * Actors service.
      * 
-     * @var Actors $actors
+     * @var actors $actors
      */
     protected $actors;
 
     /**
-     * Verbs index.
+     * Verbs service.
      * 
-     * @var Verbs $verbs
+     * @var verbs $verbs
      */
     protected $verbs;
 
     /**
-     * Activities index.
+     * Activities service.
      * 
-     * @var Activities $activities
+     * @var activities $activities
      */
     protected $activities;
 
@@ -66,11 +66,11 @@ abstract class Statement {
      * Constructs a new statement.
      *
      * @param stdClass $event Moodle event data
-     * @param Actors $actors Actors index
-     * @param Verbs $verbs Verbs index
-     * @param Activities $activites Activities index
+     * @param actors $actors Actors service
+     * @param verbs $verbs Verbs service
+     * @param activities $activites Activities service
      */
-    public function __construct($event, Actors $actors, Verbs $verbs, Activities $activities) {
+    public function __construct($event, actors $actors, verbs $verbs, activities $activities) {
         $this->event = $event;
         $this->actors = $actors;
         $this->verbs = $verbs;

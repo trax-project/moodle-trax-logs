@@ -15,20 +15,20 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Implementation of the Moodle event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\statements\core;
+namespace logstore_trax\src\statements\core;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\statements\Statement;
+use logstore_trax\src\statements\statement;
 
-class CourseModuleViewed extends Statement {
+class course_module_viewed extends statement {
 
     /**
      * Build the Statement.

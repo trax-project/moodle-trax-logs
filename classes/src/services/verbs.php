@@ -15,32 +15,34 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Verbs service.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\statements\core;
+namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\statements\Statement;
+use logstore_trax\src\vocab\verbs as verbs_vocab;
 
-class UserLoggedout extends Statement {
+class verbs {
+
+    use verbs_vocab;
+
 
     /**
-     * Build the Statement.
+     * Get a verb, given its code.
      * 
+     * @param string $code Code of the verb
      * @return array
      */
-    protected function statement() {
-        return array_replace($this->baseStatement('system', false), [
-            'actor' => $this->actors->get('user', $this->event->objectid),
-            'verb' => $this->verbs->get('logged-out'),
-            'object' => $this->activities->get('system'),
-        ]);
+    public function get(string $code) {
+        return [
+            'id' => $this->verbs[$code]['iri'],
+        ];
     }
 
 }

@@ -15,37 +15,37 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Statements service.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax;
+namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
-class Statements {
+class statements {
 
     /**
-     * Actors index.
+     * Actors service.
      * 
-     * @var Actors $actors
+     * @var actors $actors
      */
     protected $actors;
 
     /**
-     * Verbs index.
+     * Verbs service.
      * 
-     * @var Verbs $actors
+     * @var verbs $actors
      */
     protected $verbs;
 
     /**
-     * Activities index.
+     * Activities service.
      * 
-     * @var Activities $activities
+     * @var activities $activities
      */
     protected $activities;
 
@@ -55,7 +55,7 @@ class Statements {
      *
      * @param stdClass $config xAPI configuration
      */
-    public function __construct($actors, $verbs, $activities) {
+    public function __construct(actors $actors, verbs $verbs, activities $activities) {
         $this->actors = $actors;
         $this->verbs = $verbs;
         $this->activities = $activities;
@@ -85,18 +85,17 @@ class Statements {
         $parts = explode('\\', $event->eventname);
         $plugin = $parts[1];
         $name = end($parts);
-        $name = str_replace('_', '', ucwords($name, '_'));
 
         // First, search in the plugin folder
         $class = '\\'.$plugin.'\\xapi\\statements\\'.$name;
         
         // Then, search in Trax Logs, plugin subfolder
         if (!class_exists($class))
-            $class = '\\logstore_trax\\statements\\'.$plugin.'\\'.$name;
+            $class = '\\logstore_trax\\src\\statements\\'.$plugin.'\\'.$name;
         
         // Finally, search in Trax Logs, core subfolder
         if (!class_exists($class))
-            $class = '\\logstore_trax\\statements\\core\\'.$name;
+            $class = '\\logstore_trax\\src\\statements\\core\\'.$name;
         
         if (!class_exists($class)) return;
         return (new $class($event, $this->actors, $this->verbs, $this->activities))->get();

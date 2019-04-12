@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once("$CFG->libdir/externallib.php");
 
-use \logstore_trax\Controller;
+use \logstore_trax\src\controller as trax_controller;
 
 class logstore_trax_external extends external_api {
 
@@ -37,7 +37,7 @@ class logstore_trax_external extends external_api {
      */
     public static function get_activities_parameters()
     {
-        return self::get_parameters('activity');
+        return self::get_parameters('activities');
     }
 
     /**
@@ -48,7 +48,7 @@ class logstore_trax_external extends external_api {
      */
     public static function get_activities(array $items)
     {
-        return self::get($items, 'activity');
+        return self::get($items, 'activities');
     }
 
     /**
@@ -58,7 +58,7 @@ class logstore_trax_external extends external_api {
      */
     public static function get_activities_returns()
     {
-        return self::get_returns('activity');
+        return self::get_returns('activities');
     }
 
     /**
@@ -68,7 +68,7 @@ class logstore_trax_external extends external_api {
      */
     public static function get_actors_parameters()
     {
-        return self::get_parameters('actor');
+        return self::get_parameters('actors');
     }
 
     /**
@@ -79,7 +79,7 @@ class logstore_trax_external extends external_api {
      */
     public static function get_actors(array $items)
     {
-        return self::get($items, 'actor');
+        return self::get($items, 'actors');
     }
 
     /**
@@ -89,23 +89,28 @@ class logstore_trax_external extends external_api {
      */
     public static function get_actors_returns()
     {
-        return self::get_returns('actor');
+        return self::get_returns('actors');
     }
+
+
+    //------------------------------ Implementation -------------------------//
+
 
     /**
      * Returns description of method parameters
      *
+     * @param string $service name of the service to be called 
      * @return external_function_parameters
      */
-    protected static function get_parameters($name)
+    protected static function get_parameters(string $service)
     {
         return new external_function_parameters(
             array(
                 'items' => new external_multiple_structure(
                     new external_single_structure(
                         array(
-                            'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $name),
-                            'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $name)
+                            'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service),
+                            'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $service)
                         )
                     )
                 )
@@ -117,13 +122,14 @@ class logstore_trax_external extends external_api {
      * Get the xAPI data.
      *
      * @param array $items requested items 
+     * @param string $service name of the service to be called 
      * @return array of items with a new xapi property on each item
      */
-    protected static function get(array $items, $name)
+    protected static function get(array $items, string $service)
     {
-        $controller = new Controller();
-        return array_map(function ($item) use ($controller, $name) {
-            $item['xapi'] = $controller->$name($item['type'], $item['id']);
+        $controller = new trax_controller();
+        return array_map(function ($item) use ($controller, $service) {
+            $item['xapi'] = $controller->$service->getExisting($item['type'], $item['id'], false);
             $item['xapi'] = json_encode($item['xapi']);
             return $item;
         }, $items);
@@ -132,16 +138,17 @@ class logstore_trax_external extends external_api {
     /**
      * Returns description of method result value
      *
+     * @param string $service name of the service to be called 
      * @return external_description
      */
-    protected static function get_returns($name)
+    protected static function get_returns(string $service)
     {
         return new external_multiple_structure(
             new external_single_structure(
                 array(
-                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $name),
-                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $name),
-                    'xapi' => new external_value(PARAM_RAW, 'The xAPI JSON string of the '. $name)
+                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service),
+                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $service),
+                    'xapi' => new external_value(PARAM_RAW, 'The xAPI JSON string of the '. $service)
                 )
             )
         );

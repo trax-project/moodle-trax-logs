@@ -22,13 +22,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\activities;
+namespace logstore_trax\src\activities;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\ActivityTypes;
+use logstore_trax\src\vocab\activity_types;
 
-class Activity {
+class activity {
+
+    use activity_types;
 
     /**
      * Config.
@@ -37,13 +39,6 @@ class Activity {
      */
     protected $config;
 
-    /**
-     * Activity types.
-     * 
-     * @var stdClass $types
-     */
-    protected $types;
-
 
     /**
      * Constructs a new statement.
@@ -51,9 +46,9 @@ class Activity {
      * @param stdClass $config Config
      * @param stdClass $types Activity types
      */
-    public function __construct($config, $types) {
+    public function __construct($config) {
         $this->config = $config;
-        $this->types = $types;
+        $this->types = json_decode(json_encode($this->types));
     }
 
     /**

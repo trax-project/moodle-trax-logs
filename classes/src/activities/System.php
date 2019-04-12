@@ -22,13 +22,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\activities;
+namespace logstore_trax\src\activities;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\Util;
+use logstore_trax\src\util;
 
-class System extends Activity
+class system extends activity
 {
 
     /**
@@ -47,9 +47,9 @@ class System extends Activity
             // Name & description
             global $DB;
             $course = $DB->get_record('course', array('id' => 1));
-            $activity['definition']['name'] = Util::langString($course->fullname, $course);
+            $activity['definition']['name'] = util::langString($course->fullname, $course);
             if (!empty($course->summary)) {
-                $activity['definition']['description'] = Util::langString($course->summary, $course);
+                $activity['definition']['description'] = util::langString($course->summary, $course);
             }
         }
         return $activity;

@@ -15,18 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Index of actors stored by the plugin.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax;
+namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
-class Actors extends Index {
+class actors extends index {
 
     /**
      * Types of actors.

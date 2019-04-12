@@ -15,14 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * HTTP client to communicate with the LRS.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax;
+namespace logstore_trax\src;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -30,7 +30,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Http\Message\ResponseInterface as GuzzleResponse;
 
-class Client {
+class client {
 
     /**
      * Guzzle client.
@@ -47,17 +47,18 @@ class Client {
     protected $config;
 
     /**
-     * Service URL.
+     * Statements endpoint.
      * 
-     * @var string $url
+     * @var string $endpoint
      */
-    protected $url;
+    protected $endpoint;
 
 
     /**
-     * Constructs a new client.
+     * Constructor.
      * 
      * @param stdClass $config LRS config
+     * @return void
      */
     public function __construct($config) {
         $this->config = $config;
@@ -71,7 +72,7 @@ class Client {
      * @return $this
      */
     public function statements() {
-        $this->url = $this->config->endpoint.'statements';
+        $this->endpoint = $this->config->endpoint.'statements';
         return $this;
     }
 
@@ -82,7 +83,7 @@ class Client {
      */
     public function post(array $data) {
         try {
-            $response = $this->guzzle->post($this->url, [
+            $response = $this->guzzle->post($this->endpoint, [
                 'headers' => $this->headers(),
                 'query' => [],
                 'json' => $data,

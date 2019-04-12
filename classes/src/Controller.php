@@ -15,71 +15,78 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Trax Logs controller.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax;
+namespace logstore_trax\src;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+use logstore_trax\src\services\statements;
+use logstore_trax\src\services\actors;
+use logstore_trax\src\services\verbs;
+use logstore_trax\src\services\activities;
 
-class Controller {
+require_once(__DIR__ . '/../../vendor/autoload.php');
 
-    /**
-     * Statements repository.
-     * 
-     * @var Statements $statements
-     */
-    protected $statements;
+class controller {
 
     /**
-     * Actors index.
+     * Statements service.
      * 
-     * @var Actors $actors
+     * @var statements $statements
      */
-    protected $actors;
+    public $statements;
 
     /**
-     * Verbs index.
+     * Actors service.
      * 
-     * @var Verbs $actors
+     * @var actors $actors
      */
-    protected $verbs;
+    public $actors;
 
     /**
-     * Activities index.
+     * Verbs service.
      * 
-     * @var Activities $activities
+     * @var verbs $verbs
      */
-    protected $activities;
+    public $verbs;
+
+    /**
+     * Activities service.
+     * 
+     * @var activities $activities
+     */
+    public $activities;
 
     /**
      * LRS client.
      * 
-     * @var Client $client
+     * @var client $client
      */
     protected $client;
 
 
     /**
-     * Constructs a new controller.
+     * Constructor.
+     * 
+     * @return void
      */
     public function __construct() {
 
         // APIs
         $config = (object)['platform_iri' => get_config('logstore_trax', 'platform_iri')];
-        $this->actors = new Actors($config);
-        $this->verbs = new Verbs($config);
-        $this->activities = new Activities($config);
-        $this->statements = new Statements($this->actors, $this->verbs, $this->activities);
+        $this->actors = new actors($config);
+        $this->verbs = new verbs($config);
+        $this->activities = new activities($config);
+        $this->statements = new statements($this->actors, $this->verbs, $this->activities);
 
         // HTTP Client
-        $this->client = new Client((object)[
+        $this->client = new client((object)[
             'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
             'username' => get_config('logstore_trax', 'lrs_username'),
             'password' => get_config('logstore_trax', 'lrs_password'),
@@ -87,38 +94,13 @@ class Controller {
     }
 
     /**
-     * Process an array of events data.
+     * Process an array of events.
      *
-     * @param array $events Moodle events data
+     * @param array $events Moodle events to process.
      */
     public function process_events(array $events) {
         $statements = $this->statements->getFromEvents($events);
         $this->client->statements()->post($statements);
     }
-
-    /**
-     * Get an existing actor, given a Moodle ID and an actor type.
-     * 
-     * @param string $type Type of actor
-     * @param int $mid Moodle ID of the actor
-     * @return array
-     */
-    public function actor(string $type, int $mid = 0)
-    {
-        return $this->actors->getExisting($type, $mid, false);
-    }
-
-    /**
-     * Get an existing activity, given a Moodle ID and an activity type.
-     * 
-     * @param string $type Type of activity
-     * @param int $mid Moodle ID of the activity
-     * @return array
-     */
-    public function activity(string $type, int $mid = 0)
-    {
-        return $this->activities->getExisting($type, $mid, false);
-    }
-
 
 }

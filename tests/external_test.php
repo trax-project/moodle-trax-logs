@@ -26,12 +26,12 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/test_config.php');
 
-use \logstore_trax\Controller;
+use \logstore_trax\src\controller as trax_controller;
 
 class external_test extends test_config {
     
     /**
-     * Get an actor.
+     * Get actors and activities used by a statement.
      */
     public function test_get_actor_and_activity()
     {
@@ -47,27 +47,27 @@ class external_test extends test_config {
         ])->trigger();
 
         // Check data
-        $controller = new Controller();
+        $controller = new trax_controller();
 
         // User
-        $actor = $controller->actor('user', $user->id);
+        $actor = $controller->actors->getExisting('user', $user->id, false);
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
 
         // System
-        $activity = $controller->activity('system', 0);
+        $activity = $controller->activities->getExisting('system', 0, false);
         $this->assertTrue($activity && isset($activity['id']));
 
         // Course
-        $activity = $controller->activity('course', $course->id);
+        $activity = $controller->activities->getExisting('course', $course->id, false);
         $this->assertTrue($activity && isset($activity['id']));
 
         // LTI module
-        $activity = $controller->activity('lti', $lti->id);
+        $activity = $controller->activities->getExisting('lti', $lti->id, false);
         $this->assertTrue($activity && isset($activity['id']));
 
         // Non existing module
         try {
-            $activity = $controller->activity('lti', 65416871984164);
+            $activity = $controller->activities->getExisting('lti', 65416871984164, false);
             $this->assertTrue(false);
         } catch (\moodle_exception $e) {
             $this->assertTrue(true);

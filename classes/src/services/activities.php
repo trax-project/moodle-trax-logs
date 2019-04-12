@@ -15,20 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Index of activities stored by the plugin.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax;
+namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
-class Activities extends Index {
+use logstore_trax\src\vocab\activity_types;
 
-    use ActivityTypes;
+class activities extends index {
+
+    use activity_types;
 
     /**
      * DB table.
@@ -70,17 +72,17 @@ class Activities extends Index {
 
         // Search in the plugin folder
         if (isset($plugin))
-            $class = '\\'.$plugin.'\\xapi\\activities\\'.ucfirst($model);
+            $class = '\\'.$plugin.'\\xapi\\activities\\'.$model;
 
         // Search in Trax Logs, based on the $type
         if (!isset($plugin) || !class_exists($class))
-            $class = '\\logstore_trax\\activities\\'.str_replace('_', '', ucwords($type, '_'));
+            $class = '\\logstore_trax\\src\\activities\\'.$type;
         
         // Finally, search in Trax Logs, based on $model
         if (!class_exists($class))
-            $class = '\\logstore_trax\\activities\\'.ucfirst($model);
+            $class = '\\logstore_trax\\src\\activities\\'.$model;
                     
-        return (new $class($this->config, $this->types))->get($type, $mid, $entry->uuid, $full);
+        return (new $class($this->config))->get($type, $mid, $entry->uuid, $full);
     }
 
     /**

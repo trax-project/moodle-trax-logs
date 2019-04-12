@@ -31,7 +31,7 @@ use \tool_log\log\writer as log_writer;
 use \tool_log\log\manager as log_manager;
 use \tool_log\helper\store as helper_store;
 use \tool_log\helper\buffered_writer as helper_writer;
-use \logstore_trax\Controller as trax_controller;
+use \logstore_trax\src\controller as trax_controller;
 
 
 class store implements log_writer {

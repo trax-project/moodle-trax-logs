@@ -15,50 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Implementation of the Moodle event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax;
+namespace logstore_trax\src\statements\core;
 
 defined('MOODLE_INTERNAL') || die();
 
-class Verbs {
+use logstore_trax\src\statements\statement;
+
+class course_viewed extends statement {
 
     /**
-     * Verbs.
+     * Build the Statement.
      * 
-     * @var array $verbs
-     */
-    protected $verbs = [
-        
-        'logged-in' => [
-            'iri' => 'https://w3id.org/xapi/adl/verbs/logged-in',
-        ],
-        'logged-out' => [
-            'iri' => 'https://w3id.org/xapi/adl/verbs/logged-out',
-        ],
-        'navigated-in' => [
-            'iri' => 'http://vocab.xapi.fr/verbs/navigated-in',
-        ],
-
-    ];
-
-    /**
-     * Get a verb, given its code.
-     * 
-     * @param string $code Code of the verb
      * @return array
      */
-    public function get(string $code) {
-        return [
-            'id' => $this->verbs[$code]['iri'],
-        ];
+    protected function statement() {
+        return array_replace($this->baseStatement('course'), [
+            'actor' => $this->actors->get('user', $this->event->userid),
+            'verb' => $this->verbs->get('navigated-in'),
+            'object' => $this->activities->get('course', $this->event->courseid),
+        ]);
     }
-
-
 
 }

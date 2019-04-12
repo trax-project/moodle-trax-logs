@@ -15,20 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Abstract class used to implement an index of xAPI resources (e.g. actors, activities).
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax;
+namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
 use moodle_exception;
+use logstore_trax\src\util;
 
-abstract class Index {
+abstract class index {
 
     /**
      * Config.
@@ -46,9 +47,10 @@ abstract class Index {
 
 
     /**
-     * Constructs a new index.
+     * Constructor.
      * 
      * @param stdClass $config Config
+     * @return void
      */
     public function __construct($config) {
         $this->config = $config;
@@ -82,7 +84,7 @@ abstract class Index {
             $entry = (object)[
                 'mid' => $mid,
                 'type' => $this->types->$type->db,
-                'uuid' => Util::uuid(),
+                'uuid' => util::uuid(),
             ];
             $entry->id = $DB->insert_record($this->table, $entry);
         }

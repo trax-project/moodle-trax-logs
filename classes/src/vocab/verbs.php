@@ -15,35 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Defines the supported verbs.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\activities;
+namespace logstore_trax\src\vocab;
 
 defined('MOODLE_INTERNAL') || die();
 
-class profile extends activity
-{
+trait verbs {
 
     /**
-     * Get an activity, given an activity type and an UUID.
+     * Verbs.
      * 
-     * @param string $type Type of activity
-     * @param int $mid Moodle ID of the activity
-     * @param string $uuid UUID of the activity
-     * @param bool $full Give the full definition of the activity?
-     * @return array
+     * @var array $verbs
      */
-    public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
-        return [
-            'id' => 'http://vocab.xapi.fr/categories/vle-profile',
-            'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
-        ];
-    }
+    protected $verbs = [
+        
+        'logged-in' => [
+            'iri' => 'https://w3id.org/xapi/adl/verbs/logged-in',
+        ],
+        'logged-out' => [
+            'iri' => 'https://w3id.org/xapi/adl/verbs/logged-out',
+        ],
+        'navigated-in' => [
+            'iri' => 'http://vocab.xapi.fr/verbs/navigated-in',
+        ],
 
+    ];
 
 }

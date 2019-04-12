@@ -1,5 +1,3 @@
-[Cette page existe aussi en français.](docs/fr/README.md)
-
 # Trax Logs for Moodle
 
 > This plugin transforms Moodle logs into xAPI statements, and sends then to your LRS.
@@ -10,14 +8,14 @@ The idea of transforming Moodle logs into xAPI Statements is not new.
 It has been experimented with [Logstore xAPI](https://moodle.org/plugins/view/logstore_xapi).
 
 Trax Logs for Moodle is a completely new plugin which aims to bring some key improvements:
-* [Statements design following best practices](docs/en/best-practices.md),
-* [Reinforcement of data privacy](docs/en/privacy.md),
-* [Simple and extensible architecture](docs/en/tech.md).
+* [Statements designed following best practices](doc/best-practices.md),
+* [Reinforcement of data privacy](doc/privacy.md),
+* [Simple and extensible architecture](doc/tech.md).
 
 
 ## Currently supported events
 
-The current version of the plugin supports [general navigation events](docs/en/events.md) :
+The current version of the plugin supports [general navigation events](doc/events.md) :
 * Login and logout,
 * Course access,
 * Course module access: all standard modules supported, except Assignment.
@@ -33,14 +31,14 @@ Trax Logs is currently in Alpha version, which means that significant changes ma
 For example, the structure of generated Statements may change, as well as the vocabulary used.
 So we recommend not to use this version on a production server.
 
-However, you are encouraged to [install](docs/en/tech.md) the plugin, to test it, and to share feedbacks.
+However, you are encouraged to [install](doc/tech.md) the plugin, to test it, and to share feedbacks.
 
 
 ## Contents
 
-* [In a nutshell](README.md)
-* [Supported events](docs/en/events.md)
-* [Best pratices in designing Statements](docs/en/best-practices.md)
-* [Data privacy](docs/en/privacy.md)
-* [Technical documentation](docs/en/tech.md)
+* [Overview](README.md)
+* [Supported events](doc/events.md)
+* [Best pratices in designing Statements](doc/best-practices.md)
+* [Data privacy](doc/privacy.md)
+* [Technical documentation](doc/tech.md)
 
