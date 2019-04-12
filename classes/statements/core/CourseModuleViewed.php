@@ -36,6 +36,11 @@ class CourseModuleViewed extends Statement {
      * @return array
      */
     protected function statement() {
+
+        // Check that the activity is supported
+        if (!$this->activities->supported($this->event->objecttable)) return false;
+
+        // Build the statement
         return array_replace($this->baseStatement($this->event->objecttable), [
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $this->verbs->get('navigated-in'),

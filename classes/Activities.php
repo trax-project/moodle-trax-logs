@@ -39,6 +39,17 @@ class Activities extends Index {
 
 
     /**
+     * Check if an activity type is supported.
+     * 
+     * @param string $type Type of activity
+     * @return bool
+     */
+    public function supported(string $type)
+    {
+        return isset($this->types->$type);
+    }
+
+    /**
      * Get an activity, given a Moodle ID and an activity type.
      * 
      * @param string $type Type of activity
