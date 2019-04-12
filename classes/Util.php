@@ -90,6 +90,7 @@ class Util {
     public static function langString(string $text, $course) {
         global $CFG;
         $lang = empty($course->lang) ? $CFG->lang : $course->lang;
+        $lang = explode('_', $lang)[0];
         $text = strip_tags($text);
         return [$lang => $text];
     }
