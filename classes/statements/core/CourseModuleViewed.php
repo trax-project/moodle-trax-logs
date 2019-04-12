@@ -48,8 +48,8 @@ class CourseModuleViewed extends Statement {
      * 
      * @return array
      */
-    protected function baseContext($activityType) {
-        $context = parent::baseContext($activityType);
+    protected function baseContext($activityType, $withSystem = true) {
+        $context = parent::baseContext($activityType, $withSystem);
         $course = $this->activities->get('course', $this->event->courseid, false);
         $context['contextActivities']['parent'] = array($course);
         return $context;
