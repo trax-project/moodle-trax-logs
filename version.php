@@ -28,5 +28,5 @@ $plugin->version = 2018050803;
 $plugin->requires = 2018050800;
 $plugin->component = 'logstore_trax';
 
-$plugin->release = 'v0.2';
+$plugin->release = 'v0.3';
 $plugin->maturity = MATURITY_ALPHA;
