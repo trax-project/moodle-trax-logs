@@ -37,7 +37,7 @@ class actors extends index {
 
     /**
      * Types of actors.
-     * 
+     *
      * @var array $types
      */
     protected $types = [
@@ -46,7 +46,7 @@ class actors extends index {
 
     /**
      * DB table.
-     * 
+     *
      * @var string $table
      */
     protected $table = 'logstore_trax_actors';
@@ -54,16 +54,17 @@ class actors extends index {
 
     /**
      * Get an actor, given a Moodle ID and an actor type.
-     * 
+     *
      * @param string $type Type of actor (user, cohort...)
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the item?
      * @param stdClass $entry DB entry
      * @return array
      */
-    public function get(string $type, int $mid = 0, bool $full = false, $entry = null)
-    {
-        if (!isset($entry)) $entry = $this->getOrCreateDbEntry($mid, $type);
+    public function get(string $type, int $mid = 0, bool $full = false, $entry = null) {
+        if (!isset($entry)) {
+            $entry = $this->get_or_create_db_entry($mid, $type);
+        }
         return [
             'objectType' => $this->types->$type->object_type,
             'account' => [
@@ -75,15 +76,14 @@ class actors extends index {
 
     /**
      * Get an actor, given a Moodle ID and an actor type.
-     * 
+     *
      * @param string $type Type of actor (user, cohort...)
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the item?
      * @return array
      */
-    public function getExisting(string $type, int $mid = 0, bool $full = false)
-    {
-        $entry = $this->getDbEntryOrFail($mid, $type);
+    public function get_existing(string $type, int $mid = 0, bool $full = false) {
+        $entry = $this->get_db_entry_or_fail($mid, $type);
         return $this->get($type, $mid, $full, $entry);
     }
 

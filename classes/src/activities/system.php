@@ -40,7 +40,7 @@ class system extends activity
 
     /**
      * Get an activity, given an activity type and an UUID.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param string $uuid UUID of the activity
@@ -48,15 +48,15 @@ class system extends activity
      * @return array
      */
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
-        $activity = $this->baseActivity($type);
+        $activity = $this->base_activity($type);
         if ($full) {
 
-            // Name & description
+            // Name & description.
             global $DB;
             $course = $DB->get_record('course', array('id' => 1));
-            $activity['definition']['name'] = util::langString($course->fullname, $course);
+            $activity['definition']['name'] = util::lang_string($course->fullname, $course);
             if (!empty($course->summary)) {
-                $activity['definition']['description'] = util::langString($course->summary, $course);
+                $activity['definition']['description'] = util::lang_string($course->summary, $course);
             }
         }
         return $activity;
@@ -64,13 +64,12 @@ class system extends activity
 
     /**
      * Get base activity ID.
-     * 
+     *
      * @param string $type Type of activity
      * @param string $uuid UUID of the activity
      * @return string
      */
-    protected function baseActivityId(string $type, string $uuid = '')
-    {
+    protected function base_activity_id(string $type, string $uuid = '') {
         return $this->config->platform_iri;
     }
 

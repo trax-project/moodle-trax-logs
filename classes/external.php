@@ -30,7 +30,7 @@ use \logstore_trax\src\controller as trax_controller;
 
 /**
  * Standard functions to implement the external API (web services).
- * 
+ *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -42,19 +42,17 @@ class logstore_trax_external extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function get_activities_parameters()
-    {
+    public static function get_activities_parameters() {
         return self::get_parameters('activities');
     }
 
     /**
      * Get the xAPI data.
      *
-     * @param array $items requested items 
+     * @param array $items requested items
      * @return array of items with a new xapi property on each item
      */
-    public static function get_activities(array $items)
-    {
+    public static function get_activities(array $items) {
         return self::get($items, 'activities');
     }
 
@@ -63,8 +61,7 @@ class logstore_trax_external extends external_api {
      *
      * @return external_description
      */
-    public static function get_activities_returns()
-    {
+    public static function get_activities_returns() {
         return self::get_returns('activities');
     }
 
@@ -73,19 +70,17 @@ class logstore_trax_external extends external_api {
      *
      * @return external_function_parameters
      */
-    public static function get_actors_parameters()
-    {
+    public static function get_actors_parameters() {
         return self::get_parameters('actors');
     }
 
     /**
      * Get the xAPI data.
      *
-     * @param array $items requested items 
+     * @param array $items requested items
      * @return array of items with a new xapi property on each item
      */
-    public static function get_actors(array $items)
-    {
+    public static function get_actors(array $items) {
         return self::get($items, 'actors');
     }
 
@@ -94,23 +89,17 @@ class logstore_trax_external extends external_api {
      *
      * @return external_description
      */
-    public static function get_actors_returns()
-    {
+    public static function get_actors_returns() {
         return self::get_returns('actors');
     }
 
-
-    //------------------------------ Implementation -------------------------//
-
-
     /**
-     * Returns description of method parameters
+     * Returns description of method parameters.
      *
-     * @param string $service name of the service to be called 
+     * @param string $service name of the service to be called
      * @return external_function_parameters
      */
-    protected static function get_parameters(string $service)
-    {
+    protected static function get_parameters(string $service) {
         return new external_function_parameters(
             array(
                 'items' => new external_multiple_structure(
@@ -128,15 +117,14 @@ class logstore_trax_external extends external_api {
     /**
      * Get the xAPI data.
      *
-     * @param array $items requested items 
-     * @param string $service name of the service to be called 
+     * @param array $items requested items
+     * @param string $service name of the service to be called
      * @return array of items with a new xapi property on each item
      */
-    protected static function get(array $items, string $service)
-    {
+    protected static function get(array $items, string $service) {
         $controller = new trax_controller();
         return array_map(function ($item) use ($controller, $service) {
-            $item['xapi'] = $controller->$service->getExisting($item['type'], $item['id'], false);
+            $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], false);
             $item['xapi'] = json_encode($item['xapi']);
             return $item;
         }, $items);
@@ -145,11 +133,10 @@ class logstore_trax_external extends external_api {
     /**
      * Returns description of method result value
      *
-     * @param string $service name of the service to be called 
+     * @param string $service name of the service to be called
      * @return external_description
      */
-    protected static function get_returns(string $service)
-    {
+    protected static function get_returns(string $service) {
         return new external_multiple_structure(
             new external_single_structure(
                 array(

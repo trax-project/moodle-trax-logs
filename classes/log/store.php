@@ -47,7 +47,7 @@ class store implements log_writer {
 
     /**
      * Trax controller.
-     * 
+     *
      * @var trax_controller $controller
      */
     protected $controller;
@@ -55,23 +55,23 @@ class store implements log_writer {
 
     /**
      * Constructs a new store.
-     * 
+     *
      * @param log_manager $manager
      */
     public function __construct(log_manager $manager) {
-        $this->helper_setup($manager);  // Defines $this->manager, $this->component & $this->store 
+        $this->helper_setup($manager);
         $this->controller = new trax_controller();
     }
 
     /**
      * Should the event be ignored (== not logged)?
-     * 
+     *
      * @param moodle_event $event
      * @return bool
      */
     protected function is_event_ignored(moodle_event $event) {
 
-        // Guests are not allowed
+        // Guests are not allowed.
         if (!CLI_SCRIPT or PHPUNIT_TEST) {
             // Always log inside CLI scripts because we do not login there.
             if (!isloggedin() or isguestuser()) {

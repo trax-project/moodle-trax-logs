@@ -41,21 +41,21 @@ class client {
 
     /**
      * Guzzle client.
-     * 
+     *
      * @var GuzzleClient $guzzle
      */
     protected $guzzle;
 
     /**
      * Config.
-     * 
+     *
      * @var stdClass $config
      */
     protected $config;
 
     /**
      * Statements endpoint.
-     * 
+     *
      * @var string $endpoint
      */
     protected $endpoint;
@@ -63,19 +63,21 @@ class client {
 
     /**
      * Constructor.
-     * 
+     *
      * @param stdClass $config LRS config
      * @return void
      */
     public function __construct($config) {
         $this->config = $config;
-        if (substr($this->config->endpoint, -1) != '/') $this->config->endpoint .= '/';
+        if (substr($this->config->endpoint, -1) != '/') {
+            $this->config->endpoint .= '/';
+        }
         $this->guzzle = new GuzzleClient();
     }
 
     /**
      * Get the statements API.
-     * 
+     *
      * @return $this
      */
     public function statements() {
@@ -87,6 +89,7 @@ class client {
      * POST xAPI data.
      *
      * @param array $data xAPI data to be posted
+     * @return stdClass
      */
     public function post(array $data) {
         try {
@@ -95,7 +98,7 @@ class client {
                 'query' => [],
                 'json' => $data,
             ]);
-        } catch(GuzzleException $e) {
+        } catch (GuzzleException $e) {
             $response = $e->getResponse();
         }
         return $this->response($response);
@@ -116,15 +119,15 @@ class client {
     /**
      * Returns HTTP response.
      *
-     * @param GuzzleResponse $guzzleResponse Guzzle response object
+     * @param GuzzleResponse $guzzleresponse Guzzle response object
      * @return stdClass Response object
      */
-    protected function response($guzzleResponse) {
+    protected function response($guzzleresponse) {
         $res = (object)[
-            'code' => $guzzleResponse->getStatusCode(),
+            'code' => $guzzleresponse->getStatusCode(),
         ];
         if ($res->code == 200) {
-            $res->content = json_decode($guzzleResponse->getBody());
+            $res->content = json_decode($guzzleresponse->getBody());
         }
         return $res;
     }

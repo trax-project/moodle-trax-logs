@@ -53,13 +53,13 @@ class provider implements metadata_provider, logstore_provider
      */
     public static function get_metadata(collection $collection) : collection {
 
-        // Internal data
+        // Internal data.
         $collection->add_database_table('logstore_trax_actors', [
             'mid' => 'privacy:metadata:actors:mid',
             'uuid' => 'privacy:metadata:actors:uuid',
         ], 'privacy:metadata:actors');
 
-        // External data (LRS)
+        // External data (LRS).
         $collection->add_external_location_link('logstore_trax_actors', [
             'uuid' => 'privacy:metadata:lrs:uuid',
         ], 'privacy:metadata:lrs');
@@ -94,7 +94,9 @@ class provider implements metadata_provider, logstore_provider
      */
     public static function delete_data_for_all_users_in_context(context $context) {
         global $DB;
-        if (! $context instanceof context_system) return;
+        if (! $context instanceof context_system) {
+            return;
+        }
         $DB->delete_records('logstore_trax_actors', []);
     }
 
@@ -106,7 +108,7 @@ class provider implements metadata_provider, logstore_provider
     public static function delete_data_for_user(approved_contextlist $contextlist) {
         global $DB;
         $contexts = $contextlist->get_contexts();
-        foreach($contexts as $context) {
+        foreach ($contexts as $context) {
             if ($context instanceof context_system) {
                 $DB->delete_records('logstore_trax_actors', ['mid' => $contextlist->get_user()->id]);
                 return;

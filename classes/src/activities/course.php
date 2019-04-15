@@ -40,7 +40,7 @@ class course extends activity
 
     /**
      * Get an activity, given an activity type and an UUID.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param string $uuid UUID of the activity
@@ -48,18 +48,18 @@ class course extends activity
      * @return array
      */
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
-        $activity = $this->baseActivity($type, $uuid);
+        $activity = $this->base_activity($type, $uuid);
         if ($full) {
 
-            // Name & description
+            // Name & description.
             global $DB;
             $course = $DB->get_record('course', array('id' => $mid));
-            $activity['definition']['name'] = util::langString($course->fullname, $course);
+            $activity['definition']['name'] = util::lang_string($course->fullname, $course);
             if (!empty($course->summary)) {
-                $activity['definition']['description'] = util::langString($course->summary, $course);
+                $activity['definition']['description'] = util::lang_string($course->summary, $course);
             }
 
-            // Extensions
+            // Extensions.
             $activity['definition']['extensions'] = [];
             $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/platform-concept'] = $type;
         }

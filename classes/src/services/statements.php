@@ -37,21 +37,21 @@ class statements {
 
     /**
      * Actors service.
-     * 
+     *
      * @var actors $actors
      */
     protected $actors;
 
     /**
      * Verbs service.
-     * 
+     *
      * @var verbs $actors
      */
     protected $verbs;
 
     /**
      * Activities service.
-     * 
+     *
      * @var activities $activities
      */
     protected $activities;
@@ -76,10 +76,9 @@ class statements {
      * @param array $events Moodle events data
      * @return array
      */
-    public function getFromEvents(array $events)
-    {
+    public function get_from_events(array $events) {
         return array_filter(array_map(function ($event) {
-            return $this->getFromEvent($event);
+            return $this->get_from_event($event);
         }, $events));
     }
 
@@ -87,26 +86,30 @@ class statements {
      * Get a Statement given an event.
      *
      * @param array $event Moodle event data
-     * @return array|null
+     * @return mixed
      */
-    public function getFromEvent(array $event) {
+    public function get_from_event(array $event) {
         $event = (object)$event;
         $parts = explode('\\', $event->eventname);
         $plugin = $parts[1];
         $name = end($parts);
 
-        // First, search in the plugin folder
+        // First, search in the plugin folder.
         $class = '\\'.$plugin.'\\xapi\\statements\\'.$name;
-        
-        // Then, search in Trax Logs, plugin subfolder
-        if (!class_exists($class))
+
+        // Then, search in Trax Logs, plugin subfolder.
+        if (!class_exists($class)) {
             $class = '\\logstore_trax\\src\\statements\\'.$plugin.'\\'.$name;
-        
-        // Finally, search in Trax Logs, core subfolder
-        if (!class_exists($class))
+        }
+
+        // Finally, search in Trax Logs, core subfolder.
+        if (!class_exists($class)) {
             $class = '\\logstore_trax\\src\\statements\\core\\'.$name;
-        
-        if (!class_exists($class)) return;
+        }
+
+        if (!class_exists($class)) {
+            return;
+        }
         return (new $class($event, $this->actors, $this->verbs, $this->activities))->get();
     }
 

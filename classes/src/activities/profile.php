@@ -38,7 +38,7 @@ class profile extends activity
 
     /**
      * Get an activity, given an activity type and an UUID.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param string $uuid UUID of the activity

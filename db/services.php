@@ -32,7 +32,6 @@ $functions = array(
         'description'   => 'Get xAPI actors from Moodle IDs and types.',
         'type'          => 'read'
     ),
-    
     'logstore_trax_get_activities' => array(
         'classname' => 'logstore_trax_external',
         'methodname' => 'get_activities',

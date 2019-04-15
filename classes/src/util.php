@@ -38,48 +38,43 @@ class util {
     /**
      * Generate an UUID.
      * Based on code from http://rusticisoftware.github.io/TinCanPHP/
-     * 
+     *
      * @return string
      */
     public static function uuid() {
-        $randomString = openssl_random_pseudo_bytes(16);
-        $time_low = bin2hex(substr($randomString, 0, 4));
-        $time_mid = bin2hex(substr($randomString, 4, 2));
-        $time_hi_and_version = bin2hex(substr($randomString, 6, 2));
-        $clock_seq_hi_and_reserved = bin2hex(substr($randomString, 8, 2));
-        $node = bin2hex(substr($randomString, 10, 6));
+        $randomstring = openssl_random_pseudo_bytes(16);
+        $timelow = bin2hex(substr($randomstring, 0, 4));
+        $timemid = bin2hex(substr($randomstring, 4, 2));
+        $timehiandversion = bin2hex(substr($randomstring, 6, 2));
+        $clockseqhiandreserved = bin2hex(substr($randomstring, 8, 2));
+        $node = bin2hex(substr($randomstring, 10, 6));
 
-        /**
-         * Set the four most significant bits (bits 12 through 15) of the
-         * time_hi_and_version field to the 4-bit version number from
-         * Section 4.1.3.
-         * @see http://tools.ietf.org/html/rfc4122#section-4.1.3
-        */
-        $time_hi_and_version = hexdec($time_hi_and_version);
-        $time_hi_and_version = $time_hi_and_version >> 4;
-        $time_hi_and_version = $time_hi_and_version | 0x4000;
+        // Set the four most significant bits (bits 12 through 15) of the
+        // timehiandversion field to the 4-bit version number from
+        // Section 4.1.3.
+        $timehiandversion = hexdec($timehiandversion);
+        $timehiandversion = $timehiandversion >> 4;
+        $timehiandversion = $timehiandversion | 0x4000;
 
-        /**
-         * Set the two most significant bits (bits 6 and 7) of the
-         * clock_seq_hi_and_reserved to zero and one, respectively.
-         */
-        $clock_seq_hi_and_reserved = hexdec($clock_seq_hi_and_reserved);
-        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved >> 2;
-        $clock_seq_hi_and_reserved = $clock_seq_hi_and_reserved | 0x8000;
+        // Set the two most significant bits (bits 6 and 7) of the
+        // clockseqhiandreserved to zero and one, respectively.
+        $clockseqhiandreserved = hexdec($clockseqhiandreserved);
+        $clockseqhiandreserved = $clockseqhiandreserved >> 2;
+        $clockseqhiandreserved = $clockseqhiandreserved | 0x8000;
 
         return sprintf(
             '%08s-%04s-%04x-%04x-%012s',
-            $time_low,
-            $time_mid,
-            $time_hi_and_version,
-            $clock_seq_hi_and_reserved,
+            $timelow,
+            $timemid,
+            $timehiandversion,
+            $clockseqhiandreserved,
             $node
         );
     }
 
     /**
      * Generate a timestamp.
-     * 
+     *
      * @param int $time Time in milliseconds
      * @return string
      */
@@ -89,12 +84,12 @@ class util {
 
     /**
      * Format a lang string.
-     * 
+     *
      * @param string $text Text to format
      * @param stdClass $course Course or course ID
-     * @return string
+     * @return array
      */
-    public static function langString(string $text, $course) {
+    public static function lang_string(string $text, stdClass $course) {
         global $CFG;
         $lang = empty($course->lang) ? $CFG->lang : $course->lang;
         $lang = explode('_', $lang)[0];

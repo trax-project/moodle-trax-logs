@@ -38,32 +38,32 @@ use logstore_trax\src\util;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-abstract class statement {
+abstract class base_statement {
 
     /**
      * Actors service.
-     * 
+     *
      * @var actors $actors
      */
     protected $actors;
 
     /**
      * Verbs service.
-     * 
+     *
      * @var verbs $verbs
      */
     protected $verbs;
 
     /**
      * Activities service.
-     * 
+     *
      * @var activities $activities
      */
     protected $activities;
 
     /**
      * Moodle event data.
-     * 
+     *
      * @var array $event
      */
     protected $event;
@@ -75,7 +75,7 @@ abstract class statement {
      * @param stdClass $event Moodle event data
      * @param actors $actors Actors service
      * @param verbs $verbs Verbs service
-     * @param activities $activites Activities service
+     * @param activities $activities Activities service
      * @return void
      */
     public function __construct($event, actors $actors, verbs $verbs, activities $activities) {
@@ -87,7 +87,7 @@ abstract class statement {
 
     /**
      * Get the Statement value.
-     * 
+     *
      * @return array
      */
     public function get() {
@@ -96,39 +96,39 @@ abstract class statement {
 
     /**
      * Build the Statement.
-     * 
+     *
      * @return array
      */
     abstract protected function statement();
 
     /**
      * Build the base Statement.
-     * 
-     * @param string $activityType Type of activity
-     * @param bool $withSystem Include the system activity in the context?
+     *
+     * @param string $activitytype Type of activity
+     * @param bool $withsystem Include the system activity in the context?
      * @return array
      */
-    protected function baseStatement($activityType, $withSystem = true) {
+    protected function base($activitytype, $withsystem = true) {
         return [
-            'context' => $this->baseContext($activityType, $withSystem),
+            'context' => $this->base_context($activitytype, $withsystem),
             'timestamp' => date('c', $this->event->timecreated),
         ];
     }
 
     /**
      * Build the context.
-     * 
-     * @param string $activityType Type of activity
-     * @param bool $withSystem Include the system activity in the context?
+     *
+     * @param string $activitytype Type of activity
+     * @param bool $withsystem Include the system activity in the context?
      * @return array
      */
-    protected function baseContext($activityType, $withSystem = true) {
+    protected function base_context($activitytype, $withsystem = true) {
 
-        // Categories
-        $categories = $this->activities->getCategories($activityType);
+        // Categories.
+        $categories = $this->activities->get_categories($activitytype);
         $categories[] = $this->activities->get('profile');
 
-        // Base context
+        // Base context.
         $res = [
             'platform' => 'Moodle',
             'contextActivities' => [
@@ -136,8 +136,8 @@ abstract class statement {
             ],
         ];
 
-        // System grouping
-        if ($withSystem) {
+        // System grouping.
+        if ($withsystem) {
             $res['contextActivities']['grouping'] = [
                 $this->activities->get('system', 0, false)
             ];

@@ -26,7 +26,7 @@ namespace logstore_trax\src\statements\core;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\statements\statement;
+use logstore_trax\src\statements\base_statement;
 
 /**
  * xAPI transformation of a Moodle event.
@@ -35,15 +35,15 @@ use logstore_trax\src\statements\statement;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class user_loggedin extends statement {
+class user_loggedin extends base_statement {
 
     /**
      * Build the Statement.
-     * 
+     *
      * @return array
      */
     protected function statement() {
-        return array_replace($this->baseStatement('system', false), [
+        return array_replace($this->base('system', false), [
             'actor' => $this->actors->get('user', $this->event->objectid),
             'verb' => $this->verbs->get('logged-in'),
             'object' => $this->activities->get('system'),

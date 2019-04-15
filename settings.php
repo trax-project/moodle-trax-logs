@@ -26,59 +26,53 @@ defined('MOODLE_INTERNAL') || die();
 
 if ($hassiteconfig) {
 
-    /**
-     * LRS settings
-     */
+    // LRS settings.
 
-    // Endpoint
+    // Endpoint.
     $settings->add(new admin_setting_configtext('logstore_trax/lrs_endpoint',
         new lang_string('lrs_endpoint', 'logstore_trax'),
         new lang_string('lrs_endpoint_help', 'logstore_trax'),
-        'http://example.com/lrs/services/xapi', 
+        'http://example.com/lrs/services/xapi',
         PARAM_URL
     ));
 
-    // Username
+    // Username.
     $settings->add(new admin_setting_configtext('logstore_trax/lrs_username',
         new lang_string('lrs_username', 'logstore_trax'),
         new lang_string('lrs_username_help', 'logstore_trax'),
-        '', 
+        '',
         PARAM_TEXT
     ));
 
-    // Username
+    // Password.
     $settings->add(new admin_setting_configtext('logstore_trax/lrs_password',
         new lang_string('lrs_password', 'logstore_trax'),
         new lang_string('lrs_password_help', 'logstore_trax'),
-        '', 
+        '',
         PARAM_TEXT
     ));
 
 
-    /**
-     * xAPI data settings
-     */
+     // XAPI data settings.
 
-     // Platform IRI
+     // Platform IRI.
     $settings->add(new admin_setting_configtext('logstore_trax/platform_iri',
         new lang_string('platform_iri', 'logstore_trax'),
         new lang_string('platform_iri_help', 'logstore_trax'),
-        'http://example.com/lms', 
+        'http://example.com/lms',
         PARAM_URL
     ));
 
 
-    /**
-     * Plugin settings
-     */
+     // Plugin settings.
 
-     // Buffer size
+     // Buffer size.
      $settings->add(new admin_setting_configtext('logstore_trax/buffersize',
         new lang_string('buffersize', 'logstore_trax'),
         new lang_string('buffersize_help', 'logstore_trax'),
-        '50', 
+        '50',
         PARAM_INT
-    ));
+     ));
 
 
 }

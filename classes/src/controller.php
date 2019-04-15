@@ -44,35 +44,35 @@ class controller {
 
     /**
      * Statements service.
-     * 
+     *
      * @var statements $statements
      */
     public $statements;
 
     /**
      * Actors service.
-     * 
+     *
      * @var actors $actors
      */
     public $actors;
 
     /**
      * Verbs service.
-     * 
+     *
      * @var verbs $verbs
      */
     public $verbs;
 
     /**
      * Activities service.
-     * 
+     *
      * @var activities $activities
      */
     public $activities;
 
     /**
      * LRS client.
-     * 
+     *
      * @var client $client
      */
     protected $client;
@@ -80,19 +80,19 @@ class controller {
 
     /**
      * Constructor.
-     * 
+     *
      * @return void
      */
     public function __construct() {
 
-        // APIs
+        // APIs.
         $config = (object)['platform_iri' => get_config('logstore_trax', 'platform_iri')];
         $this->actors = new actors($config);
         $this->verbs = new verbs($config);
         $this->activities = new activities($config);
         $this->statements = new statements($this->actors, $this->verbs, $this->activities);
 
-        // HTTP Client
+        // HTTP Client.
         $this->client = new client((object)[
             'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
             'username' => get_config('logstore_trax', 'lrs_username'),
@@ -106,7 +106,7 @@ class controller {
      * @param array $events Moodle events to process.
      */
     public function process_events(array $events) {
-        $statements = $this->statements->getFromEvents($events);
+        $statements = $this->statements->get_from_events($events);
         $this->client->statements()->post($statements);
     }
 

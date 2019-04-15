@@ -40,7 +40,7 @@ class module extends activity
 
     /**
      * Get an activity, given an activity type and an UUID.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param string $uuid UUID of the activity
@@ -48,26 +48,28 @@ class module extends activity
      * @return array
      */
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
-        $activity = $this->baseActivity($type, $uuid);
+        $activity = $this->base_activity($type, $uuid);
         if ($full) {
 
-            // Name & description
+            // Name & description.
             global $DB;
             $module = $DB->get_record($type, array('id' => $mid));
-            $course = $DB->get_record('course', array('id' =>$module->course));
-            $activity['definition']['name'] = util::langString($module->name, $course);
+            $course = $DB->get_record('course', array('id' => $module->course));
+            $activity['definition']['name'] = util::lang_string($module->name, $course);
             if (!empty($module->intro)) {
-                $activity['definition']['description'] = util::langString($module->intro, $course);
+                $activity['definition']['description'] = util::lang_string($module->intro, $course);
             }
 
-            // Extensions
+            // Extensions.
             $activity['definition']['extensions'] = [];
             $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/platform-concept'] = $type;
             if (isset($this->types->$type->family)) {
-                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/concept-family'] = $this->types->$type->family;
+                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/concept-family']
+                    = $this->types->$type->family;
             }
             if (isset($this->types->$type->standard)) {
-                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/standard'] = $this->types->$type->standard;
+                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/standard']
+                    = $this->types->$type->standard;
             }
         }
         return $activity;

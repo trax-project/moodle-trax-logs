@@ -26,15 +26,21 @@ namespace logstore_trax\src\vocab;
 
 defined('MOODLE_INTERNAL') || die();
 
+/**
+ * Defines the supported verbs.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 trait verbs {
 
     /**
      * Verbs.
-     * 
+     *
      * @var array $verbs
      */
     protected $verbs = [
-        
         'logged-in' => [
             'iri' => 'https://w3id.org/xapi/adl/verbs/logged-in',
         ],
@@ -44,7 +50,6 @@ trait verbs {
         'navigated-in' => [
             'iri' => 'http://vocab.xapi.fr/verbs/navigated-in',
         ],
-
     ];
 
 }

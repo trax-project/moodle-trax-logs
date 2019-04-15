@@ -41,7 +41,7 @@ class activity {
 
     /**
      * Config.
-     * 
+     *
      * @var stdClass $config
      */
     protected $config;
@@ -60,7 +60,7 @@ class activity {
 
     /**
      * Get an activity, given an activity type and an UUID.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param string $uuid UUID of the activity
@@ -68,21 +68,20 @@ class activity {
      * @return array
      */
     public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
-        return $this->baseActivity($type, $uuid);
+        return $this->base_activity($type, $uuid);
     }
 
     /**
      * Get base activity.
-     * 
+     *
      * @param string $type Type of activity
      * @param string $uuid UUID of the activity
      * @return array
      */
-    protected function baseActivity(string $type, string $uuid = '')
-    {
+    protected function base_activity(string $type, string $uuid = '') {
         return [
             'objectType' => 'Activity',
-            'id' => $this->baseActivityId($type, $uuid),
+            'id' => $this->base_activity_id($type, $uuid),
             'definition' => [
                 'type' => $this->types->$type->type,
             ],
@@ -91,14 +90,15 @@ class activity {
 
     /**
      * Get base activity ID.
-     * 
+     *
      * @param string $type Type of activity
      * @param string $uuid UUID of the activity
      * @return string
      */
-    protected function baseActivityId(string $type, string $uuid = '')
-    {
-        if (!empty($uuid)) $uuid = '/' . $uuid;
+    protected function base_activity_id(string $type, string $uuid = '') {
+        if (!empty($uuid)) {
+            $uuid = '/' . $uuid;
+        }
         return $this->config->platform_iri . '/xapi/activities/' . $type . $uuid;
     }
 

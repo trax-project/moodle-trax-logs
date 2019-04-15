@@ -41,7 +41,7 @@ class activities extends index {
 
     /**
      * DB table.
-     * 
+     *
      * @var string $table
      */
     protected $table = 'logstore_trax_activities';
@@ -49,18 +49,17 @@ class activities extends index {
 
     /**
      * Check if an activity type is supported.
-     * 
+     *
      * @param string $type Type of activity
      * @return bool
      */
-    public function supported(string $type)
-    {
+    public function supported(string $type) {
         return isset($this->types->$type);
     }
 
     /**
      * Get an activity, given a Moodle ID and an activity type.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the activity?
@@ -69,32 +68,40 @@ class activities extends index {
      * @param stdClass $entry DB entry
      * @return array
      */
-    public function get(string $type, int $mid = 0, bool $full = true, string $model = 'activity', string $plugin = null, $entry = null) {
-        if (!isset($entry)) $entry = $this->getOrCreateDbEntry($mid, $type);
+    public function get(string $type, int $mid = 0, bool $full = true,
+                        string $model = 'activity', string $plugin = null, $entry = null) {
 
-        // Check if it is a known module
-        if (isset($this->types->$type) && isset($this->types->$type->level) && $this->types->$type->level == 'http://vocab.xapi.fr/categories/learning-unit') {
+        if (!isset($entry)) {
+            $entry = $this->get_or_create_db_entry($mid, $type);
+        }
+
+        // Check if it is a known module.
+        if (isset($this->types->$type) && isset($this->types->$type->level)
+            && $this->types->$type->level == 'http://vocab.xapi.fr/categories/learning-unit') {
             $model = 'module';
         }
 
-        // Search in the plugin folder
-        if (isset($plugin))
+        // Search in the plugin folder.
+        if (isset($plugin)) {
             $class = '\\'.$plugin.'\\xapi\\activities\\'.$model;
+        }
 
-        // Search in Trax Logs, based on the $type
-        if (!isset($plugin) || !class_exists($class))
+        // Search in Trax Logs, based on the $type.
+        if (!isset($plugin) || !class_exists($class)) {
             $class = '\\logstore_trax\\src\\activities\\'.$type;
-        
-        // Finally, search in Trax Logs, based on $model
-        if (!class_exists($class))
+        }
+
+        // Finally, search in Trax Logs, based on $model.
+        if (!class_exists($class)) {
             $class = '\\logstore_trax\\src\\activities\\'.$model;
-                    
+        }
+
         return (new $class($this->config))->get($type, $mid, $entry->uuid, $full);
     }
 
     /**
      * Get an existing activity, given a Moodle ID and an activity type.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the activity?
@@ -102,23 +109,24 @@ class activities extends index {
      * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function getExisting(string $type, int $mid = 0, bool $full = true, string $model = 'activity', string $plugin = null)
-    {
-        $entry = $this->getDbEntryOrFail($mid, $type);
+    public function get_existing(string $type, int $mid = 0, bool $full = true, string $model = 'activity', string $plugin = null) {
+        $entry = $this->get_db_entry_or_fail($mid, $type);
         return $this->get($type, $mid, $full, $model, $plugin, $entry);
     }
 
     /**
      * Get category context activities, given an activity type.
-     * 
+     *
      * @param string $type Type of activity
      * @return array
      */
-    public function getCategories(string $type) {
+    public function get_categories(string $type) {
         $res = [];
-        if (!isset($this->types->$type)) return $res;
+        if (!isset($this->types->$type)) {
+            return $res;
+        }
 
-        // Level
+        // Level.
         if (isset($this->types->$type->level)) {
             $res[] = [
                 'id' => $this->types->$type->level,

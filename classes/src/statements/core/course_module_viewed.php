@@ -26,7 +26,7 @@ namespace logstore_trax\src\statements\core;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\statements\statement;
+use logstore_trax\src\statements\base_statement;
 
 /**
  * xAPI transformation of a Moodle event.
@@ -35,20 +35,22 @@ use logstore_trax\src\statements\statement;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course_module_viewed extends statement {
+class course_module_viewed extends base_statement {
 
     /**
      * Build the Statement.
-     * 
+     *
      * @return array
      */
     protected function statement() {
 
-        // Check that the activity is supported
-        if (!$this->activities->supported($this->event->objecttable)) return false;
+        // Check that the activity is supported.
+        if (!$this->activities->supported($this->event->objecttable)) {
+            return false;
+        }
 
-        // Build the statement
-        return array_replace($this->baseStatement($this->event->objecttable), [
+        // Build the statement.
+        return array_replace($this->base($this->event->objecttable), [
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $this->verbs->get('navigated-in'),
             'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module'),
@@ -57,13 +59,13 @@ class course_module_viewed extends statement {
 
     /**
      * Build the context.
-     * 
-     * @param string $activityType Type of activity
-     * @param bool $withSystem Include the system activity in the context?
+     *
+     * @param string $activitytype Type of activity
+     * @param bool $withsystem Include the system activity in the context?
      * @return array
      */
-    protected function baseContext($activityType, $withSystem = true) {
-        $context = parent::baseContext($activityType, $withSystem);
+    protected function base_context($activitytype, $withsystem = true) {
+        $context = parent::base_context($activitytype, $withsystem);
         $course = $this->activities->get('course', $this->event->courseid, false);
         $context['contextActivities']['parent'] = array($course);
         return $context;

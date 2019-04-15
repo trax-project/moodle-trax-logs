@@ -40,14 +40,14 @@ abstract class index {
 
     /**
      * Config.
-     * 
+     *
      * @var stdClass $config
      */
     protected $config;
 
     /**
      * DB table.
-     * 
+     *
      * @var string $table
      */
     protected $table;
@@ -55,20 +55,21 @@ abstract class index {
 
     /**
      * Constructor.
-     * 
+     *
      * @param stdClass $config Config
      * @return void
      */
     public function __construct($config) {
         $this->config = $config;
-        if (substr($this->config->platform_iri, -1) == '/') 
+        if (substr($this->config->platform_iri, -1) == '/') {
             $this->config->platform_iri = substr($this->config->platform_iri, 0, -1);
+        }
         $this->types = json_decode(json_encode($this->types));
     }
 
     /**
      * Get an activity, given a Moodle ID and an activity type.
-     * 
+     *
      * @param string $type Type of activity
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the activity?
@@ -78,15 +79,14 @@ abstract class index {
 
     /**
      * Get an entry from the DB, or create it if it does not exist.
-     * 
+     *
      * @param int $mid Moodle ID of the item
      * @param string $type Type of item
      * @return stdClass
      */
-    protected function getOrCreateDbEntry(int $mid, string $type)
-    {
+    protected function get_or_create_db_entry(int $mid, string $type) {
         global $DB;
-        $entry = $this->getDbEntry($mid, $type);
+        $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
             $entry = (object)[
                 'mid' => $mid,
@@ -100,27 +100,27 @@ abstract class index {
 
     /**
      * Get an entry from the DB, and rise an exception if the entry does not exist.
-     * 
+     *
      * @param int $mid Moodle ID of the item
      * @param string $type Type of item
      * @return stdClass
      */
-    protected function getDbEntryOrFail(int $mid, string $type)
-    {
-        $entry = $this->getDbEntry($mid, $type);
-        if (!$entry) throw new moodle_exception('activity_entry_not_found', 'logstore_trax');
+    protected function get_db_entry_or_fail(int $mid, string $type) {
+        $entry = $this->get_db_entry($mid, $type);
+        if (!$entry) {
+            throw new moodle_exception('activity_entry_not_found', 'logstore_trax');
+        }
         return $entry;
     }
 
     /**
      * Get an entry from the DB.
-     * 
+     *
      * @param int $mid Moodle ID of the item
      * @param string $type Type of item
      * @return stdClass
      */
-    protected function getDbEntry(int $mid, string $type)
-    {
+    protected function get_db_entry(int $mid, string $type) {
         global $DB;
         return $DB->get_record($this->table, [
             'mid' => $mid,

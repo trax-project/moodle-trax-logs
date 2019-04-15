@@ -24,13 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-// Plugin
+// Plugin.
 
 $string['pluginname'] = 'Trax Logs';
 $string['pluginname_desc'] = 'A log plugin which transforms Moodle logs into xAPI statements, and sends then to your LRS.';
 
 
-// Settings
+// Settings.
 
 $string['lrs_endpoint'] = 'LRS endpoint';
 $string['lrs_endpoint_help'] = "This is the URL used to call the xAPI services of your LRS.";
@@ -48,12 +48,12 @@ $string['buffersize'] = 'Buffer size';
 $string['buffersize_help'] = "Number of events that can be grouped to be sent in a single request.";
 
 
-// Exceptions
+// Exceptions.
 $string['activity_entry_not_found'] = 'Activity entry not found.';
 $string['actor_entry_not_found'] = 'Actor entry not found.';
 
 
-// Privacy metadata
+// Privacy metadata.
 
 $string['privacy:metadata:actors'] = 'Matching table between Moodle user ID and anonymous identifier used by external LRS.';
 $string['privacy:metadata:actors:mid'] = 'User ID stored by Moodle';

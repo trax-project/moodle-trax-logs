@@ -35,51 +35,51 @@ class test_config extends advanced_testcase {
 
     /**
      * LRS endpoint.
-     * 
-     * @var string $lrs_endpoint
+     *
+     * @var string $lrsendpoint
      */
-    protected $lrs_endpoint = 'http://trax.test/trax/ws/xapi';
+    protected $lrsendpoint = 'http://trax.test/trax/ws/xapi';
 
     /**
      * Basic HTTP username.
-     * 
-     * @var string $lrs_username
+     *
+     * @var string $lrsusername
      */
-    protected $lrs_username = 'testsuite';
+    protected $lrsusername = 'testsuite';
 
     /**
      * Basic HTTP password.
-     * 
-     * @var string $lrs_password
+     *
+     * @var string $lrspassword
      */
-    protected $lrs_password = 'password';
+    protected $lrspassword = 'password';
 
     /**
      * Moodle platform IRI.
-     * 
-     * @var string $platform_iri
+     *
+     * @var string $platformiri
      */
-    protected $platform_iri = 'http://xapi.moodle.test';
+    protected $platformiri = 'http://xapi.moodle.test';
 
-    
+
     /**
      * Prepare test session.
      */
     protected function prepare_session() {
 
-        // Prepare testing context
+        // Prepare testing context.
         $this->resetAfterTest(true);
         $this->preventResetByRollback();
-        
+
         // Enable logging plugin and configure it.
         set_config('enabled_stores', 'logstore_trax', 'tool_log');
-        set_config('lrs_endpoint', $this->lrs_endpoint, 'logstore_trax');
-        set_config('lrs_username', $this->lrs_username, 'logstore_trax');
-        set_config('lrs_password', $this->lrs_password, 'logstore_trax');
-        set_config('platform_iri', $this->platform_iri, 'logstore_trax');
+        set_config('lrs_endpoint', $this->lrsendpoint, 'logstore_trax');
+        set_config('lrs_username', $this->lrsusername, 'logstore_trax');
+        set_config('lrs_password', $this->lrspassword, 'logstore_trax');
+        set_config('platform_iri', $this->platformiri, 'logstore_trax');
         set_config('buffersize', 0, 'logstore_trax');
 
-        // Create a user
+        // Create a user.
         $this->setAdminUser();
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);

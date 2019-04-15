@@ -42,7 +42,7 @@ class verbs {
 
     /**
      * Get a verb, given its code.
-     * 
+     *
      * @param string $code Code of the verb
      * @return array
      */

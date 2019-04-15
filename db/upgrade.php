@@ -38,19 +38,17 @@ function xmldb_logstore_trax_upgrade($oldversion) {
     // Index UUID are no longer unique.
     if ($oldversion < 2018050801) {
 
-        // Actors index
+        // Actors index.
         $table = new xmldb_table('logstore_trax_actors');
         $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
-        //if ($dbman->index_exists($table, $index)) 
         $dbman->drop_index($table, $index);
 
-        // Activities index
+        // Activities index.
         $table = new xmldb_table('logstore_trax_activities');
         $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
-        //if ($dbman->index_exists($table, $index)) 
         $dbman->drop_index($table, $index);
-        
-        // Savepoint
+
+        // Savepoint.
         upgrade_plugin_savepoint(true, 2018050802, 'logstore', 'trax');
     }
 
