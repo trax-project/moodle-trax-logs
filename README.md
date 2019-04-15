@@ -41,8 +41,8 @@ However, you are encouraged to [install](doc/install.md) the plugin, to test it,
 * [Overview](README.md)
 * [Installation and configuration](doc/install.md)
 * [Supported events](doc/events.md)
-* [Supporting new events](extend.md)
-* [Coding style and unit tests](test.md)
+* [Supporting new events](doc/extend.md)
+* [Coding style and unit tests](doc/test.md)
 * [Best pratices in designing Statements](doc/best-practices.md)
 * [Data privacy](doc/privacy.md)
 

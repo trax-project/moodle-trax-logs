@@ -28,11 +28,11 @@ Moodle Event | Trax Logs Class | Example
 
 ## Contents
 
-* [Overview](README.md)
-* [Installation and configuration](doc/install.md)
-* [Supported events](doc/events.md)
+* [Overview](../README.md)
+* [Installation and configuration](install.md)
+* [Supported events](events.md)
 * [Supporting new events](extend.md)
 * [Coding style and unit tests](test.md)
-* [Best pratices in designing Statements](doc/best-practices.md)
-* [Data privacy](doc/privacy.md)
+* [Best pratices in designing Statements](best-practices.md)
+* [Data privacy](privacy.md)
 
