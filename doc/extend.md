@@ -1,44 +1,17 @@
-# Technical documentation
+# How to support new events
 
-## Installation
+Trax Logs has a flexible architecture that you can extend in order to support new events.
+This may be usefull if you want to support Moodle events that are not already supported, 
+or if you want to support events handled by your own Moodle plugins.
 
-### LRS installation
+Of course, you will need to be familiar with PHP coding, 
+as well as understanding how to design xAPI Statements following [best practices](best-practices.md).
 
-First of all, you will need a Learning Record Store (LRS) in order to use this plugin.
-If you are familiar with the PHP stack, you should install [TRAX LRS](https://github.com/trax-project/trax-lrs) which is Open Source and has been certified compliant.
-
-### Moodle plugin installation
-
-[Download the lastest version of the plugin for Moodle 3.5.](https://github.com/trax-project/moodle-trax-logs/releases)
-
-Drag and drop the ZIP file in `http://my-moodle-address.com/admin/tool/installaddon/index.php`. 
-
-For a manual installation, unzip the plugin file in `my-moodle-install-folder/admin/tool/log/store/`.
-Then, go to the Moodle administration area. The presence of the plugin will be detected.
-
-In both cases, confirm the plugin installation and follow the procedure.
-
-Once it is done, the plugin can be (de)activate and configured in `Administration > Plugins > Logstore`.
+Once you have identified the events you want to transform into xAPI statements,
+you can start implementing statement classes following this guide. 
 
 
-## Testing
-
-A test file is included with the plugin, so you can test all the supported events 
-by generating the matching statements and sending them to your LRS.
-However, the current test function doesn't check that the LRS recorded the statements.
-So you will have to open your LRS and check it manually.
-
-To launch the test:
-
-1. Check that your Moodle environment is configured to run PHPUnit: https://docs.moodle.org/dev/PHPUnit.
-2. Reinitialize the testing environment if it has not been done since the plugin installation: `php admin/tool/phpunit/cli/init.php`.
-2. In `admin/tool/log/store/trax/tests/test_config.php`, change the LRS access settings at the begining of the script.
-3. Launch the test with `vendor/bin/phpunit store_test admin/tool/log/store/trax/tests/store_test.php`.
-
-
-## Supporting new events
-
-### Implementing the statement class
+## Implementing the statement class
 
 To support a new event, you need to implement a single class which inherits from the abstract class `logstore_trax\src\statements\statement`. In this class, you must implement the `statement()` function, which returns the statement to be sent to the LRS, given a Moodle event which is stored in `$this->event`.
 
@@ -50,7 +23,7 @@ Your implementation should use the following services:
 For furthur details, you can look at the source code which is documented.
 
 
-### Naming the statement class
+## Naming the statement class
 
 Your statement class must be correctly named in order to be detected by the plugin.
 The name is based on the name of the Moodle event. For example:
@@ -59,7 +32,7 @@ The name is based on the name of the Moodle event. For example:
 * `core\event\user_loggedout` must be implemented by a class named `user_loggedout`.
 
 
-### Placing the statement class in the right folder
+## Placing the statement class in the right folder
 
 For Moodle native events, statement classes must be located in `TRAX_PLUGIN/classes/src/statements/CORE_OR_PLUGIN_NAME/`.
 For example:
@@ -69,7 +42,7 @@ For example:
 For events coming from third-party plugins, statement classes must be located in `THIRD_PARTY_PLUGIN/classes/xapi/statements/`.
 
 
-### Using the right namespace
+## Using the right namespace
 
 The namespace of the statement class must be consistent with its location.
 For instance:
@@ -77,7 +50,8 @@ For instance:
 * If the class is located in `TRAX_PLUGIN/classes/src/statements/mod_forum/`, the namespace must be `logstore_trax\src\statements\mod_forum`.
 * If the class is located in `PLUGIN_TIERS/classes/xapi/statements/`,the namespace must be `THIRD_PARTY_PLUGIN\xapi\statements`.
 
-### Implementing a custom activity class
+
+## Implementing a custom activity class
 
 Activity classes are implemented in `TRAX_PLUGIN/classes/src/activities`.
 
@@ -86,8 +60,10 @@ For events coming from third-party plugins, you can implement custom activity cl
 
 ## Contents
 
-* [Overview](../README.md)
-* [Supported events](events.md)
-* [Best pratices in designing Statements](best-practices.md)
-* [Data privacy](privacy.md)
-* [Technical documentation](tech.md)
+* [Overview](README.md)
+* [Installation and configuration](doc/install.md)
+* [Supported events](doc/events.md)
+* [Supporting new events](extend.md)
+* [Coding style and unit tests](test.md)
+* [Best pratices in designing Statements](doc/best-practices.md)
+* [Data privacy](doc/privacy.md)
