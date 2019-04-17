@@ -27,6 +27,7 @@ namespace logstore_trax\src\statements\core;
 defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\statements\base_statement;
+use logstore_trax\src\utils\module_context;
 
 /**
  * xAPI transformation of a Moodle event.
@@ -36,6 +37,8 @@ use logstore_trax\src\statements\base_statement;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class course_module_viewed extends base_statement {
+
+    use module_context;
 
     /**
      * Build the Statement.
@@ -55,20 +58,6 @@ class course_module_viewed extends base_statement {
             'verb' => $this->verbs->get('navigated-in'),
             'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module'),
         ]);
-    }
-
-    /**
-     * Build the context.
-     *
-     * @param string $activitytype Type of activity
-     * @param bool $withsystem Include the system activity in the context?
-     * @return array
-     */
-    protected function base_context($activitytype, $withsystem = true) {
-        $context = parent::base_context($activitytype, $withsystem);
-        $course = $this->activities->get('course', $this->event->courseid, false);
-        $context['contextActivities']['parent'] = array($course);
-        return $context;
     }
 
 }

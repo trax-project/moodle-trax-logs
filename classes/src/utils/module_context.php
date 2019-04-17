@@ -15,42 +15,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Verbs service.
+ * Trait to build a module context.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\services;
+namespace logstore_trax\src\utils;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\vocab\verbs as verbs_vocab;
-
 /**
- * Verbs service.
+ * Trait to build a module context.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class verbs {
-
-    use verbs_vocab;
-
+trait module_context {
 
     /**
-     * Get a verb, given its code.
+     * Build the module context.
      *
-     * @param string $code Code of the verb
+     * @param string $activitytype Type of activity
+     * @param bool $withsystem Include the system activity in the context?
      * @return array
      */
-    public function get(string $code) {
-        $verbid = substr($code, 0, 4) == 'http' ? $code : $this->verbs[$code]['iri'];
-        return [
-            'id' => $verbid,
-        ];
+    protected function base_context($activitytype, $withsystem = true) {
+        $context = parent::base_context($activitytype, $withsystem);
+        $course = $this->activities->get('course', $this->event->courseid, false);
+        $context['contextActivities']['parent'] = array($course);
+        return $context;
     }
 
 }

@@ -121,18 +121,19 @@ class activities extends index {
      * @return array
      */
     public function get_categories(string $type) {
+
+        // Empty categories.
         $res = [];
-        if (!isset($this->types->$type)) {
+        if (!isset($this->types->$type) || !isset($this->types->$type->level)) {
             return $res;
         }
 
-        // Level.
-        if (isset($this->types->$type->level)) {
-            $res[] = [
-                'id' => $this->types->$type->level,
-                'definition' => ['type' => 'http://vocab.xapi.fr/activities/granularity-level'],
-            ];
-        }
+        // Add level.
+        $res[] = [
+            'id' => $this->types->$type->level,
+            'definition' => ['type' => 'http://vocab.xapi.fr/activities/granularity-level'],
+        ];
+
         return $res;
     }
 

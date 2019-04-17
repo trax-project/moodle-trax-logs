@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * AJAX script used to catch H5P xAPI events from JS.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -23,8 +23,35 @@
  */
 
 require_once('../../../../../../config.php');
-
 require_login();
 
-echo 'H5P xAPI Event';
+// Get the statement string.
+$statement = required_param('statement', PARAM_RAW);
+
+// Chech JSON string.
+$statement = json_decode($statement);
+if (!$statement) {
+    print_error('event_hvp_xapi_error_json', 'logstore_trax');
+}
+
+// We supprt only some types of events.
+$verbs = [
+    'http://adlnet.gov/expapi/verbs/answered',
+    'http://adlnet.gov/expapi/verbs/completed',
+];
+if (!in_array($statement->verb->id, $verbs)) {
+    print_error('event_hvp_xapi_error_unsupported', 'logstore_trax');
+}
+
+// Check if it is a learning unit event or an internal event.
+$inside = isset($statement->context->contextActivities->parent) && !empty($statement->context->contextActivities->parent);
+
+// Trigger the event.
+if ($inside) {
+    \logstore_trax\event\hvp_internal_event_triggered::create_statement($statement)->trigger();
+} else {
+    \logstore_trax\event\hvp_module_event_triggered::create_statement($statement)->trigger();
+}
+
+
 

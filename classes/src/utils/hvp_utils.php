@@ -15,42 +15,38 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Verbs service.
+ * Util functions for H5P events.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\services;
+namespace logstore_trax\src\utils;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\vocab\verbs as verbs_vocab;
-
 /**
- * Verbs service.
+ * Util functions for H5P events.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class verbs {
-
-    use verbs_vocab;
-
+class hvp_utils {
 
     /**
-     * Get a verb, given its code.
+     * Get course module ID from module IRI.
      *
-     * @param string $code Code of the verb
-     * @return array
+     * @param string $moduleiri Module IRI
+     * @return string
      */
-    public function get(string $code) {
-        $verbid = substr($code, 0, 4) == 'http' ? $code : $this->verbs[$code]['iri'];
-        return [
-            'id' => $verbid,
-        ];
+    public static function module_cmid($moduleiri) {
+        $parts = explode('mod/hvp/view.php?id=', $moduleiri);
+        if (count($parts) < 2 || !$cmid = intval($parts[1])) {
+            print_error('event_hvp_xapi_error_iri', 'logstore_trax');
+        }
+        return $cmid;
     }
 
 }

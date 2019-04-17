@@ -27,7 +27,7 @@ namespace logstore_trax\src\services;
 defined('MOODLE_INTERNAL') || die();
 
 use moodle_exception;
-use logstore_trax\src\util;
+use logstore_trax\src\utils;
 
 /**
  * Abstract class used to implement an index of xAPI resources (e.g. actors, activities).
@@ -91,7 +91,7 @@ abstract class index {
             $entry = (object)[
                 'mid' => $mid,
                 'type' => $this->types->$type->db,
-                'uuid' => util::uuid(),
+                'uuid' => utils::uuid(),
             ];
             $entry->id = $DB->insert_record($this->table, $entry);
         }

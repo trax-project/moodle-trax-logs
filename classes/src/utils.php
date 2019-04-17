@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class util {
+class utils {
 
     /**
      * Generate an UUID.
@@ -86,10 +86,10 @@ class util {
      * Format a lang string.
      *
      * @param string $text Text to format
-     * @param stdClass $course Course or course ID
+     * @param \stdClass $course Course or course ID
      * @return array
      */
-    public static function lang_string(string $text, stdClass $course) {
+    public static function lang_string(string $text, \stdClass $course) {
         global $CFG;
         $lang = empty($course->lang) ? $CFG->lang : $course->lang;
         $lang = explode('_', $lang)[0];

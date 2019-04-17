@@ -110,6 +110,7 @@ class statements {
         if (!class_exists($class)) {
             return;
         }
+
         return (new $class($event, $this->actors, $this->verbs, $this->activities))->get();
     }
 

@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use logstore_trax\src\services\actors;
 use logstore_trax\src\services\verbs;
 use logstore_trax\src\services\activities;
-use logstore_trax\src\util;
+use logstore_trax\src\utils;
 
 /**
  * Abstract class to implement an xAPI statement.
@@ -68,6 +68,13 @@ abstract class base_statement {
      */
     protected $event;
 
+    /**
+     * Moodle event other data.
+     *
+     * @var array $eventother
+     */
+    protected $eventother;
+
 
     /**
      * Constructor.
@@ -80,6 +87,7 @@ abstract class base_statement {
      */
     public function __construct($event, actors $actors, verbs $verbs, activities $activities) {
         $this->event = $event;
+        $this->eventother = unserialize($this->event->other);
         $this->actors = $actors;
         $this->verbs = $verbs;
         $this->activities = $activities;

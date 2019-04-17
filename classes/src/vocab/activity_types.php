@@ -182,6 +182,15 @@ trait activity_types {
             'family' => 'production',
         ],
 
+        // H5P modules.
+
+        'hvp' => [
+            'db' => 201,
+            'type' => 'http://vocab.xapi.fr/activities/poll',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'feedback',
+        ],
+
     ];
 
 

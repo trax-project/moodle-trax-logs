@@ -26,7 +26,7 @@ namespace logstore_trax\src\activities;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\util;
+use logstore_trax\src\utils;
 
 /**
  * xAPI transformation of a Moodle module.
@@ -55,9 +55,9 @@ class module extends activity
             global $DB;
             $module = $DB->get_record($type, array('id' => $mid));
             $course = $DB->get_record('course', array('id' => $module->course));
-            $activity['definition']['name'] = util::lang_string($module->name, $course);
+            $activity['definition']['name'] = utils::lang_string($module->name, $course);
             if (!empty($module->intro)) {
-                $activity['definition']['description'] = util::lang_string($module->intro, $course);
+                $activity['definition']['description'] = utils::lang_string($module->intro, $course);
             }
 
             // Extensions.
