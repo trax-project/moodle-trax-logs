@@ -120,7 +120,7 @@ class hvp_event extends \core\event\base {
     protected static function hvp_type(\stdClass $statement)
     {
         $category = $statement->context->contextActivities->category[0]->id;
-        foreach (self::supported as $type) {
+        foreach (self::$supported as $type) {
             if (strpos($category, $type) !== false) {
                 return $type;
             }
