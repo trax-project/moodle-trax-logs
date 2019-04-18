@@ -1,4 +1,4 @@
-# Coding style and unit tests
+# Coding style and unit testing
 
 ## Coding style
 
