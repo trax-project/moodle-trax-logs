@@ -17,7 +17,7 @@ However, Trax Logs for Moodle aims to bring some key improvements:
 
 ## Currently supported events
 
-The current version of the plugin supports [general navigation events](doc/events.md) :
+The current version of the plugin supports [general navigation events](doc/events.md):
 * Login and logout,
 * Course access,
 * Course module access: all standard modules supported, except Assignment.
