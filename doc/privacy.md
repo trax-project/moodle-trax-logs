@@ -26,6 +26,6 @@ So the LRS must endorse this responsability, given the UUID of the user.
 * [Installation and configuration](install.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
-* [Coding style and unit tests](test.md)
+* [Coding style and unit testing](test.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)

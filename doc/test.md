@@ -11,7 +11,7 @@ Trax Logs has been successfully checked with:
 Before running these tests, please exclude the plugin `vendor` folder which contains third-party libraries that follow their own quality standards.
 
 
-## Unit tests
+## Unit testing
 
 A test file is included with the plugin, so you can test all the supported events 
 by generating the matching statements and sending them to your LRS.
@@ -35,6 +35,6 @@ To launch the test:
 * [Installation and configuration](install.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
-* [Coding style and unit tests](test.md)
+* [Coding style and unit testing](test.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)

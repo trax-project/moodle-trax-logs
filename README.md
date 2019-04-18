@@ -12,7 +12,7 @@ However, Trax Logs for Moodle aims to bring some key improvements:
 * [Statements designed following best practices](doc/best-practices.md),
 * [Reinforced data privacy principles](doc/privacy.md),
 * [Simple and extensible architecture](doc/extend.md),
-* [Code quality and unit tests](doc/test.md).
+* [Code quality and unit testing](doc/test.md).
 
 
 ## Currently supported events
@@ -42,7 +42,7 @@ However, you are encouraged to [install](doc/install.md) the plugin, to test it,
 * [Installation and configuration](doc/install.md)
 * [Supported events](doc/events.md)
 * [Supporting new events](doc/extend.md)
-* [Coding style and unit tests](doc/test.md)
+* [Coding style and unit testing](doc/test.md)
 * [Best pratices in designing Statements](doc/best-practices.md)
 * [Data privacy](doc/privacy.md)
 
