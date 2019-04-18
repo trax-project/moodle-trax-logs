@@ -12,9 +12,7 @@ When it is done, create a new BasicHTTP client in your LRS. You will be prompted
 
 ## Trax Logs installation
 
-<aside class="warning">
-If Trax Logs v0.3 (or older version) is already installed, you must first uninstall it.
-</aside>
+**If Trax Logs v0.3 (or older) is already installed, you must first uninstall it.**
 
 1. [Download the lastest version of the plugin for Moodle 3.5.](https://github.com/trax-project/moodle-trax-logs/releases)
 
