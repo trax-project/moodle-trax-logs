@@ -81,16 +81,16 @@ abstract class index {
      * Get an entry from the DB, or create it if it does not exist.
      *
      * @param int $mid Moodle ID of the item
-     * @param string $table Table of item
+     * @param string $type Type of item
      * @return stdClass
      */
-    protected function get_or_create_db_entry(int $mid, string $table) {
+    protected function get_or_create_db_entry(int $mid, string $type) {
         global $DB;
-        $entry = $this->get_db_entry($mid, $table);
+        $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
             $entry = (object)[
                 'mid' => $mid,
-                'table' => $table,
+                'type' => $type,
                 'uuid' => utils::uuid(),
             ];
             $entry->id = $DB->insert_record($this->table, $entry);
@@ -102,11 +102,11 @@ abstract class index {
      * Get an entry from the DB, and rise an exception if the entry does not exist.
      *
      * @param int $mid Moodle ID of the item
-     * @param string $table Table of item
+     * @param string $type Type of item
      * @return stdClass
      */
-    protected function get_db_entry_or_fail(int $mid, string $table) {
-        $entry = $this->get_db_entry($mid, $table);
+    protected function get_db_entry_or_fail(int $mid, string $type) {
+        $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
             throw new moodle_exception('activity_entry_not_found', 'logstore_trax');
         }
@@ -117,14 +117,14 @@ abstract class index {
      * Get an entry from the DB.
      *
      * @param int $mid Moodle ID of the item
-     * @param string $table Table of item
+     * @param string $type Type of item
      * @return stdClass
      */
-    protected function get_db_entry(int $mid, string $table) {
+    protected function get_db_entry(int $mid, string $type) {
         global $DB;
         return $DB->get_record($this->table, [
             'mid' => $mid,
-            'table' => $table,
+            'type' => $type,
         ]);
     }
 
