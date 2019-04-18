@@ -34,23 +34,30 @@ if (!$statement) {
     print_error('event_hvp_xapi_error_json', 'logstore_trax');
 }
 
-// We supprt only some types of events.
-$verbs = [
-    'http://adlnet.gov/expapi/verbs/answered',
-    'http://adlnet.gov/expapi/verbs/completed',
-];
-if (!in_array($statement->verb->id, $verbs)) {
-    print_error('event_hvp_xapi_error_unsupported', 'logstore_trax');
-}
-
-// Check if it is a learning unit event or an internal event.
-$inside = isset($statement->context->contextActivities->parent) && !empty($statement->context->contextActivities->parent);
-
 // Trigger the event.
-if ($inside) {
-    \logstore_trax\event\hvp_internal_event_triggered::create_statement($statement)->trigger();
+if ($statement->verb->id == 'http://adlnet.gov/expapi/verbs/answered') {
+
+    // Answering event.
+    $inside = isset($statement->context->contextActivities->parent) && !empty($statement->context->contextActivities->parent);
+    if ($inside) {
+
+        // Answering a question in a question set.
+        \logstore_trax\event\hvp_question_answered::create_statement($statement)->trigger();
+    } else {
+
+        // Answering a single question activity.
+        \logstore_trax\event\hvp_module_answered::create_statement($statement)->trigger();
+    }
+
+} else if ($statement->verb->id == 'http://adlnet.gov/expapi/verbs/completed') {
+
+    // Completion event.
+    \logstore_trax\event\hvp_module_completed::create_statement($statement)->trigger();
+
 } else {
-    \logstore_trax\event\hvp_module_event_triggered::create_statement($statement)->trigger();
+
+    // Unsupported event.
+    print_error('event_hvp_xapi_error_unsupported', 'logstore_trax');
 }
 
 

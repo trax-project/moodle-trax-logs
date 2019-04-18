@@ -65,10 +65,11 @@ class activity {
      * @param int $mid Moodle ID of the activity
      * @param string $uuid UUID of the activity
      * @param bool $full Give the full definition of the activity?
+     * @param string $vocabtype Type to be used in vocab index
      * @return array
      */
-    public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
-        return $this->base_activity($type, $uuid);
+    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype) {
+        return $this->base_activity($type, $uuid, $vocabtype);
     }
 
     /**
@@ -76,14 +77,15 @@ class activity {
      *
      * @param string $type Type of activity
      * @param string $uuid UUID of the activity
+     * @param string $vocabtype Type to be used in vocab index
      * @return array
      */
-    protected function base_activity(string $type, string $uuid = '') {
+    protected function base_activity(string $type, string $uuid, string $vocabtype) {
         return [
             'objectType' => 'Activity',
             'id' => $this->base_activity_id($type, $uuid),
             'definition' => [
-                'type' => $this->types->$type->type,
+                'type' => $this->types->$vocabtype->type,
             ],
         ];
     }
@@ -95,7 +97,7 @@ class activity {
      * @param string $uuid UUID of the activity
      * @return string
      */
-    protected function base_activity_id(string $type, string $uuid = '') {
+    protected function base_activity_id(string $type, string $uuid) {
         if (!empty($uuid)) {
             $uuid = '/' . $uuid;
         }

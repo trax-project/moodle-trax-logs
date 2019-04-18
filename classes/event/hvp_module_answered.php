@@ -15,38 +15,45 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Util functions for H5P events.
+ * H5P xAPI event: module answered (single question).
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\utils;
+namespace logstore_trax\event;
 
 defined('MOODLE_INTERNAL') || die();
 
+use logstore_trax\src\utils\hvp_event;
+
 /**
- * Util functions for H5P events.
+ * H5P xAPI event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_utils {
+class hvp_module_answered extends hvp_event {
 
     /**
-     * Get course module ID from module IRI.
+     * Return localised event name.
      *
-     * @param string $moduleiri Module IRI
      * @return string
      */
-    public static function module_cmid($moduleiri) {
-        $parts = explode('mod/hvp/view.php?id=', $moduleiri);
-        if (count($parts) < 2 || !$cmid = intval($parts[1])) {
-            print_error('event_hvp_xapi_error_iri', 'logstore_trax');
-        }
-        return $cmid;
+    public static function get_name()
+    {
+        return get_string('event_hvp_module_answered', 'logstore_trax');
+    }
+
+    /**
+     * Returns description of what happened.
+     *
+     * @return string
+     */
+    public function get_description() {
+        return "The user with id '$this->userid' answered the unique question of the H5P activity with id '$this->contextinstanceid'.";
     }
 
 }

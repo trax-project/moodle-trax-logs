@@ -36,17 +36,18 @@ defined('MOODLE_INTERNAL') || die();
 trait inside_module_context {
 
     /**
-     * Build the module context.
+     * Build the context.
      *
      * @param string $activitytype Type of activity
      * @param bool $withsystem Include the system activity in the context?
+     * @param string $vocabtype Type of activity
      * @return array
      */
-    protected function base_context($activitytype, $withsystem = true) {
-        $context = parent::base_context($activitytype, $withsystem);
+    protected function base_context($activitytype, $withsystem, $vocabtype) {
+        $context = parent::base_context($activitytype, $withsystem, $vocabtype);
 
         // Add module in parent context.
-        $module = $this->activities->get($activitytype, $this->event->objectid, false, 'module');
+        $module = $this->activities->get($activitytype, $this->event->objectid, false, 'module', $vocabtype);
         $context['contextActivities']['parent'] = array($module);
 
         // Add course in grouping context.

@@ -26,7 +26,8 @@ namespace logstore_trax\src\statements\logstore_trax;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\utils;
+use logstore_trax\src\statements\base_statement;
+use logstore_trax\src\utils\module_context;
 
 /**
  * xAPI transformation of a H5P event.
@@ -35,35 +36,38 @@ use logstore_trax\src\utils;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_module_event_triggered extends hvp_internal_event_triggered {
+class hvp_module_completed extends base_statement {
+
+    use module_context;
 
     /**
-     * Transform the H5P object.
+     * Build the Statement.
      *
-     * @param \stdClass $nativeobject H5P object
-     * @param array $base Statement base
-     * @return \stdClass
+     * @return array
      */
-    protected function transform_object($nativeobject, $base)
-    {
-        global $DB;
+    protected function statement() {
 
-        // Change ID.
-        $nativeobject->id = $base['context']['contextActivities']['parent'][0]['id'] . '/question';
+        // Get the H5P statement.
+        $statement = json_decode($this->eventother['statement']);
+        $hvptype = $this->eventother['hvptype'];
 
-        // Adapt name and description.
-        $questiontitle = (array)$nativeobject->definition->description;
-        $questiontitle = reset($questiontitle);
-        $questiontitle = trim($questiontitle);
-        unset($nativeobject->definition->description);
-        unset($nativeobject->definition->name);
-        $course = $DB->get_record('course', array('id' => $this->event->courseid));
-        $nativeobject->definition->name = utils::lang_string($questiontitle, $course);
+        // Determine the activity type.
+        $vocabtype = 'hvp-quiz';
 
-        // Remove extensions.
-        unset($nativeobject->definition->extensions);
+        // Base statement (includes context).
+        $base = $this->base('hvp', true, $vocabtype);
 
-        return $nativeobject;
+        // Statement props.
+        $props = [
+            'actor' => $this->actors->get('user', $this->event->userid),
+            'verb' => $this->verbs->get('completed'),
+            'object' => $this->activities->get('hvp', $this->event->objectid, true, 'module', $vocabtype),
+        ];
+        if (isset($statement->result)) {
+            $props['result'] = $statement->result;
+        }
+
+        return array_replace($base, $props);
     }
 
 }

@@ -50,11 +50,11 @@ class activities extends index {
     /**
      * Check if an activity type is supported.
      *
-     * @param string $type Type of activity
+     * @param string $vocabtype Type of activity
      * @return bool
      */
-    public function supported(string $type) {
-        return isset($this->types->$type);
+    public function supported(string $vocabtype) {
+        return isset($this->types->$vocabtype);
     }
 
     /**
@@ -64,20 +64,27 @@ class activities extends index {
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the activity?
      * @param string $model Model to be used, when there is no class mathcing with the type (ex. module)
+     * @param string $vocabtype Type to be used in vocab index if it defers from the main type
      * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @param stdClass $entry DB entry
      * @return array
      */
     public function get(string $type, int $mid = 0, bool $full = true,
-                        string $model = 'activity', string $plugin = null, $entry = null) {
+                        string $model = 'activity', string $vocabtype = null, string $plugin = null, $entry = null) {
 
+        // Get the DB entry.
         if (!isset($entry)) {
             $entry = $this->get_or_create_db_entry($mid, $type);
         }
 
+        // Set vocab type.
+        if (!isset($vocabtype)) {
+            $vocabtype = $type;
+        }
+
         // Check if it is a known module.
-        if (isset($this->types->$type) && isset($this->types->$type->level)
-            && $this->types->$type->level == 'http://vocab.xapi.fr/categories/learning-unit') {
+        if (isset($this->types->$vocabtype) && isset($this->types->$vocabtype->level)
+            && $this->types->$vocabtype->level == 'http://vocab.xapi.fr/categories/learning-unit') {
             $model = 'module';
         }
 
@@ -96,7 +103,7 @@ class activities extends index {
             $class = '\\logstore_trax\\src\\activities\\'.$model;
         }
 
-        return (new $class($this->config))->get($type, $mid, $entry->uuid, $full);
+        return (new $class($this->config))->get($type, $mid, $entry->uuid, $full, $vocabtype);
     }
 
     /**
@@ -106,31 +113,33 @@ class activities extends index {
      * @param int $mid Moodle ID of the activity
      * @param bool $full Give the full definition of the activity?
      * @param string $model Model to be used, when there is no class mathcing with the type (ex. module)
+     * @param string $vocabtype Type to be used in vocab index if it defers from the main type
      * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function get_existing(string $type, int $mid = 0, bool $full = true, string $model = 'activity', string $plugin = null) {
+    public function get_existing(string $type, int $mid = 0, bool $full = true, 
+                                string $model = 'activity', string $vocabtype = null, string $plugin = null) {
         $entry = $this->get_db_entry_or_fail($mid, $type);
-        return $this->get($type, $mid, $full, $model, $plugin, $entry);
+        return $this->get($type, $mid, $full, $model, $vocabtype, $plugin, $entry);
     }
 
     /**
-     * Get category context activities, given an activity type.
+     * Get category context activities, given an activity vocab type.
      *
-     * @param string $type Type of activity
+     * @param string $vocabtype Type of activity
      * @return array
      */
-    public function get_categories(string $type) {
+    public function get_categories(string $vocabtype) {
 
         // Empty categories.
         $res = [];
-        if (!isset($this->types->$type) || !isset($this->types->$type->level)) {
+        if (!isset($this->types->$vocabtype) || !isset($this->types->$vocabtype->level)) {
             return $res;
         }
 
         // Add level.
         $res[] = [
-            'id' => $this->types->$type->level,
+            'id' => $this->types->$vocabtype->level,
             'definition' => ['type' => 'http://vocab.xapi.fr/activities/granularity-level'],
         ];
 

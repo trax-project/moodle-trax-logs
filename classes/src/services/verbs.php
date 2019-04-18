@@ -47,9 +47,8 @@ class verbs {
      * @return array
      */
     public function get(string $code) {
-        $verbid = substr($code, 0, 4) == 'http' ? $code : $this->verbs[$code]['iri'];
         return [
-            'id' => $verbid,
+            'id' => $this->verbs[$code]['iri'],
         ];
     }
 

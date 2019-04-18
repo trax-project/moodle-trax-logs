@@ -50,6 +50,12 @@ trait verbs {
         'navigated-in' => [
             'iri' => 'http://vocab.xapi.fr/verbs/navigated-in',
         ],
+        'completed' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/completed',
+        ],
+        'answered' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/answered',
+        ],
     ];
 
 }

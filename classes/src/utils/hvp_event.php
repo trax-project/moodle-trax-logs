@@ -22,11 +22,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\event;
+namespace logstore_trax\src\utils;
 
 defined('MOODLE_INTERNAL') || die();
-
-use logstore_trax\src\utils\hvp_utils;
 
 /**
  * H5P xAPI event.
@@ -35,7 +33,28 @@ use logstore_trax\src\utils\hvp_utils;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_module_event_triggered extends \core\event\base {
+class hvp_event extends \core\event\base {
+
+    /**
+     * Supported H5P types.
+     *
+     * @var array
+     */
+    protected static $supported = [
+
+        // Questions.
+        'H5P.DragQuestion',
+        'H5P.Blanks',
+        'H5P.MarkTheWords',
+        'H5P.DragText',
+        'H5P.TrueFalse',
+        'H5P.MultiChoice',
+
+        // Quiz.
+        'H5P.SingleChoiceSet',
+        'H5P.QuestionSet',
+    ];
+
 
     /**
      * Create instance of event.
@@ -46,40 +65,26 @@ class hvp_module_event_triggered extends \core\event\base {
     public static function create_statement(\stdClass $statement) {
         global $DB;
 
+        // Check if the event is supported.
+        $h5pType = self::hvp_type($statement);
+
         // Get the course module ID.
-        $iri = $statement->object->id;
-        $cmid = hvp_utils::module_cmid($iri);
+        $parts = explode('mod/hvp/view.php?id=', self::get_module_iri($statement));
+        if (count($parts) < 2 || !$cmid = intval($parts[1])) {
+            print_error('event_hvp_xapi_error_iri', 'logstore_trax');
+        }
 
         // Prepare data.
         $cm = $DB->get_record('course_modules', array('id' => $cmid), 'id,instance');
         $data = array(
             'objectid' => $cm->instance,
             'context' => \context_module::instance($cmid),
-            'other' => ['statement' => json_encode($statement)]
+            'other' => ['statement' => json_encode($statement), 'hvptype' => $h5pType]
         );
 
         // Create Moodle event.
         $event = self::create($data);
         return $event;
-    }
-
-    /**
-     * Return localised event name.
-     *
-     * @return string
-     */
-    public static function get_name()
-    {
-        return get_string('event_hvp_module_triggered', 'logstore_trax');
-    }
-
-    /**
-     * Returns description of what happened.
-     *
-     * @return string
-     */
-    public function get_description() {
-        return "The user with id '$this->userid' interacted with the H5P activity with id '$this->contextinstanceid'.";
     }
 
     /**
@@ -104,6 +109,34 @@ class hvp_module_event_triggered extends \core\event\base {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'hvp';
+    }
+
+    /**
+     * Check if the H5P library type is supported and return it.
+     *
+     * @param \stdClass $statement
+     * @return string
+     */
+    protected static function hvp_type(\stdClass $statement)
+    {
+        $category = $statement->context->contextActivities->category[0]->id;
+        foreach (self::supported as $type) {
+            if (strpos($category, $type) !== false) {
+                return $type;
+            }
+        }
+        print_error('event_hvp_xapi_error_unsupported', 'logstore_trax');
+    }
+
+    /**
+     * Get the H5P module IRI from the Statement.
+     *
+     * @param \stdClass $statement
+     * @return string
+     */
+    protected static function get_module_iri(\stdClass $statement)
+    {
+        return $statement->object->id;
     }
 
 }

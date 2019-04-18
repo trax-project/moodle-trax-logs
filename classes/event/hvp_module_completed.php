@@ -15,43 +15,45 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * xAPI transformation of an xAPI profile.
+ * H5P xAPI event: module completed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\activities;
+namespace logstore_trax\event;
 
 defined('MOODLE_INTERNAL') || die();
 
+use logstore_trax\src\utils\hvp_event;
+
 /**
- * xAPI transformation of an xAPI profile.
+ * H5P xAPI event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class profile extends activity
-{
+class hvp_module_completed extends hvp_event {
 
     /**
-     * Get an activity, given an activity type and an UUID.
+     * Return localised event name.
      *
-     * @param string $type Type of activity
-     * @param int $mid Moodle ID of the activity
-     * @param string $uuid UUID of the activity
-     * @param bool $full Give the full definition of the activity?
-     * @param string $vocabtype Type to be used in vocab index
-     * @return array
+     * @return string
      */
-    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype) {
-        return [
-            'id' => 'http://vocab.xapi.fr/categories/vle-profile',
-            'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
-        ];
+    public static function get_name()
+    {
+        return get_string('event_hvp_module_completed', 'logstore_trax');
     }
 
+    /**
+     * Returns description of what happened.
+     *
+     * @return string
+     */
+    public function get_description() {
+        return "The user with id '$this->userid' completed the H5P activity with id '$this->contextinstanceid'.";
+    }
 
 }

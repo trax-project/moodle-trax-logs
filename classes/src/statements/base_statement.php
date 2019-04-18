@@ -114,11 +114,15 @@ abstract class base_statement {
      *
      * @param string $activitytype Type of activity
      * @param bool $withsystem Include the system activity in the context?
+     * @param string $vocabtype Type of activity
      * @return array
      */
-    protected function base($activitytype, $withsystem = true) {
+    protected function base($activitytype, $withsystem = true, $vocabtype = null) {
+        if (!isset($vocabtype)) {
+            $vocabtype = $activitytype;
+        }
         return [
-            'context' => $this->base_context($activitytype, $withsystem),
+            'context' => $this->base_context($activitytype, $withsystem, $vocabtype),
             'timestamp' => date('c', $this->event->timecreated),
         ];
     }
@@ -128,12 +132,13 @@ abstract class base_statement {
      *
      * @param string $activitytype Type of activity
      * @param bool $withsystem Include the system activity in the context?
+     * @param string $vocabtype Type of activity
      * @return array
      */
-    protected function base_context($activitytype, $withsystem = true) {
+    protected function base_context($activitytype, $withsystem, $vocabtype) {
 
         // Categories.
-        $categories = $this->activities->get_categories($activitytype);
+        $categories = $this->activities->get_categories($vocabtype);
         $categories[] = $this->activities->get('profile');
 
         // Base context.

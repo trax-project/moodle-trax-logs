@@ -45,10 +45,11 @@ class system extends activity
      * @param int $mid Moodle ID of the activity
      * @param string $uuid UUID of the activity
      * @param bool $full Give the full definition of the activity?
+     * @param string $vocabtype Type to be used in vocab index
      * @return array
      */
-    public function get(string $type, int $mid = 0, string $uuid, bool $full = true) {
-        $activity = $this->base_activity($type);
+    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype) {
+        $activity = $this->base_activity($type, $mid, $vocabtype);
         if ($full) {
 
             // Name & description.
@@ -69,7 +70,8 @@ class system extends activity
      * @param string $uuid UUID of the activity
      * @return string
      */
-    protected function base_activity_id(string $type, string $uuid = '') {
+    protected function base_activity_id(string $type, string $uuid)
+    {
         return $this->config->platform_iri;
     }
 

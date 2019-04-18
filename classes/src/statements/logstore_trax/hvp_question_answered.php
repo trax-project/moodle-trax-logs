@@ -36,9 +36,17 @@ use logstore_trax\src\utils\inside_module_context;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_internal_event_triggered extends base_statement {
+class hvp_question_answered extends base_statement {
 
     use inside_module_context;
+
+    /**
+     * Vocab type of the H5P activity.
+     *
+     * @var string $vocabtype
+     */
+    protected $vocabtype = 'hvp-quiz';
+
 
     /**
      * Build the Statement.
@@ -50,11 +58,8 @@ class hvp_internal_event_triggered extends base_statement {
         // Get the H5P statement.
         $statement = json_decode($this->eventother['statement']);
 
-        // Determine the activity type.
-        $type = 'hvp';
-
         // Base statement (includes context).
-        $base = $this->base($type);
+        $base = $this->base('hvp', true, $this->vocabtype);
 
         // Transform native object.
         $object = $statement->object;
@@ -63,7 +68,7 @@ class hvp_internal_event_triggered extends base_statement {
         // Statement props.
         $props = [
             'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $this->verbs->get($statement->verb->id),
+            'verb' => $this->verbs->get('answered'),
             'object' => $object,
         ];
         if (isset($statement->result)) {

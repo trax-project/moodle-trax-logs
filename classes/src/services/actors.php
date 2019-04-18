@@ -41,7 +41,7 @@ class actors extends index {
      * @var array $types
      */
     protected $types = [
-        'user' => ['db' => 0, 'object_type' => 'Agent'],
+        'user' => ['object_type' => 'Agent'],
     ];
 
     /**
