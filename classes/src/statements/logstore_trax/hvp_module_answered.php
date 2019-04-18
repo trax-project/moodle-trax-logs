@@ -52,8 +52,7 @@ class hvp_module_answered extends hvp_question_answered {
      * @param array $base Statement base
      * @return \stdClass
      */
-    protected function transform_object($nativeobject, $base)
-    {
+    protected function transform_object($nativeobject, $base) {
         global $DB;
 
         // Change ID.

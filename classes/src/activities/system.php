@@ -70,8 +70,7 @@ class system extends activity
      * @param string $uuid UUID of the activity
      * @return string
      */
-    protected function base_activity_id(string $type, string $uuid)
-    {
+    protected function base_activity_id(string $type, string $uuid) {
         return $this->config->platform_iri;
     }
 

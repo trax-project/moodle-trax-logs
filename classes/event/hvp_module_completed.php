@@ -42,8 +42,7 @@ class hvp_module_completed extends hvp_event {
      *
      * @return string
      */
-    public static function get_name()
-    {
+    public static function get_name() {
         return get_string('event_hvp_module_completed', 'logstore_trax');
     }
 

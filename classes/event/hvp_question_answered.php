@@ -42,8 +42,7 @@ class hvp_question_answered extends hvp_event {
      *
      * @return string
      */
-    public static function get_name()
-    {
+    public static function get_name() {
         return get_string('event_hvp_question_answered', 'logstore_trax');
     }
 
@@ -53,7 +52,8 @@ class hvp_question_answered extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' answered one of the questions of the H5P activity with id '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' answered one of the questions
+            of the H5P activity with id '$this->contextinstanceid'.";
     }
 
     /**
@@ -62,8 +62,7 @@ class hvp_question_answered extends hvp_event {
      * @param \stdClass $statement
      * @return string
      */
-    protected static function get_module_iri(\stdClass $statement)
-    {
+    protected static function get_module_iri(\stdClass $statement) {
         return $statement->context->contextActivities->parent[0]->id;
     }
 

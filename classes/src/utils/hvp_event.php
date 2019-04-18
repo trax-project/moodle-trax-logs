@@ -60,13 +60,13 @@ class hvp_event extends \core\event\base {
      * Create instance of event.
      *
      * @param \stdClass $statement
-     * @return hvp_xapi_event_triggered
+     * @return hvp_event
      */
     public static function create_statement(\stdClass $statement) {
         global $DB;
 
         // Check if the event is supported.
-        $h5pType = self::hvp_type($statement);
+        $h5ptype = self::hvp_type($statement);
 
         // Get the course module ID.
         $parts = explode('mod/hvp/view.php?id=', self::get_module_iri($statement));
@@ -79,7 +79,7 @@ class hvp_event extends \core\event\base {
         $data = array(
             'objectid' => $cm->instance,
             'context' => \context_module::instance($cmid),
-            'other' => ['statement' => json_encode($statement), 'hvptype' => $h5pType]
+            'other' => ['statement' => json_encode($statement), 'hvptype' => $h5ptype]
         );
 
         // Create Moodle event.
@@ -92,8 +92,7 @@ class hvp_event extends \core\event\base {
      *
      * @return \moodle_url
      */
-    public function get_url()
-    {
+    public function get_url() {
         return new \moodle_url('/mod/hvp/view.php', array(
             'id' => $this->contextinstanceid
         ));
@@ -104,8 +103,7 @@ class hvp_event extends \core\event\base {
      *
      * @return void
      */
-    protected function init()
-    {
+    protected function init() {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
         $this->data['objecttable'] = 'hvp';
@@ -117,8 +115,7 @@ class hvp_event extends \core\event\base {
      * @param \stdClass $statement
      * @return string
      */
-    protected static function hvp_type(\stdClass $statement)
-    {
+    protected static function hvp_type(\stdClass $statement) {
         $category = $statement->context->contextActivities->category[0]->id;
         foreach (self::$supported as $type) {
             if (strpos($category, $type) !== false) {
@@ -134,8 +131,7 @@ class hvp_event extends \core\event\base {
      * @param \stdClass $statement
      * @return string
      */
-    protected static function get_module_iri(\stdClass $statement)
-    {
+    protected static function get_module_iri(\stdClass $statement) {
         return $statement->object->id;
     }
 

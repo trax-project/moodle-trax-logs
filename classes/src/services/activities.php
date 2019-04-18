@@ -117,7 +117,7 @@ class activities extends index {
      * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function get_existing(string $type, int $mid = 0, bool $full = true, 
+    public function get_existing(string $type, int $mid = 0, bool $full = true,
                                 string $model = 'activity', string $vocabtype = null, string $plugin = null) {
         $entry = $this->get_db_entry_or_fail($mid, $type);
         return $this->get($type, $mid, $full, $model, $vocabtype, $plugin, $entry);

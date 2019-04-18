@@ -85,8 +85,7 @@ class hvp_question_answered extends base_statement {
      * @param array $base Statement base
      * @return \stdClass
      */
-    protected function transform_object($nativeobject, $base)
-    {
+    protected function transform_object($nativeobject, $base) {
         // Change ID.
         $internalid = explode('subContentId=', $nativeobject->id)[1];
         $nativeobject->id = $base['context']['contextActivities']['parent'][0]['id'] . '/question/' . $internalid;

@@ -54,7 +54,7 @@ trait inside_module_context {
         $course = $this->activities->get('course', $this->event->courseid, false);
         $context['contextActivities']['grouping'][] = $course;
 
-        // Change granularity level to "inside-learning-unit"
+        // Change granularity level to "inside-learning-unit".
         foreach ($context['contextActivities']['category'] as &$category) {
             if ($category['definition']['type'] == 'http://vocab.xapi.fr/activities/granularity-level') {
                 $category['id'] = 'http://vocab.xapi.fr/categories/inside-learning-unit';
