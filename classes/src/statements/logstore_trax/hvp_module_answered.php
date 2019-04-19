@@ -53,24 +53,18 @@ class hvp_module_answered extends hvp_question_answered {
      * @return \stdClass
      */
     protected function transform_object($nativeobject, $base) {
-        global $DB;
 
         // Change ID.
         $nativeobject->id = $base['context']['contextActivities']['parent'][0]['id'] . '/question';
 
         // Adapt name and description.
-        $questiontitle = (array)$nativeobject->definition->description;
-        $questiontitle = reset($questiontitle);
-        $questiontitle = trim($questiontitle);
-        unset($nativeobject->definition->description);
-        unset($nativeobject->definition->name);
-        $course = $DB->get_record('course', array('id' => $this->event->courseid));
-        $nativeobject->definition->name = utils::lang_string($questiontitle, $course);
+        $this->transform_object_strings($nativeobject, $base);
 
         // Remove extensions.
         unset($nativeobject->definition->extensions);
 
         return $nativeobject;
     }
+
 
 }

@@ -116,10 +116,19 @@ class hvp_event extends \core\event\base {
      * @return string
      */
     protected static function hvp_type(\stdClass $statement) {
-        $category = $statement->context->contextActivities->category[0]->id;
-        foreach (self::$supported as $type) {
-            if (strpos($category, $type) !== false) {
-                return $type;
+        if (!isset($statement->context->contextActivities->category)) {
+
+            // H5P.SingleChoiceSet has currently no context category and seems to be the only one.
+            return 'H5P.SingleChoiceSet';
+
+        } else {
+
+            // Check category.
+            $category = $statement->context->contextActivities->category[0]->id;
+            foreach (self::$supported as $type) {
+                if (strpos($category, $type) !== false) {
+                    return $type;
+                }
             }
         }
         print_error('event_hvp_xapi_error_unsupported', 'logstore_trax');

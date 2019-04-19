@@ -28,6 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\statements\base_statement;
 use logstore_trax\src\utils\inside_module_context;
+use logstore_trax\src\utils;
 
 /**
  * xAPI transformation of a H5P event.
@@ -86,14 +87,53 @@ class hvp_question_answered extends base_statement {
      * @return \stdClass
      */
     protected function transform_object($nativeobject, $base) {
+
         // Change ID.
         $internalid = explode('subContentId=', $nativeobject->id)[1];
         $nativeobject->id = $base['context']['contextActivities']['parent'][0]['id'] . '/question/' . $internalid;
+
+        // Adapt name and description.
+        $this->transform_object_strings($nativeobject, $base);
 
         // Remove extensions.
         unset($nativeobject->definition->extensions);
 
         return $nativeobject;
+    }
+
+    /**
+     * Transform the H5P object strings.
+     *
+     * @param \stdClass $nativeobject H5P object
+     * @param array $base Statement base
+     * @return \stdClass
+     */
+    protected function transform_object_strings($nativeobject, $base)
+    {
+        global $DB;
+        $course = $DB->get_record('course', array('id' => $this->event->courseid));
+
+        // Clean name.
+        if (isset($nativeobject->definition->name)) {
+            $name = (array)$nativeobject->definition->name;
+            $name = reset($name);
+            $name = trim($name);
+            $nativeobject->definition->name = utils::lang_string($name, $course);
+        }
+
+        // Clean description.
+        if (isset($nativeobject->definition->description)) {
+            $description = (array)$nativeobject->definition->description;
+            $description = reset($description);
+            $description = trim($description);
+            $nativeobject->definition->description = utils::lang_string($description, $course);
+        }
+
+        // Move description to empty name.
+        if (isset($nativeobject->definition->description) && !isset($nativeobject->definition->name)) {
+            $nativeobject->definition->name = $nativeobject->definition->description;
+            unset($nativeobject->definition->description);
+        }
     }
 
 }
