@@ -1,29 +1,28 @@
 # Supported events
 
-Moodle Event | Trax Logs Class | Example
---- | --- | ---
-\core\event\user_loggedin | logstore_trax\src\statements\core\user_loggedin | [JSON](statements/core-user-loggedin.md)
-\core\event\user_loggedout | logstore_trax\src\statements\core\user_loggedout | [JSON](statements/core-user-loggedout.md)
-\core\event\course_viewed | logstore_trax\src\statements\core\course_viewed | [JSON](statements/core-course-viewed.md)
-\mod_book\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | [JSON](statements/core-course-module-viewed.md)
-\mod_chat\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_choice\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_data\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_feedback\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_folder\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_forum\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_glossary\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_imscp\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_lesson\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_lti\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_page\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_quiz\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_resource\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_scorm\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_survey\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_url\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_wiki\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
-\mod_workshop\event\course_module_viewed | logstore_trax\src\statements\core\course_module_viewed | ^
+Trax Logs for Moodle implements both the [xAPI VLE Profile](http://doc.xapi.fr/profiles/vle) and the [xAPI Moodle Profile](http://doc.xapi.fr/profiles/moodle). 
+
+Please, refer to these documentations to understand xAPI data structures and rules.
+
+
+## Moodle core events
+
+- `\core\event\user_loggedin`: a user logged into Moodle ([example](http://doc.xapi.fr/profiles/moodle/nav#logged-in)).
+- `\core\event\user_loggedout`: a user logged out from Moodle ([example](http://doc.xapi.fr/profiles/moodle/nav#logged-out)).
+- `\core\event\course_viewed`: a user navigated in a Moodle course ([example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-course)).
+
+
+## Moodle common events
+
+- `\mod_xxx\event\course_module_viewed`: a user navigated in a Moodle course module, `xxx` being the name of the module ([example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-module)).
+
+
+## H5P events
+
+- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([example](http://doc.xapi.fr/profiles/moodle/hvp#completed-quiz)).
+- `\logstore_trax\event\hvp_module_completed`: a user completed an H5P quiz or question set ([example](http://doc.xapi.fr/profiles/moodle/hvp#course-module-viewed)).
+- `\logstore_trax\event\hvp_module_answered`: a user answered a single question H5P activity ([example](http://doc.xapi.fr/profiles/moodle/hvp#answered-single-question)).
+- `\logstore_trax\event\hvp_question_answered`: a user answered a question of an H5P quiz or question set ([example](http://doc.xapi.fr/profiles/moodle/hvp#answered-quiz-question)).
 
 
 ## Contents
@@ -32,7 +31,9 @@ Moodle Event | Trax Logs Class | Example
 * [Installation and configuration](install.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
-* [Coding style and unit testing](test.md)
+* [LTI integration](lti.md)
+* [H5P integration](h5p.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)
+* [Coding style and unit testing](test.md)
 

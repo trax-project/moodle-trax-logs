@@ -5,19 +5,19 @@
 First of all, you need a Learning Record Store (LRS) in order to use this plugin.
 There are a lot of LRS on the market. If you don't already have one, we recommend to look at the [ADL certified products registry](https://adopters.adlnet.gov/products/all/0).
 
-If you are familiar with the PHP stack, we recommand to install [TRAX LRS](https://github.com/trax-project/trax-lrs), which is Open Source and certified by ADL.
+If you are familiar with the PHP stack, we recommend to install [TRAX LRS](https://github.com/trax-project/trax-lrs), which is Open Source and certified by ADL.
 
 When it is done, create a new BasicHTTP client in your LRS. You will be prompted to choose a username and password for this client. Keep them in mind, you will need them later.
 
 
 ## Trax Logs installation
 
-**If Trax Logs v0.3 (or older) is already installed, you must first uninstall it!**
+**If Trax Logs v0.3 (or older) is already installed, you must first uninstall it! Then:**
 
 1. [Download the lastest version of the plugin for Moodle 3.5.](https://github.com/trax-project/moodle-trax-logs/releases)
 
 2. Drag and drop the ZIP file in `http://my-moodle-address.com/admin/tool/installaddon/index.php`.
-For a manual installation, unzip the plugin file in `my-moodle-install-folder/admin/tool/log/store/`.
+For a manual installation, unzip the ZIP file in `my-moodle-install-folder/admin/tool/log/store/`and rename the plugin folder as `trax`. Be sure that all the plugin files are located at the root of the `my-moodle-install-folder/admin/tool/log/store/trax` folder.
 
 3. Go to the Moodle administration area. The presence of the plugin will be detected.
 
@@ -47,6 +47,8 @@ For a manual installation, unzip the plugin file in `my-moodle-install-folder/ad
 * [Installation and configuration](install.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
-* [Coding style and unit testing](test.md)
+* [LTI integration](lti.md)
+* [H5P integration](h5p.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)
+* [Coding style and unit testing](test.md)
