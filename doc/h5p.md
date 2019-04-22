@@ -2,9 +2,7 @@
 
 ## What is H5P?
 
-H5P is fantastic tool to create interactive contents such as Quizzes, presentations and interactive videos in Moodle, Wordpress and Drupal.
-
-The [H5P plugin must installed](https://h5p.org/moodle) on your Moodle instance in order to start creating and using contents.
+H5P is fantastic tool to create interactive contents such as questions, quizzes, presentations and interactive videos in Moodle, Wordpress and Drupal.
 
 Please, refer to https://h5p.org/ for further information.
 
@@ -25,7 +23,7 @@ We think the H5P choice is relevant for 2 reasons:
 
 Statements modification may be needed for 2 reasons:
 1. Adding contextual information such as the course or the Moodle instance in which the event happened.
-2. Applying some rules to guarranty that all the statements have a consistent form.
+2. Applying some rules to guarranty that all the statements have a consistent form (idealy, applying an xAPI profile).
 
 That's precisely what Trax Logs does...
 
@@ -34,7 +32,7 @@ That's precisely what Trax Logs does...
 
 First of all, you need to catch H5P Javascript events and this must be done in the front-end. The best place to do that is probably in a Moodle theme. Of course, you could modify the default Moodle theme. But a better solution would be to create your own theme. Refer to [Creating a theme based on boost](https://docs.moodle.org/dev/Creating_a_theme_based_on_boost) for further information.
 
-For demonstration, you can just modify the default Boost theme by editing the `/theme/boost/config.php` file. Now, all you have to do is to add the following line at the end of the config file:
+For testing, you can just modify the default Boost theme by editing the `/theme/boost/config.php` file. Now, all you have to do is to add the following line at the end of the config file:
 
 ```php
 $THEME->javascripts_footer = array('../../../admin/tool/log/store/trax/javascript/catch_hvp_events');
@@ -48,12 +46,12 @@ Now, you can use H5P contents such as questions or quizzes, and you should see s
 ## How does it work? 
 
 1. The Javascript file that you inserted into your Moodle theme listens to the H5P xAPI events.
-2. When an xAPI event is triggered, the Javascript file makes an AJAX request to send the statement to Trax Logs.
-3. Trax Logs gets the statement and triggers a Moodle event with an embedded statement.
+2. When an xAPI event is triggered, the Javascript file makes an AJAX request to send the statement to Trax Logs. The user authentication session is checked so this request should be secured.
+3. Trax Logs gets the statement and triggers a Moodle event with the embedded statement.
 4. Moodle records the event and the embedded statement in its default logstore. 
-5. Trax Logs handles the Moodle event (sync mode) or gets the event from the default logstore (async mode coming soon).
+5. Trax Logs handles the Moodle event (sync mode) or gets the event from the default logstore (async mode, coming soon).
 6. Trax Logs transforms the statement in order to conform with the [xAPI VLE profile](http://doc.xapi.fr/profiles/vle) an the [xAPI Moodle profile](http://doc.xapi.fr/profiles/moodle).
-7. Trax Logs send the statement to the LRS.
+7. Trax Logs send the statement to the LRS. This request is done from the back-end so it should be secured.
 
 
 ## Which events are currently supported?
