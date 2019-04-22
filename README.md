@@ -11,11 +11,11 @@ It has been experimented with [Logstore xAPI](https://moodle.org/plugins/view/lo
 However, Trax Logs for Moodle aims to bring some key improvements:
 * [Statements designed with best practices in mind](doc/best-practices.md),
 * [Integration of LTI activities](doc/lti.md),
-* [Integration of H5P activities](doc/h5p.md).
+* [Integration of H5P activities](doc/h5p.md),
 * [Reinforced data privacy](doc/privacy.md),
 * [Simple and extensible architecture](doc/extend.md),
 * [Code quality and unit testing](doc/test.md),
-* [Extensive documentation covering both the plugin and [xAPI statements](http://doc.xapi.fr/profiles/moodle),
+* Extensive documentation covering both the plugin and [xAPI statements](http://doc.xapi.fr/profiles/moodle).
 
 
 ## Currently supported events
