@@ -1,15 +1,26 @@
 # Best practices in designing Statements
 
-## Vocabulary
 
-There is currently no official xAPI profile regarding LMS/VLE activities.
-So we defined our own profile, that we documented and shared on http://doc.xapi.fr.
+## Profile
+
+A statement should always conform with an xAPI profile to ensure interoperability. 
+However, there is currently no official xAPI profile regarding Moodle, or even a larger LMS/VLE profile.
+
+So we defined both:
+- A VLE (Virtual Learning Environment) profile which defines common rules: http://doc.xapi.fr/profiles/vle.
+- A Moodle profile which is a specialization of the VLE profile: http://doc.xapi.fr/profiles/moodle.
+
+We hope this project will contribute to define an officially recognized xAPI profile for the LMS/VLE purpose.
+
+
+## Vocabulary
 
 Most of the vocabulary is based on the http://vocab.xapi.fr domain.
 Although it is not an official domain to define xAPI vocabulary, we use it as a temporary working domain,
 where we can define a comprehensive and consistent set of concepts for the LMS/VLE purpose.
 
-We hope this project will contribute to define an officially recognized xAPI profile for the LMS/VLE purpose.
+Our intension for the future is to push our work to ADL and see how it could become a recognized profile,
+with an official vocabulary domain. But we still have a lot to do before that.
 
 
 ## Actors identification
