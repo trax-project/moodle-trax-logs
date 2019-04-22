@@ -129,7 +129,8 @@ Note that `system` ID is always `0`.
         "id": 1,
         "xapi": "{\"objectType\":\"Activity\",\"id\":\"http:\\\/\\\/xapi.moodle.test\\\/xapi\\\/activities\\\/lti\\\/e403e7ee-4cdd-4d25-b7d9-5de3569a1cc2\",\"definition\":{\"type\":\"http:\\\/\\\/vocab.xapi.fr\\\/activities\\\/external-activity\"}}"
     }
-]```
+]
+```
 
 #### Agents request example
 
@@ -145,7 +146,8 @@ Note that `system` ID is always `0`.
         "id": 10,
         "xapi": "{\"objectType\":\"Agent\",\"account\":{\"homePage\":\"http:\\\/\\\/xapi.moodle.test\",\"name\":\"564642e-80c5-464a-8472-632264564564\"}}"
     }
-]```
+]
+```
 
 
 ## Contents
