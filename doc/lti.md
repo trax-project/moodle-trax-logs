@@ -1,21 +1,21 @@
 # LTI integration
 
 
-## Why LTI may be relevant?
+## Why LTI?
 
-LTI activities, also known as external activities, has the capability support a wide variety of learning activities,
+LTI activities, also known as external activities, have the capability support a wide variety of learning activities,
 from simple content to complex and highly interactive applications.
 
 LTI and xAPI, when used together, can be a powerfull solution:
 - To provide a fluent learning experience thanks to the LTI integration approach,
 - To collect more learning data thanks to xAPI.
 
-So the idea is to let LTI activities send their own statements directly to an LRS.
-
 
 ## What's the problem?
 
-In order to build its own statements, an LTI activity needs some pieces of information:
+One option to collect xAPI data from LTI activities is to let LTI activities send their own statements directly to the LRS.
+
+In order to build its own statements, the LTI activity needs some pieces of information:
 
 - The user identity and how it should be represented using xAPI,
 - Contextual activities (LTI module, Moodle course, Moodle instance) and how they should be represented using xAPI.
@@ -26,14 +26,14 @@ Moodle provides some usefull information to LTI activities, such as:
 - `resource_link_id`: the Moodle internal ID of the LTI module,
 - `context_id`: the Moodle internal ID of the embedding course.
 
-The question is: how does the LTI activity know how to transform these ID to well structured xAPI data?
+The question is: **how does the LTI activity know how to transform these ID to well structured xAPI data?**
 
 
 ## xAPI Identification Services
 
 Trax Logs provides something we call the **xAPI Identification Services**.
 
-Internally, these services are responsible for managing a stable and permanent identification of all the Moodle activities and users, as well as the anonymization of users identity.
+Internally, these services are responsible for managing a stable and permanent identification of all the Moodle activities and users, as well as the anonymization of users.
 
 From an external point of view, these services can be called as **Web Services**. Given a user or activity ID, they will return a fully qualified xAPI structure that can be used to build statements.
 
@@ -43,7 +43,7 @@ From an external point of view, these services can be called as **Web Services**
 As any other Web Service in Moodle, there are a number of things to do in order to make the services available:
 
 1. Enable and configure Web Services in Moodle: `Administration > Plugins > Web Services > Overview`.
-2. Choose the `REST` protocol if you want to check that services work with unit testing.
+2. Choose the `REST` protocol if you want to check that these services work with unit testing.
 3. Select the `logstore_trax_get_activities` and `logstore_trax_get_actors` functions.
 4. Don't forget to create a user with a token.
 
