@@ -15,7 +15,7 @@ However, Trax Logs for Moodle aims to bring some key improvements:
 * [Reinforced data privacy](doc/privacy.md),
 * [Simple and extensible architecture](doc/extend.md),
 * [Code quality and unit testing](doc/test.md),
-* Extensive documentation covering both the plugin and [xAPI statements](http://doc.xapi.fr/profiles/moodle).
+* Extensive documentation covering both this plugin and [xAPI statements](http://doc.xapi.fr/profiles/moodle).
 
 
 ## Currently supported events
