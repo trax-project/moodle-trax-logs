@@ -13,7 +13,7 @@ LTI and xAPI, when used together, can be a powerfull solution:
 
 ## What's the problem?
 
-One option to collect xAPI data from LTI activities is to let LTI activities send their own statements directly to the LRS.
+One option to collect xAPI data from an LTI activity is to let the LTI activity send its own statements directly to the LRS.
 
 In order to build its own statements, the LTI activity needs some pieces of information:
 
@@ -26,7 +26,7 @@ Moodle provides some usefull information to LTI activities, such as:
 - `resource_link_id`: the Moodle internal ID of the LTI module,
 - `context_id`: the Moodle internal ID of the embedding course.
 
-The question is: **how does the LTI activity know how to transform these ID to well structured xAPI data?**
+The question is: **how does the LTI activity know how to transform these ID into well structured xAPI data?**
 
 
 ## xAPI Identification Services
@@ -35,7 +35,7 @@ Trax Logs provides something we call the **xAPI Identification Services**.
 
 Internally, these services are responsible for managing a stable and permanent identification of all the Moodle activities and users, as well as the anonymization of users.
 
-From an external point of view, these services can be called as **Web Services**. Given a user or activity ID, they will return a fully qualified xAPI structure that can be used to build statements.
+From an external point of view, these services can be called like any other Moodle **Web Services**. Given a user or activity ID, they will return a fully qualified xAPI structure that can be used to build statements.
 
 
 ## Prerequisites
@@ -48,17 +48,14 @@ As any other Web Service in Moodle, there are a number of things to do in order 
 4. Don't forget to create a user with a token.
 
 
-## How to use these services
-
-
-### Available services
+## Available services
 
 There are 2 services with a similar behavior: 
 - `logstore_trax_get_activities` which provides users and groups xAPI data,
 - `logstore_trax_get_actors` which provides activities xAPI data.
 
 
-### Endpoints
+## Endpoints
 
 The endpoint is `http://my-moodle-instance/webservice/rest/server.php?moodlewsrestformat=json&wsfunction=xxx&wstoken=yyy`, where:
 
@@ -66,11 +63,11 @@ The endpoint is `http://my-moodle-instance/webservice/rest/server.php?moodlewsre
 - `yyy` is the token number of an authorized user account.
 
 
-### Input data
+## Input data
 
 The endpoint must be used with a **POST** request, providing a list of Moodle IDs and types.
 
-#### Activities request example
+### Activities request example
 
 Note that `system` ID is always `0`. 
 
@@ -93,7 +90,7 @@ Note that `system` ID is always `0`.
 }
 ```
 
-#### Agents request example
+### Agents request example
 
 ```json
 {
@@ -111,9 +108,9 @@ Note that `system` ID is always `0`.
 ```
 
 
-### Output data
+## Output data
 
-#### Activities request example
+### Activities request example
 
 ```json
 [
