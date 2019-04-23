@@ -19,10 +19,10 @@ Please, refer to these documentations to understand xAPI data structures and rul
 
 ## H5P events
 
-- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/hvp#completed-quiz)).
-- `\logstore_trax\event\hvp_module_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/hvp#course-module-viewed)).
-- `\logstore_trax\event\hvp_module_answered`: a user answered a single question H5P activity ([JSON example](http://doc.xapi.fr/profiles/hvp#answered-single-question)).
-- `\logstore_trax\event\hvp_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/hvp#answered-quiz-question)).
+- `\logstore_trax\event\hvp_module_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#completed-quiz)).
+- `\logstore_trax\event\hvp_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-quiz-question)).
+- `\logstore_trax\event\hvp_module_answered`: a user answered a single question H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-single-question)).
+- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#course-module-viewed)).
 
 
 ## Contents
