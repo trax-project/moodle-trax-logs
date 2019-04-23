@@ -1,24 +1,24 @@
 # LTI integration
 
 
-## Why LTI?
+## LTI and xAPI
 
-LTI activities, also known as external activities, have the capability support a wide variety of learning activities,
+LTI activities, also known as "external activities", have the capability to support a wide variety of learning activities,
 from simple content to complex and highly interactive applications.
 
 LTI and xAPI, when used together, can be a powerfull solution:
 - To provide a fluent learning experience thanks to the LTI integration approach,
-- To collect more learning data thanks to xAPI.
+- To collect more relevant learning data thanks to xAPI.
 
 
-## What's the problem?
+## Integration issue
 
-One option to collect xAPI data from an LTI activity is to let the LTI activity send its own statements directly to the LRS.
+LTI and xAPI have not been specifically designed to work together. However, an LTI activity could build its own statements and send them directly to an LRS.
 
 In order to build its own statements, the LTI activity needs some pieces of information:
 
-- The user identity and how it should be represented using xAPI,
-- Contextual activities (LTI module, Moodle course, Moodle instance) and how they should be represented using xAPI.
+- The user identity and its xAPI representation,
+- Contextual activities (LTI module, Moodle course, Moodle instance) and their xAPI representation.
 
 Moodle provides some usefull information to LTI activities, such as:
 
@@ -26,7 +26,7 @@ Moodle provides some usefull information to LTI activities, such as:
 - `resource_link_id`: the Moodle internal ID of the LTI module,
 - `context_id`: the Moodle internal ID of the embedding course.
 
-The question is: **how does the LTI activity know how to transform these ID into well structured xAPI data?**
+The question is: **how does the LTI activity transform this information into well structured xAPI data?**
 
 
 ## xAPI Identification Services
@@ -45,13 +45,13 @@ As any other Web Service in Moodle, there are a number of things to do in order 
 1. Enable and configure Web Services in Moodle: `Administration > Plugins > Web Services > Overview`.
 2. Choose the `REST` protocol if you want to check that these services work with unit testing.
 3. Select the `logstore_trax_get_activities` and `logstore_trax_get_actors` functions.
-4. Don't forget to create a user with a token.
+4. Don't forget to create a user account with a token.
 
 
 ## Available services
 
 There are 2 services with a similar behavior: 
-- `logstore_trax_get_activities` which provides users and groups xAPI data,
+- `logstore_trax_get_activities` which provides users xAPI data,
 - `logstore_trax_get_actors` which provides activities xAPI data.
 
 
@@ -60,7 +60,7 @@ There are 2 services with a similar behavior:
 The endpoint is `http://my-moodle-instance/webservice/rest/server.php?moodlewsrestformat=json&wsfunction=xxx&wstoken=yyy`, where:
 
 - `xxx` is the name of the function: `logstore_trax_get_activities` or `logstore_trax_get_actors`,
-- `yyy` is the token number of an authorized user account.
+- `yyy` is the token of an authorized user account.
 
 
 ## Input data

@@ -13,7 +13,7 @@ you can start implementing statement classes following this guide.
 
 ## Implementing the statement class
 
-To support a new event, you need to implement a single class which inherits from the abstract class `logstore_trax\src\statements\base_statement`. In this class, you must implement the `statement()` function, which returns the statement to be sent to the LRS, given a Moodle event record which is stored in `$this->event`.
+To support a new event, you have to implement a single class which inherits from the abstract class `logstore_trax\src\statements\base_statement`. In this class, you must implement the `statement()` function, which returns the statement to be sent to the LRS, given a Moodle event record which is stored in `$this->event`.
 
 Your implementation should use the following services:
 * `$this->actors`, which generates actors given an actor type and a Moodle ID,
