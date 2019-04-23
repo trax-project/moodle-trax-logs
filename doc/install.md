@@ -30,15 +30,15 @@ For a manual installation, unzip the ZIP file in `my-moodle-install-folder/admin
 
 ## Trax Logs configuration
 
-- `LRS endpoint` - This is the URL Trax Logs will use in order to communicate with the LRS. Check your LRS installation in order to get this setting.
+- **LRS endpoint** - This is the URL Trax Logs will use in order to communicate with the LRS. Check your LRS installation in order to get this setting.
 
-- `LRS username` - This is the username you entered when you created the BasicHTTP client in your LRS. 
+- **LRS username** - This is the username you entered when you created the BasicHTTP client in your LRS. 
 
-- `LRS password` - This is the password you entered when you created the BasicHTTP client in your LRS. 
+- **LRS password** - This is the password you entered when you created the BasicHTTP client in your LRS. 
 
-- `Plateform IRI` - It looks like an URL and will permanently identify your Moodle instance. It may be your hosting URL or a symbolic URL that will stay unchanged, even if your hosting URL changes. 
+- **Plateform IRI** - It looks like an URL and will permanently identify your Moodle instance. It may be your hosting URL or a symbolic URL that will stay unchanged, even if your hosting URL changes. 
 
-- `Buffer size` - Number of statements which can be grouped to be sent in a single request. You should check your LRS capabilities. 
+- **Buffer size** - Number of statements which can be grouped to be sent in a single request. You should check your LRS capabilities. 
 
 
 ## Contents
