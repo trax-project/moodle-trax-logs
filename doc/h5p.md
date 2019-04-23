@@ -9,10 +9,10 @@ Please, refer to https://h5p.org/ for further information.
 
 ## Why supporting H5P activities?
 
-The H5P team made a great work to [implement the xAPI standard](https://h5p.org/documentation/x-api). As a result, H5P contents trigger a lot of valuable events which take the form of xAPI statements. We thought it was important to be able to catch these statements.
+The H5P team made a great work to [implement the xAPI standard](https://h5p.org/documentation/x-api). As a result, H5P contents trigger a lot of valuable events which take the form of xAPI statements. We thought it was important to catch these statements.
 
 
-## Why Trax Logs may be usefull to catch H5P statements? 
+## Why using Trax Logs with H5P? 
 
 In the H5P implementation, events are triggered by the Javascript layer, which provides the xAPI statements.
 But these statements are not sent to the LRS. They have to be catched from the front-end, and then sent to the LRS with a specific implementation.
@@ -28,19 +28,19 @@ Statements modification may be needed for 2 reasons:
 That's precisely what Trax Logs does...
 
 
-## Before starting 
+## Let's start 
 
-First of all, you need to catch H5P Javascript events and this must be done in the front-end. The best place to do that is probably in a Moodle theme. Of course, you could modify the default Moodle theme. But a better solution would be to create your own theme. Refer to [Creating a theme based on boost](https://docs.moodle.org/dev/Creating_a_theme_based_on_boost) for further information.
+As we already said, we need to catch the H5P Javascript events. The best place to do that is probably in a Moodle theme. Of course, you could modify the default Moodle theme. But a better solution would be to create your own theme. Refer to [Creating a theme based on boost](https://docs.moodle.org/dev/Creating_a_theme_based_on_boost) for further information.
 
-For testing, you can just modify the default Boost theme by editing the `/theme/boost/config.php` file. Now, all you have to do is to add the following line at the end of the config file:
+For testing, we will just modify the default Boost theme by editing the `/theme/boost/config.php` file. Now, all you have to do is to add the following line at the end of the config file:
 
 ```php
 $THEME->javascripts_footer = array('../../../admin/tool/log/store/trax/javascript/catch_hvp_events');
 ```
 
-Then, save the config file and purge all Moodle caches. You should have a link in the Moodle footer to do that. If not, go to this page: `http://your-moodle-url/admin/purgecaches.php`.
+Then, save the config file and purge all the Moodle caches. You should have a link in the Moodle footer to do that. If not, go to this page: `http://your-moodle-url/admin/purgecaches.php`.
 
-Now, you can use H5P contents such as questions or quizzes, and you should see some statements in you LRS!
+That's all! Now, you can use H5P contents such as questions or quizzes, and you should see some statements in you LRS.
 
 
 ## How does it work? 

@@ -35,7 +35,7 @@ Trax Logs provides something we call the **xAPI Identification Services**.
 
 Internally, these services are responsible for managing a stable and permanent identification of all the Moodle activities and users, as well as the anonymization of users.
 
-From an external point of view, these services can be called like any other Moodle **Web Services**. Given a user or activity ID, they will return a fully qualified xAPI structure that can be used to build statements.
+From an external point of view, these services can be called like any other Moodle **Web Service**. Given a user or activity ID, they will return a fully qualified xAPI structure that can be used to build statements.
 
 
 ## Prerequisites
