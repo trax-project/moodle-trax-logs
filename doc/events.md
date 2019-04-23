@@ -8,7 +8,9 @@ Please, refer to these documentations to understand xAPI data structures and rul
 ## Moodle core events
 
 - `\core\event\user_loggedin`: a user logged into Moodle ([JSON example](http://doc.xapi.fr/profiles/moodle/nav#logged-in)).
+
 - `\core\event\user_loggedout`: a user logged out from Moodle ([JSON example](http://doc.xapi.fr/profiles/moodle/nav#logged-out)).
+
 - `\core\event\course_viewed`: a user navigated in a Moodle course ([JSON example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-course)).
 
 
@@ -20,8 +22,11 @@ Please, refer to these documentations to understand xAPI data structures and rul
 ## H5P events
 
 - `\logstore_trax\event\hvp_module_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#completed-quiz)).
+
 - `\logstore_trax\event\hvp_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-quiz-question)).
+
 - `\logstore_trax\event\hvp_module_answered`: a user answered a single question H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-single-question)).
+
 - `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#course-module-viewed)).
 
 

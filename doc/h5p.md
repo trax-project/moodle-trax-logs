@@ -14,7 +14,7 @@ The H5P team made a great work to [implement the xAPI standard](https://h5p.org/
 
 ## Why using Trax Logs with H5P? 
 
-In the H5P implementation, events are triggered by the Javascript layer, which provides the xAPI statements.
+In the H5P implementation, events are triggered by the **Javascript layer**, which provides the xAPI statements.
 But these statements are not sent to the LRS. They have to be catched from the front-end, and then sent to the LRS with a specific implementation.
 
 We think the H5P choice is relevant for 2 reasons:
@@ -47,7 +47,7 @@ Then, save the config file and purge all the Moodle caches. You should have a li
 
 1. The Javascript file that you inserted into your Moodle theme listens to the H5P xAPI events.
 
-2. When an xAPI event is triggered, the Javascript file makes an AJAX request to send the statement to Trax Logs. The user authentication session is checked so this request should be secured.
+2. When an xAPI event is triggered, the Javascript file makes an AJAX request to send the statement to Trax Logs. The user authentication session is checked, so this request should be secured.
 
 3. Trax Logs gets the statement and triggers a Moodle event with the embedded statement.
 
@@ -57,16 +57,19 @@ Then, save the config file and purge all the Moodle caches. You should have a li
 
 6. Trax Logs transforms the statement in order to conform with the [xAPI VLE profile](http://doc.xapi.fr/profiles/vle) an the [xAPI Moodle profile](http://doc.xapi.fr/profiles/moodle).
 
-7. Trax Logs send the statement to the LRS. This request is done from the back-end so it should be secured.
+7. Trax Logs send the statement to the LRS. This request is done from the back-end, so it should be secured.
 
 
 ## Which events are currently supported?
 
-Here is the list of the Moodle events which are currently (triggered and) handled by Trax Logs:
+Here is the list of the H5P events which are currently (triggered and) handled by Trax Logs:
 
 - `\logstore_trax\event\hvp_module_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#completed-quiz)).
+
 - `\logstore_trax\event\hvp_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-quiz-question)).
+
 - `\logstore_trax\event\hvp_module_answered`: a user answered a single question H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-single-question)).
+
 - `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#course-module-viewed)).
 
 
