@@ -21,7 +21,7 @@ We think the H5P choice is relevant for 2 reasons:
 1. First, the front-end should not communicate directly with the LRS without strong security measures.
 2. Then, statements may have to be modified before being sent to the LRS.
 
-Statements modification may be needed for 2 reasons:
+**Statements modification** may be needed for 2 reasons:
 1. Adding contextual information such as the course or the Moodle instance in which the event happened.
 2. Applying some rules to guarranty that all the statements have a consistent form (idealy, applying an xAPI profile).
 
@@ -40,17 +40,23 @@ $THEME->javascripts_footer = array('../../../admin/tool/log/store/trax/javascrip
 
 Then, save the config file and purge all the Moodle caches. You should have a link in the Moodle footer to do that. If not, go to this page: `http://your-moodle-url/admin/purgecaches.php`.
 
-That's all! Now, you can use H5P contents such as questions or quizzes, and you should see some statements in you LRS.
+**That's all!** Now, you can use H5P contents such as questions or quizzes, and you should see some statements in you LRS.
 
 
 ## How does it work? 
 
 1. The Javascript file that you inserted into your Moodle theme listens to the H5P xAPI events.
+
 2. When an xAPI event is triggered, the Javascript file makes an AJAX request to send the statement to Trax Logs. The user authentication session is checked so this request should be secured.
+
 3. Trax Logs gets the statement and triggers a Moodle event with the embedded statement.
+
 4. Moodle records the event and the embedded statement in its default logstore. 
+
 5. Trax Logs handles the Moodle event (sync mode) or gets the event from the default logstore (async mode, coming soon).
+
 6. Trax Logs transforms the statement in order to conform with the [xAPI VLE profile](http://doc.xapi.fr/profiles/vle) an the [xAPI Moodle profile](http://doc.xapi.fr/profiles/moodle).
+
 7. Trax Logs send the statement to the LRS. This request is done from the back-end so it should be secured.
 
 
