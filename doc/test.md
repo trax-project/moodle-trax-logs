@@ -27,7 +27,7 @@ A test folder is included with the plugin, so you can test most of the plugin fe
 
 ### Sending statements to the LRS
 
-This unit test triggers all the Moodle supported events, transform them into xAPI statements and send them to the LRS.
+This unit test triggers all the supported Moodle events, transform them into xAPI statements and send them to the LRS.
 Currently, the test function doesn't check that the LRS received and recorded the statements.
 So you will have to open your LRS and check it manually.
 
