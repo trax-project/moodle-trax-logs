@@ -56,9 +56,16 @@ class external_test extends test_config {
         // Check data.
         $controller = new trax_controller();
 
-        // User.
+        // User without name.
         $actor = $controller->actors->get_existing('user', $user->id, false);
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
+        $this->assertTrue(!isset($actor['name']));
+
+        // User with name.
+        $actor = $controller->actors->get_existing('user', $user->id, true);
+        $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
+        $this->assertTrue(isset($actor['name']));
+        $this->assertTrue($actor['name'] == $user->firstname . ' ' . $user->lastname);
 
         // System.
         $activity = $controller->activities->get_existing('system', 0, false);

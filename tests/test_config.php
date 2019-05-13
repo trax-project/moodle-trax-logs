@@ -59,7 +59,7 @@ class test_config extends advanced_testcase {
      *
      * @var string $platformiri
      */
-    protected $platformiri = 'http://xapi.moodle.test';
+    protected $platformiri = 'http://moodle.test';
 
 
     /**

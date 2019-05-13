@@ -50,10 +50,11 @@ class logstore_trax_external extends external_api {
      * Get the xAPI data.
      *
      * @param array $items requested items
+     * @param bool $full full option
      * @return array of items with a new xapi property on each item
      */
-    public static function get_activities(array $items) {
-        return self::get($items, 'activities');
+    public static function get_activities(array $items, bool $full) {
+        return self::get($items, $full, 'activities');
     }
 
     /**
@@ -78,10 +79,11 @@ class logstore_trax_external extends external_api {
      * Get the xAPI data.
      *
      * @param array $items requested items
+     * @param bool $full full option
      * @return array of items with a new xapi property on each item
      */
-    public static function get_actors(array $items) {
-        return self::get($items, 'actors');
+    public static function get_actors(array $items, bool $full) {
+        return self::get($items, $full, 'actors');
     }
 
     /**
@@ -100,31 +102,32 @@ class logstore_trax_external extends external_api {
      * @return external_function_parameters
      */
     protected static function get_parameters(string $service) {
-        return new external_function_parameters(
-            array(
-                'items' => new external_multiple_structure(
-                    new external_single_structure(
-                        array(
-                            'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service),
-                            'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $service)
-                        )
-                    )
-                )
+        return new external_function_parameters([
+            'items' => new external_multiple_structure(
+                new external_single_structure([
+                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service),
+                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $service),
+                ])
+            ),
+            'full' => new external_value(
+                PARAM_BOOL, 'Return the xAPI full definition (default is false)',
+                VALUE_DEFAULT, false
             )
-        );
+        ]);
     }
 
     /**
      * Get the xAPI data.
      *
      * @param array $items requested items
+     * @param bool $full full option
      * @param string $service name of the service to be called
      * @return array of items with a new xapi property on each item
      */
-    protected static function get(array $items, string $service) {
+    protected static function get(array $items, bool $full, string $service) {
         $controller = new trax_controller();
-        return array_map(function ($item) use ($controller, $service) {
-            $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], false);
+        return array_map(function ($item) use ($controller, $full, $service) {
+            $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], $full);
             $item['xapi'] = json_encode($item['xapi']);
             return $item;
         }, $items);

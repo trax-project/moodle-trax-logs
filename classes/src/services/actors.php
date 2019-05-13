@@ -65,13 +65,19 @@ class actors extends index {
         if (!isset($entry)) {
             $entry = $this->get_or_create_db_entry($mid, $type);
         }
-        return [
+        $res = [
             'objectType' => $this->types->$type->object_type,
             'account' => [
                 'homePage' => $this->config->platform_iri,
                 'name' => $entry->uuid,
             ],
         ];
+        if ($full) {
+            global $DB;
+            $item = $DB->get_record($type, ['id' => $mid]);
+            $res['name'] = $item->firstname . ' ' . $item->lastname;
+        }
+        return $res;
     }
 
     /**
