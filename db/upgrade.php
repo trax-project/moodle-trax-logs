@@ -35,9 +35,78 @@ function xmldb_logstore_trax_upgrade($oldversion) {
 
     $dbman = $DB->get_manager();
 
-    // DB must be reinstalled.
+    // Index UUID are no longer unique.
+    if ($oldversion < 2018050801) {
+
+        // Actors index	
+        $table = new xmldb_table('logstore_trax_actors');
+        $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
+        $dbman->drop_index($table, $index);	
+
+         // Activities index	
+        $table = new xmldb_table('logstore_trax_activities');
+        $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
+        $dbman->drop_index($table, $index);	
+        	
+        // Savepoint	
+        upgrade_plugin_savepoint(true, 2018050801, 'logstore', 'trax');
+    }
+
+    // Type column changed from INT to CHAR.
     if ($oldversion < 2018050804) {
-        return false;
+
+        // Actors index	
+        $table = new xmldb_table('logstore_trax_actors');
+        $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null, 'mid');
+        $dbman->change_field_type($table, $field);
+
+         // Activities index	
+        $table = new xmldb_table('logstore_trax_activities');
+        $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null, 'mid');
+        $dbman->change_field_type($table, $field);
+
+        // Update actors records
+        $records = $DB->get_records('logstore_trax_activities');
+        foreach ($records as $record) {
+            $record->type = 'user';
+            $DB->update_record('logstore_trax_activities', $record);
+        }
+
+        // Update activities records
+        $records = $DB->get_records('logstore_trax_activities');
+        $types = [
+            '0' => 'profile',
+            '1' => 'system',
+            '3' => 'course',
+            '101' => 'assign',
+            '102' => 'book',
+            '103' => 'chat',
+            '104' => 'choice',
+            '105' => 'data',
+            '106' => 'feedback',
+            '107' => 'folder',
+            '108' => 'forum',
+            '109' => 'glossary',
+            '110' => 'imscp',
+            '111' => 'lesson',
+            '112' => 'lti',
+            '113' => 'page',
+            '114' => 'quiz',
+            '115' => 'resource',
+            '116' => 'scorm',
+            '117' => 'survey',
+            '118' => 'url',
+            '119' => 'wiki',
+            '120' => 'workshop',
+        ];
+        foreach ($records as $record) {
+            if (!isset($types[$record->type])) continue;
+            $record->type = $types[$record->type];
+            $DB->update_record('logstore_trax_activities', $record);
+        }
+        	
+        // Savepoint	
+        upgrade_plugin_savepoint(true, 2018050804, 'logstore', 'trax');
     }
 
     return true;
