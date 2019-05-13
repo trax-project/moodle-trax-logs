@@ -116,7 +116,7 @@ Note that `system` ID is always `0`.
 ]
 ```
 
-#### Agents response example
+### Agents response example
 
 ```json
 [
