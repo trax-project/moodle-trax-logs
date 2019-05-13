@@ -108,13 +108,27 @@ abstract class index {
     protected function get_db_entry_or_fail(int $mid, string $type) {
         $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
-            throw new moodle_exception('activity_entry_not_found', 'logstore_trax');
+            throw new moodle_exception();
         }
         return $entry;
     }
 
     /**
-     * Get an entry from the DB.
+     * Get an entry from the DB, and rise an exception if the entry does not exist.
+     *
+     * @param string $uuid UUID of actor
+     * @return stdClass
+     */
+    protected function get_db_entry_by_uuid_or_fail(string $uuid) {
+        $entry = $this->get_db_entry_by_uuid($uuid);
+        if (!$entry) {
+            throw new moodle_exception();
+        }
+        return $entry;
+    }
+
+    /**
+     * Get an entry from the DB, given a Moodle ID and type.
      *
      * @param int $mid Moodle ID of the item
      * @param string $type Type of item
@@ -125,6 +139,19 @@ abstract class index {
         return $DB->get_record($this->table, [
             'mid' => $mid,
             'type' => $type,
+        ]);
+    }
+
+    /**
+     * Get an entry from the DB, given a UUID.
+     *
+     * @param string $uuid UUID of actor
+     * @return stdClass
+     */
+    protected function get_db_entry_by_uuid(string $uuid) {
+        global $DB;
+        return $DB->get_record($this->table, [
+            'uuid' => $uuid,
         ]);
     }
 

@@ -117,10 +117,37 @@ class activities extends index {
      * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function get_existing(string $type, int $mid = 0, bool $full = true,
-                                string $model = 'activity', string $vocabtype = null, string $plugin = null) {
+    public function get_existing(
+        string $type,
+        int $mid = 0,
+        bool $full = true,
+        string $model = 'activity',
+        string $vocabtype = null,
+        string $plugin = null
+    ) {
         $entry = $this->get_db_entry_or_fail($mid, $type);
         return $this->get($type, $mid, $full, $model, $vocabtype, $plugin, $entry);
+    }
+
+    /**
+     * Get an existing activity, given an UUID.
+     *
+     * @param string $uuid UUID of actor
+     * @param bool $full Give the full definition of the activity?
+     * @param string $model Model to be used, when there is no class mathcing with the type (ex. module)
+     * @param string $vocabtype Type to be used in vocab index if it defers from the main type
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
+     * @return array
+     */
+    public function get_existing_by_uuid(
+        string $uuid,
+        bool $full = true,
+        string $model = 'activity',
+        string $vocabtype = null,
+        string $plugin = null
+    ) {
+        $entry = $this->get_db_entry_by_uuid_or_fail($uuid);
+        return $this->get($entry->type, $entry->mid, $full, $model, $vocabtype, $plugin, $entry);
     }
 
     /**

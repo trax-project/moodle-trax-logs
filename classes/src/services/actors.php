@@ -93,5 +93,17 @@ class actors extends index {
         return $this->get($type, $mid, $full, $entry);
     }
 
+    /**
+     * Get an actor, given an UUID.
+     *
+     * @param string $uuid UUID of actor
+     * @param bool $full Give the full definition of the item?
+     * @return array
+     */
+    public function get_existing_by_uuid(string $uuid, bool $full = false) {
+        $entry = $this->get_db_entry_by_uuid_or_fail($uuid);
+        return $this->get($entry->type, $entry->mid, $full, $entry);
+    }
+
 
 }

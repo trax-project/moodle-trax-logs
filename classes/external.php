@@ -26,6 +26,7 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once("$CFG->libdir/externallib.php");
 
+use \moodle_exception;
 use \logstore_trax\src\controller as trax_controller;
 
 /**
@@ -105,13 +106,13 @@ class logstore_trax_external extends external_api {
         return new external_function_parameters([
             'items' => new external_multiple_structure(
                 new external_single_structure([
-                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service),
-                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $service),
+                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service, VALUE_OPTIONAL),
+                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the ' . $service, VALUE_OPTIONAL),
+                    'uuid' => new external_value(PARAM_ALPHANUMEXT, 'Generated UUID of the ' . $service, VALUE_OPTIONAL),
                 ])
             ),
             'full' => new external_value(
-                PARAM_BOOL, 'Return the xAPI full definition (default is false)',
-                VALUE_DEFAULT, false
+                PARAM_BOOL, 'Return the xAPI full definition (default is false)', VALUE_DEFAULT, false
             )
         ]);
     }
@@ -127,7 +128,13 @@ class logstore_trax_external extends external_api {
     protected static function get(array $items, bool $full, string $service) {
         $controller = new trax_controller();
         return array_map(function ($item) use ($controller, $full, $service) {
-            $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], $full);
+            if (isset($item['uuid'])) {
+                $item['xapi'] = $controller->$service->get_existing_by_uuid($item['uuid'], $full);
+            } else if (isset($item['type']) && isset($item['id'])) {
+                $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], $full);
+            } else {
+                throw new moodle_exception('invalid_entry_identification', 'logstore_trax');
+            }
             $item['xapi'] = json_encode($item['xapi']);
             return $item;
         }, $items);
@@ -143,8 +150,9 @@ class logstore_trax_external extends external_api {
         return new external_multiple_structure(
             new external_single_structure(
                 array(
-                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service),
-                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the '. $service),
+                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service, VALUE_OPTIONAL),
+                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the ' . $service, VALUE_OPTIONAL),
+                    'uuid' => new external_value(PARAM_ALPHANUMEXT, 'Generated UUID of the ' . $service, VALUE_OPTIONAL),
                     'xapi' => new external_value(PARAM_RAW, 'The xAPI JSON string of the '. $service)
                 )
             )
