@@ -40,5 +40,6 @@ Please, refer to these documentations to understand xAPI data structures and rul
 * [H5P integration](h5p.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)
+* [xAPI Identification Services](id.md)
 * [Coding style and unit testing](test.md)
 

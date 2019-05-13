@@ -49,5 +49,6 @@ However, you are encouraged to [install](doc/install.md) the plugin, to test it,
 * [H5P integration](doc/h5p.md)
 * [Best pratices in designing Statements](doc/best-practices.md)
 * [Data privacy](doc/privacy.md)
+* [xAPI Identification Services](doc/id.md)
 * [Coding style and unit testing](doc/test.md)
 

@@ -29,4 +29,5 @@ Currently, Trax Logs plugin does not have the feature to present personal data (
 * [H5P integration](h5p.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)
+* [xAPI Identification Services](id.md)
 * [Coding style and unit testing](test.md)
