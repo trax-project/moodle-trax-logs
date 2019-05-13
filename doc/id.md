@@ -27,7 +27,7 @@ There are 2 services with a similar behavior:
 - `logstore_trax_get_actors` which provides activities xAPI data.
 
 
-## Endpoints
+## Endpoint
 
 The endpoint is `http://my-moodle-instance/webservice/rest/server.php?moodlewsrestformat=json&wsfunction=xxx&wstoken=yyy`, where:
 

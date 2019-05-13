@@ -31,13 +31,7 @@ The question is: **how does the LTI activity transform this information into wel
 
 ## xAPI Identification Services
 
-Trax Logs provides something we call the **xAPI Identification Services**.
-
-Internally, these services are responsible for managing a stable and permanent identification of all the Moodle activities and users, as well as the anonymization of users.
-
-From an external point of view, these services can be called like any other Moodle **Web Service**. Given a user or activity ID, they will return a fully qualified xAPI structure that can be used to build statements.
-
-Further information: [xAPI Identification Services](id.md).
+LTI activities should use the [xAPI Identification Services](id.md) in order to get xAPI objects from Moodle IDs.
 
 
 ## Contents
