@@ -38,41 +38,53 @@ function xmldb_logstore_trax_upgrade($oldversion) {
     // Index UUID are no longer unique.
     if ($oldversion < 2018050801) {
 
-        // Actors index	
+        // Actors index.
         $table = new xmldb_table('logstore_trax_actors');
         $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
         $dbman->drop_index($table, $index);	
 
-         // Activities index	
+         // Activities index.
         $table = new xmldb_table('logstore_trax_activities');
         $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
         $dbman->drop_index($table, $index);	
         	
-        // Savepoint	
+        // Savepoint.
         upgrade_plugin_savepoint(true, 2018050801, 'logstore', 'trax');
     }
 
     // Type column changed from INT to CHAR.
     if ($oldversion < 2018050804) {
 
-        // Actors index	
+        // Drop actors index.
+        $table = new xmldb_table('logstore_trax_actors');
+        $index = new xmldb_index('mid-type', XMLDB_INDEX_UNIQUE, array('mid', 'type'));
+        $dbman->drop_index($table, $index);	
+
+         // Drop activities index.
+        $table = new xmldb_table('logstore_trax_activities');
+        $index = new xmldb_index('mid-type', XMLDB_INDEX_UNIQUE, array('mid', 'type'));
+        $dbman->drop_index($table, $index);	
+
+        	
+        // Change actors type column.
         $table = new xmldb_table('logstore_trax_actors');
         $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null, 'mid');
         $dbman->change_field_type($table, $field);
 
-         // Activities index	
+         // Change activities type column.
         $table = new xmldb_table('logstore_trax_activities');
         $field = new xmldb_field('type', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL, null, null, 'mid');
         $dbman->change_field_type($table, $field);
 
-        // Update actors records
-        $records = $DB->get_records('logstore_trax_activities');
+
+        // Update actors records.
+        $records = $DB->get_records('logstore_trax_actors');
         foreach ($records as $record) {
             $record->type = 'user';
-            $DB->update_record('logstore_trax_activities', $record);
+            $DB->update_record('logstore_trax_actors', $record);
         }
 
-        // Update activities records
+        // Update activities records.
         $records = $DB->get_records('logstore_trax_activities');
         $types = [
             '0' => 'profile',
@@ -105,7 +117,7 @@ function xmldb_logstore_trax_upgrade($oldversion) {
             $DB->update_record('logstore_trax_activities', $record);
         }
         	
-        // Savepoint	
+        // Savepoint.	
         upgrade_plugin_savepoint(true, 2018050804, 'logstore', 'trax');
     }
 

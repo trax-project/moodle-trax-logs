@@ -14,9 +14,6 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
-      <INDEXES>
-        <INDEX NAME="mid-type" UNIQUE="true" FIELDS="mid, type"/>
-      </INDEXES>
     </TABLE>
 
     <TABLE NAME="logstore_trax_activities" COMMENT="Activities table">
@@ -29,9 +26,6 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
-      <INDEXES>
-        <INDEX NAME="mid-type" UNIQUE="true" FIELDS="mid, type"/>
-      </INDEXES>
     </TABLE>
   </TABLES>
   
