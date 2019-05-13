@@ -1,9 +1,9 @@
-# xAPI Indentification Services
+# xAPI Identification Services
 
 
 ## Purpose
 
-**xAPI Identification Services** is a web service provided by Trax Logs.
+**xAPI Identification Services** are web services provided by Trax Logs.
 
 Internally, these services are responsible for managing a stable and permanent identification of all the Moodle activities and users, as well as the anonymization of users.
 
@@ -34,10 +34,12 @@ The endpoint is `http://my-moodle-instance/webservice/rest/server.php?moodlewsre
 - `xxx` is the name of the function: `logstore_trax_get_activities` or `logstore_trax_get_actors`,
 - `yyy` is the token of an authorized user account.
 
+This endpoint must be used with a **POST** request.
+
 
 ## Input data
 
-The endpoint must be used with a POST request, providing a list of items (**items**) identified with one of the following methods:
+The only required data is a list of items (**items**) identified with one of the following methods:
 - Moodle ID (**id**) and Moodle type (**type**),
 - Associated UUID (**uuid**).
 
