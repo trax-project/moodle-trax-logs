@@ -34,17 +34,20 @@ The endpoint is `http://my-moodle-instance/webservice/rest/server.php?moodlewsre
 - `xxx` is the name of the function: `logstore_trax_get_activities` or `logstore_trax_get_actors`,
 - `yyy` is the token of an authorized user account.
 
-This endpoint must be used with a **POST** request.
+Use this endpoint to **POST** input data as form data.
 
 
 ## Input data
 
-The only required data is a list of items (**items**) identified with one of the following methods:
+### items
+
+This is the only required input data. It is a list of items identified with one of the following methods:
 - Moodle ID (**id**) and Moodle type (**type**),
 - Associated UUID (**uuid**).
 
-Optional settings:
-- **full**: default value is *0*. When set to *1*, all known information is added to the xAPI object, like the name of the user, or the full definition of the activity.
+### full
+
+This is an optional setting. Its default value is *0*. When set to *1*, all known information is added to the xAPI object, like the name of the user, or the full definition of the activity.
 
 
 ### Activities request example
