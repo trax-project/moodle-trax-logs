@@ -137,7 +137,7 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         // Adding keys to table.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
 
-        // Create the table
+        // Create the table.
         $dbman->create_table($table);
 
         // Savepoint.	
