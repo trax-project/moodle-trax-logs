@@ -124,29 +124,21 @@ function xmldb_logstore_trax_upgrade($oldversion) {
     // Add logs table.
     if ($oldversion < 2018050805) {
 
-        // Create table
+        // Define the table.
         $table = new xmldb_table('logstore_trax_logs');
+
+        // Add fields.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $table->add_field('logid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED);
+        $table->add_field('error', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $table->add_field('attempts', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1');
+        $table->add_field('force', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+
+        // Adding keys to table.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Create the table
         $dbman->create_table($table);
-
-        // Add id
-        $field = new xmldb_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
-        $dbman->add_field($table, $field);
-
-        // Add logid
-        $field = new xmldb_field('logid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED);
-        $dbman->add_field($table, $field);
-
-        // Add error
-        $field = new xmldb_field('error', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, '0');
-        $dbman->add_field($table, $field);
-
-        // Add attempts
-        $field = new xmldb_field('attempts', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, '1');
-        $dbman->add_field($table, $field);
-
-        // Add force
-        $field = new xmldb_field('force', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, '0');
-        $dbman->add_field($table, $field);
 
         // Savepoint.	
         upgrade_plugin_savepoint(true, 2018050805, 'logstore', 'trax');
