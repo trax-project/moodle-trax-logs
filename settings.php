@@ -24,20 +24,29 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use logstore_trax\src\config;
+
 if ($hassiteconfig) {
 
     // LRS settings.
+    $settings->add(new admin_setting_heading(
+        'lrs',
+        get_string('lrs_settings', 'logstore_trax'),
+        ''
+    ));
 
     // Endpoint.
-    $settings->add(new admin_setting_configtext('logstore_trax/lrs_endpoint',
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/lrs_endpoint',
         new lang_string('lrs_endpoint', 'logstore_trax'),
         new lang_string('lrs_endpoint_help', 'logstore_trax'),
-        'http://example.com/lrs/services/xapi',
+        'http://my.lrs/endpoint',
         PARAM_URL
     ));
 
     // Username.
-    $settings->add(new admin_setting_configtext('logstore_trax/lrs_username',
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/lrs_username',
         new lang_string('lrs_username', 'logstore_trax'),
         new lang_string('lrs_username_help', 'logstore_trax'),
         '',
@@ -45,7 +54,8 @@ if ($hassiteconfig) {
     ));
 
     // Password.
-    $settings->add(new admin_setting_configtext('logstore_trax/lrs_password',
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/lrs_password',
         new lang_string('lrs_password', 'logstore_trax'),
         new lang_string('lrs_password_help', 'logstore_trax'),
         '',
@@ -54,25 +64,81 @@ if ($hassiteconfig) {
 
 
      // XAPI data settings.
+    $settings->add(new admin_setting_heading(
+        'identification',
+        get_string('xapi_identification_settings', 'logstore_trax'),
+        ''
+    ));
 
-     // Platform IRI.
-    $settings->add(new admin_setting_configtext('logstore_trax/platform_iri',
+    // Platform IRI.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/platform_iri',
         new lang_string('platform_iri', 'logstore_trax'),
         new lang_string('platform_iri_help', 'logstore_trax'),
-        'http://example.com/lms',
+        'http://my.lms',
         PARAM_URL
     ));
 
+    // Actors anonymization.
+    $settings->add(new admin_setting_configcheckbox(
+        'logstore_trax/anonymization',
+        get_string('anonymization', 'logstore_trax'),
+        get_string('anonymization_help', 'logstore_trax'),
+        1
+    ));
 
-     // Plugin settings.
+    // XIS: provide names.
+    $settings->add(new admin_setting_configcheckbox(
+        'logstore_trax/xis_provide_names',
+        get_string('xis_provide_names', 'logstore_trax'),
+        get_string('xis_provide_names_help', 'logstore_trax'),
+        0
+    ));
 
-     // Buffer size.
-     $settings->add(new admin_setting_configtext('logstore_trax/buffersize',
-        new lang_string('buffersize', 'logstore_trax'),
-        new lang_string('buffersize_help', 'logstore_trax'),
-        '50',
+
+     // Data transportation settings.
+    $settings->add(new admin_setting_heading(
+        'transfer',
+        get_string('data_transfert_settings', 'logstore_trax'),
+        ''
+    ));
+
+    // Synchro mode.
+    $settings->add(new admin_setting_configselect(
+        'logstore_trax/synchro',
+        get_string('synchro', 'logstore_trax'),
+        get_string('synchro_help', 'logstore_trax'),
+        config::SYNCHRO_SYNC,
+        config::synchro_options()
+    ));
+
+    // First log.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/firstlogs',
+        get_string('firstlogs', 'logstore_trax'),
+        get_string('firstlogs_help', 'logstore_trax'),
+        date('d/m/Y'),
+        "/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/",
+        10
+    ));
+
+    // Failed attempts.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/attempts',
+        get_string('attempts', 'logstore_trax'),
+        get_string('attempts_help', 'logstore_trax'),
+        1,
         PARAM_INT
-     ));
+    ));
+
+    // Buffer size.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/batchsize',
+        new lang_string('batchsize', 'logstore_trax'),
+        new lang_string('batchsize_help', 'logstore_trax'),
+        10,
+        PARAM_INT
+    ));
 
 
 }

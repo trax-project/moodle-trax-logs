@@ -24,9 +24,14 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018050804;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
-
-$plugin->release = 'v0.4';
-$plugin->maturity = MATURITY_ALPHA;
+$tasks = array(
+    array(
+        'classname' => '\logstore_trax\task\sync_task',
+        'blocking' => 0,
+        'minute' => '*/1',
+        'hour' => '*',
+        'day' => '*',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
+);

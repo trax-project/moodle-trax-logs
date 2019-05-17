@@ -15,18 +15,46 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Some util functions.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace logstore_trax\src;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018050804;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
+/**
+ * Some util functions.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class config {
 
-$plugin->release = 'v0.4';
-$plugin->maturity = MATURITY_ALPHA;
+    /**
+     * Asynchronous mode.
+     */
+    const SYNCHRO_SYNC = 0;
+
+    /**
+     * Synchronous mode.
+     */
+    const SYNCHRO_ASYNC = 1;
+
+    /**
+     * Get the synchro options.
+     *
+     * @return array
+     */
+    public static function synchro_options() {
+        return [
+            self::SYNCHRO_SYNC => get_string('sync', 'logstore_trax'),
+            self::SYNCHRO_ASYNC => get_string('async', 'logstore_trax'),
+        ];
+    }
+
+}

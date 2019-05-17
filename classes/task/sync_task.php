@@ -15,18 +15,40 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Asynchronous sync task.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace logstore_trax\task;
 
-$plugin->version = 2018050804;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
+/**
+ * Asynchronous sync task.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class sync_task extends \core\task\scheduled_task
+{
 
-$plugin->release = 'v0.4';
-$plugin->maturity = MATURITY_ALPHA;
+    /**
+     * Return the task's name as shown in admin screens.
+     *
+     * @return string
+     */
+    public function get_name()
+    {
+        return get_string('sync_task', 'logstore_trax');
+    }
+
+    /**
+     * Execute the task.
+     */
+    public function execute()
+    {
+    }
+}
+
