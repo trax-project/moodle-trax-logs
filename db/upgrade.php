@@ -121,5 +121,36 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018050804, 'logstore', 'trax');
     }
 
+    // Add logs table.
+    if ($oldversion < 2018050805) {
+
+        // Create table
+        $table = new xmldb_table('logstore_trax_logs');
+        $dbman->create_table($table);
+
+        // Add id
+        $field = new xmldb_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $dbman->add_field($table, $field);
+
+        // Add logid
+        $field = new xmldb_field('logid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED);
+        $dbman->add_field($table, $field);
+
+        // Add error
+        $field = new xmldb_field('error', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, '0');
+        $dbman->add_field($table, $field);
+
+        // Add attempts
+        $field = new xmldb_field('attempts', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, '1');
+        $dbman->add_field($table, $field);
+
+        // Add force
+        $field = new xmldb_field('force', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, '0');
+        $dbman->add_field($table, $field);
+
+        // Savepoint.	
+        upgrade_plugin_savepoint(true, 2018050805, 'logstore', 'trax');
+    }
+
     return true;
 }
