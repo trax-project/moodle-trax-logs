@@ -130,7 +130,7 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         // Add fields.
         $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
         $table->add_field('logid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED);
-        $table->add_field('famid', XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED);
+        $table->add_field('family', XMLDB_TYPE_INTEGER, '2', XMLDB_UNSIGNED);
         $table->add_field('error', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
         $table->add_field('attempts', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1');
         $table->add_field('force', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
