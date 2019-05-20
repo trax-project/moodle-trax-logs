@@ -69,10 +69,10 @@ $string['completion'] = 'Completion';
 $string['grading'] = 'Grading';
 
 $string['moodle_components'] = 'Moodle components';
-$string['moodle_components_help'] = 'Select Moodle components you want to track in details.';
+$string['moodle_components_help'] = 'Select Moodle components you want to track.';
 
 $string['additional_components'] = 'Additional components';
-$string['additional_components_help'] = 'Select additional components you want to track in details.';
+$string['additional_components_help'] = 'Select additional components you want to track.';
 $string['hvp'] = 'H5P';
 $string['other_components'] = 'Other components';
 
