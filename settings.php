@@ -115,13 +115,22 @@ if ($hassiteconfig) {
         config::loggable_core_events()
     ));
 
-    // Components.
+    // Moodle components.
     $settings->add(new admin_setting_configmulticheckbox(
-        'logstore_trax/components',
-        get_string('components', 'logstore_trax'),
-        get_string('components_help', 'logstore_trax'),
-        config::logged_components(),
-        config::loggable_components()
+        'logstore_trax/moodle_components',
+        get_string('moodle_components', 'logstore_trax'),
+        get_string('moodle_components_help', 'logstore_trax'),
+        config::logged_moodle_components(),
+        config::loggable_moodle_components()
+    ));
+
+    // Additional components.
+    $settings->add(new admin_setting_configmulticheckbox(
+        'logstore_trax/additional_components',
+        get_string('additional_components', 'logstore_trax'),
+        get_string('additional_components_help', 'logstore_trax'),
+        config::logged_additional_components(),
+        config::loggable_additional_components()
     ));
 
 

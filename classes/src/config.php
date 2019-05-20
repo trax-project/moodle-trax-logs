@@ -59,41 +59,6 @@ class config {
     }
 
     /**
-     * Get the loggable components.
-     *
-     * @return array
-     */
-    public static function loggable_components() {
-        return [
-            'mod_assign' => get_string('modulename', 'assign'),
-            'mod_book' => get_string('modulename', 'book'),
-            'mod_chat' => get_string('modulename', 'chat'),
-            'mod_choice' => get_string('modulename', 'choice'),
-            'mod_feedback' => get_string('modulename', 'feedback'),
-            'mod_forum' => get_string('modulename', 'forum'),
-            'mod_lesson' => get_string('modulename', 'lesson'),
-            'mod_quiz' => get_string('modulename', 'quiz'),
-            'mod_scorm' => get_string('modulename', 'scorm'),
-            'mod_survey' => get_string('modulename', 'survey'),
-            'mod_wiki' => get_string('modulename', 'wiki'),
-            'mod_workshop' => get_string('modulename', 'workshop'),
-            'mod_hvp' => get_string('hvp', 'logstore_trax'),
-            'others' => get_string('additional_components', 'logstore_trax'),
-        ];
-    }
-
-    /**
-     * Get the logged components by default.
-     *
-     * @return array
-     */
-    public static function logged_components() {
-        return array_map(function($component) {
-            return 1;
-        }, self::loggable_components());
-    }
-
-    /**
      * Get the loggable core events.
      *
      * @return array
@@ -108,7 +73,7 @@ class config {
     }
 
     /**
-     * Get the logged core events by default.
+     * Get the core events logged by default.
      *
      * @return array
      */
@@ -116,6 +81,62 @@ class config {
         return array_map(function($component) {
             return 1;
         }, self::loggable_core_events());
+    }
+
+    /**
+     * Get the loggable Moodle components.
+     *
+     * @return array
+     */
+    public static function loggable_moodle_components() {
+        return [
+            'mod_assign' => get_string('modulename', 'assign'),
+            'mod_book' => get_string('modulename', 'book'),
+            'mod_chat' => get_string('modulename', 'chat'),
+            'mod_choice' => get_string('modulename', 'choice'),
+            'mod_feedback' => get_string('modulename', 'feedback'),
+            'mod_forum' => get_string('modulename', 'forum'),
+            'mod_lesson' => get_string('modulename', 'lesson'),
+            'mod_quiz' => get_string('modulename', 'quiz'),
+            'mod_scorm' => get_string('modulename', 'scorm'),
+            'mod_survey' => get_string('modulename', 'survey'),
+            'mod_wiki' => get_string('modulename', 'wiki'),
+            'mod_workshop' => get_string('modulename', 'workshop'),
+        ];
+    }
+
+    /**
+     * Get the Moodle components logged by default.
+     *
+     * @return array
+     */
+    public static function logged_moodle_components() {
+        return array_map(function($component) {
+            return 1;
+        }, self::loggable_moodle_components());
+    }
+
+    /**
+     * Get the loggable additional components.
+     *
+     * @return array
+     */
+    public static function loggable_additional_components() {
+        return [
+            'mod_hvp' => get_string('hvp', 'logstore_trax'),
+            'others' => get_string('other_components', 'logstore_trax'),
+        ];
+    }
+
+    /**
+     * Get the additional components logged by default.
+     *
+     * @return array
+     */
+    public static function logged_additional_components() {
+        return array_map(function($component) {
+            return 1;
+        }, self::loggable_additional_components());
     }
 
 

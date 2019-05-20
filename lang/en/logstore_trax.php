@@ -68,9 +68,13 @@ $string['navigation'] = 'Navigation';
 $string['completion'] = 'Completion';
 $string['grading'] = 'Grading';
 
-$string['components'] = 'Components';
-$string['components_help'] = 'Select components you want to track in details.';
+$string['moodle_components'] = 'Moodle components';
+$string['moodle_components_help'] = 'Select Moodle components you want to track in details.';
+
 $string['additional_components'] = 'Additional components';
+$string['additional_components_help'] = 'Select additional components you want to track in details.';
+$string['hvp'] = 'H5P';
+$string['other_components'] = 'Other components';
 
 $string['data_transfert_settings'] = 'Data Transfer Settings';
 
@@ -84,7 +88,7 @@ $string['async'] = 'Asynchronous (production)';
 
 $string['firstlogs'] = 'First logs';
 $string['firstlogs_help'] = "Format: DD/MM/YYYY. When the sync mode is asynchronous, 
-    this is the date of the first logs to sync form the Moodle standard logstore.";
+    this is the date of the first logs to sync from the Moodle standard logstore.";
 
 $string['attempts'] = 'Attempts';
 $string['attempts_help'] = "Number of attempts when a request fails.";
@@ -110,7 +114,6 @@ $string['privacy:metadata:lrs:uuid'] = 'Anonymous identifier sent to the externa
 
 // Events.
 
-$string['hvp'] = 'H5P';
 $string['event_hvp_question_answered'] = 'H5P question answered';
 $string['event_hvp_module_answered'] = 'H5P module answered (single question)';
 $string['event_hvp_module_completed'] = 'H5P module completed';
