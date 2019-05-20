@@ -28,7 +28,8 @@ use logstore_trax\src\config;
 
 if ($hassiteconfig) {
 
-    // LRS settings.
+    // -------------------- LRS settings --------------------.
+
     $settings->add(new admin_setting_heading(
         'lrs',
         get_string('lrs_settings', 'logstore_trax'),
@@ -63,7 +64,8 @@ if ($hassiteconfig) {
     ));
 
 
-     // XAPI data settings.
+     // -------------------- XAPI identification settings --------------------.
+
     $settings->add(new admin_setting_heading(
         'identification',
         get_string('xapi_identification_settings', 'logstore_trax'),
@@ -96,7 +98,35 @@ if ($hassiteconfig) {
     ));
 
 
-     // Data transportation settings.
+    // -------------------- Logged Events --------------------.
+
+    $settings->add(new admin_setting_heading(
+        'events',
+        get_string('logged_events', 'logstore_trax'),
+        ''
+    ));
+
+    // Moodle core events.
+    $settings->add(new admin_setting_configmulticheckbox(
+        'logstore_trax/core_events',
+        get_string('core_events', 'logstore_trax'),
+        get_string('core_events_help', 'logstore_trax'),
+        config::logged_core_events(),
+        config::loggable_core_events()
+    ));
+
+    // Components.
+    $settings->add(new admin_setting_configmulticheckbox(
+        'logstore_trax/components',
+        get_string('components', 'logstore_trax'),
+        get_string('components_help', 'logstore_trax'),
+        config::logged_components(),
+        config::loggable_components()
+    ));
+
+
+     // -------------------- Data transportation settings --------------------.
+
     $settings->add(new admin_setting_heading(
         'transfer',
         get_string('data_transfert_settings', 'logstore_trax'),

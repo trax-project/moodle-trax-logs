@@ -59,6 +59,19 @@ $string['xis_provide_names_help'] = 'When this option is selected and when Web S
     option of the "logstore_trax_get_actors" function. 
     Be aware of the consequences in terms of GDPR compliance when you select this option.';
 
+$string['logged_events'] = 'Logged events';
+
+$string['core_events'] = 'Moodle core events';
+$string['core_events_help'] = 'Select event families you want to track.';
+$string['authentication'] = 'Authentication';
+$string['navigation'] = 'Navigation';
+$string['completion'] = 'Completion';
+$string['grading'] = 'Grading';
+
+$string['components'] = 'Components';
+$string['components_help'] = 'Select components you want to track in details.';
+$string['additional_components'] = 'Additional components';
+
 $string['data_transfert_settings'] = 'Data Transfer Settings';
 
 $string['synchro'] = 'Sync mode';
@@ -97,6 +110,7 @@ $string['privacy:metadata:lrs:uuid'] = 'Anonymous identifier sent to the externa
 
 // Events.
 
+$string['hvp'] = 'H5P';
 $string['event_hvp_question_answered'] = 'H5P question answered';
 $string['event_hvp_module_answered'] = 'H5P module answered (single question)';
 $string['event_hvp_module_completed'] = 'H5P module completed';
