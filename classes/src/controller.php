@@ -30,6 +30,7 @@ use logstore_trax\src\services\statements;
 use logstore_trax\src\services\actors;
 use logstore_trax\src\services\verbs;
 use logstore_trax\src\services\activities;
+use logstore_trax\src\services\logs;
 
 require_once(__DIR__ . '/../../vendor/autoload.php');
 
@@ -41,6 +42,13 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class controller {
+
+    /**
+     * Config.
+     *
+     * @var stdClass $config
+     */
+    protected $config;
 
     /**
      * Statements service.
@@ -71,11 +79,18 @@ class controller {
     public $activities;
 
     /**
-     * LRS client.
+     * Logs.
      *
-     * @var client $client
+     * @var logs $logs
      */
-    protected $client;
+    public $logs;
+
+    /**
+     * Emitter.
+     *
+     * @var emitter $emitter
+     */
+    protected $emitter;
 
 
     /**
@@ -84,30 +99,34 @@ class controller {
      * @return void
      */
     public function __construct() {
+        $this->config = get_config('logstore_trax');
+        $this->actors = new actors($this->config);
+        $this->verbs = new verbs($this->config);
+        $this->activities = new activities($this->config);
+        $this->statements = new statements($this->actors, $this->verbs, $this->activities, $this->logs);
+        $this->logs = new logs($this->config);
+        $this->emitter = new emitter($this->config, $this->logs);
+    }
 
-        // APIs.
-        $config = (object)['platform_iri' => get_config('logstore_trax', 'platform_iri')];
-        $this->actors = new actors($config);
-        $this->verbs = new verbs($config);
-        $this->activities = new activities($config);
-        $this->statements = new statements($this->actors, $this->verbs, $this->activities);
-
-        // HTTP Client.
-        $this->client = new client((object)[
-            'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
-            'username' => get_config('logstore_trax', 'lrs_username'),
-            'password' => get_config('logstore_trax', 'lrs_password'),
-        ]);
+    /**
+     * Process events from Moodle logstore.
+     *
+     * @return void
+     */
+    public function process_logstore() {
+        $events = $this->logs->get_events_to_process();
+        $this->process_events($events);
     }
 
     /**
      * Process an array of events.
      *
      * @param array $events Moodle events to process.
+     * @return void
      */
     public function process_events(array $events) {
         $statements = $this->statements->get_from_events($events);
-        $this->client->statements()->post($statements);
+        $this->emitter->send($statements);
     }
 
 }

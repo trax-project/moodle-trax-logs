@@ -24,6 +24,8 @@
 
 namespace logstore_trax\task;
 
+use logstore_trax\src\controller;
+
 /**
  * Asynchronous sync task.
  *
@@ -49,6 +51,7 @@ class sync_task extends \core\task\scheduled_task
      */
     public function execute()
     {
+        (new controller())->process_logstore();
     }
 }
 

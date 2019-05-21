@@ -56,6 +56,13 @@ class statements {
      */
     protected $activities;
 
+    /**
+     * Logs.
+     *
+     * @var logs $logs
+     */
+    protected $logs;
+
 
     /**
      * Constructs a new statement map.
@@ -63,11 +70,13 @@ class statements {
      * @param actors $actors Actors service
      * @param verbs $verbs Verbs service
      * @param activities $activities Activities service
+     * @param logs $logs logs service
      */
-    public function __construct(actors $actors, verbs $verbs, activities $activities) {
+    public function __construct(actors $actors, verbs $verbs, activities $activities, logs $logs) {
         $this->actors = $actors;
         $this->verbs = $verbs;
         $this->activities = $activities;
+        $this->logs = $logs;
     }
 
     /**
@@ -78,6 +87,7 @@ class statements {
      */
     public function get_from_events(array $events) {
         return array_filter(array_map(function ($event) {
+            if (is_array($event)) $event = (object)$event;
             return $this->get_from_event($event);
         }, $events));
     }
@@ -85,11 +95,10 @@ class statements {
     /**
      * Get a Statement given an event.
      *
-     * @param array $event Moodle event data
+     * @param \stdClass $event Moodle event data
      * @return mixed
      */
-    public function get_from_event(array $event) {
-        $event = (object)$event;
+    public function get_from_event(\stdClass $event) {
         $parts = explode('\\', $event->eventname);
         $plugin = $parts[1];
         $name = end($parts);
@@ -107,11 +116,22 @@ class statements {
             $class = '\\logstore_trax\\src\\statements\\core\\'.$name;
         }
 
+        // No class, do nothing.
         if (!class_exists($class)) {
             return;
         }
 
-        return (new $class($event, $this->actors, $this->verbs, $this->activities))->get();
+        try {
+
+            // Get the statement and return the result object.
+            $statement = (new $class($event, $this->actors, $this->verbs, $this->activities))->get();
+            return (object)['statement' => $statement, 'event' => $event];
+
+        } catch (\moodle_exception $e) {
+
+            // Log the error.
+            $this->logs->log_internal_error($event);
+        }
     }
 
 

@@ -111,7 +111,7 @@ if ($hassiteconfig) {
         'logstore_trax/core_events',
         get_string('core_events', 'logstore_trax'),
         get_string('core_events_help', 'logstore_trax'),
-        config::logged_core_events(),
+        config::default_core_events(),
         config::loggable_core_events()
     ));
 
@@ -120,7 +120,7 @@ if ($hassiteconfig) {
         'logstore_trax/moodle_components',
         get_string('moodle_components', 'logstore_trax'),
         get_string('moodle_components_help', 'logstore_trax'),
-        config::logged_moodle_components(),
+        config::default_moodle_components(),
         config::loggable_moodle_components()
     ));
 
@@ -129,7 +129,7 @@ if ($hassiteconfig) {
         'logstore_trax/additional_components',
         get_string('additional_components', 'logstore_trax'),
         get_string('additional_components_help', 'logstore_trax'),
-        config::logged_additional_components(),
+        config::default_additional_components(),
         config::loggable_additional_components()
     ));
 
@@ -140,15 +140,6 @@ if ($hassiteconfig) {
         'transfer',
         get_string('data_transfert_settings', 'logstore_trax'),
         ''
-    ));
-
-    // Synchro mode.
-    $settings->add(new admin_setting_configselect(
-        'logstore_trax/synchro',
-        get_string('synchro', 'logstore_trax'),
-        get_string('synchro_help', 'logstore_trax'),
-        config::SYNCHRO_SYNC,
-        config::synchro_options()
     ));
 
     // First log.
@@ -179,5 +170,5 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
-
+    (new \logstore_trax\src\controller)->process_logstore();
 }

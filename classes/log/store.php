@@ -87,7 +87,6 @@ class store implements log_writer {
      * @param array $evententries raw event data
      */
     protected function insert_event_entries(array $evententries) {
-        $this->controller->process_events($evententries);
     }
 
 }
