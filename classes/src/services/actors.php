@@ -62,20 +62,31 @@ class actors extends index {
      * @return array
      */
     public function get(string $type, int $mid = 0, bool $full = false, $entry = null) {
-        if (!isset($entry)) {
-            $entry = $this->get_or_create_db_entry($mid, $type);
+
+        // Get DB record.
+        if (!get_config('logstore_trax', 'anonymization') || ($full && get_config('logstore_trax', 'xis_provide_names'))) {
+            global $DB;
+            $record = $DB->get_record($type, ['id' => $mid]);
+        }
+
+        // Define account name.
+        if (get_config('logstore_trax', 'anonymization')) {
+            if (!isset($entry)) {
+                $entry = $this->get_or_create_db_entry($mid, $type);
+            }
+            $accountname = $entry->uuid;
+        } else {
+            $accountname = $record->username;
         }
         $res = [
             'objectType' => $this->types->$type->object_type,
             'account' => [
                 'homePage' => $this->config->platform_iri,
-                'name' => $entry->uuid,
+                'name' => $accountname,
             ],
         ];
-        if ($full) {
-            global $DB;
-            $item = $DB->get_record($type, ['id' => $mid]);
-            $res['name'] = $item->firstname . ' ' . $item->lastname;
+        if ($full && get_config('logstore_trax', 'xis_provide_names')) {
+            $res['name'] = $record->firstname . ' ' . $record->lastname;
         }
         return $res;
     }

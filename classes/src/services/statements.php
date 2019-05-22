@@ -86,10 +86,10 @@ class statements {
      * @return array
      */
     public function get_from_events(array $events) {
-        return array_filter(array_map(function ($event) {
+        return array_values(array_filter(array_map(function ($event) {
             if (is_array($event)) $event = (object)$event;
             return $this->get_from_event($event);
-        }, $events));
+        }, $events)));
     }
 
     /**

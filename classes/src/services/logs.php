@@ -112,23 +112,48 @@ class logs {
             WHERE " . $where . "
             ORDER BY id
         ";
+        
         return $DB->get_records_sql($sql, $params, 0, $this->config->dbbatchsize);
     }
 
     /**
-     * Get the N last logs.
+     * Get the Trax logs.
      *
-     * @param int $number Number of logs to return.
      * @return array
      */
-    public function get_last_logs(int $number, string $table = 'logstore_trax_logs') {
+    public function get_trax_logs() {
         global $DB;
-        $sql = "
-            SELECT *
-            FROM {" . $table . "}
-            ORDER BY id DESC
-        ";
-        return $DB->get_records_sql($sql, null, 0, $number);
+        return $DB->get_records('logstore_trax_logs');
+    }
+
+    /**
+     * Get the Moodle logs.
+     *
+     * @return array
+     */
+    public function get_moodle_logs() {
+        global $DB;
+        return $DB->get_records('logstore_standard_log');
+    }
+
+    /**
+     * Delete the Trax logs table.
+     *
+     * @return void
+     */
+    public function delete_trax_logs() {
+        global $DB;
+        $DB->delete_records('logstore_trax_logs');
+    }
+
+    /**
+     * Delete the Moodle logs table.
+     *
+     * @return void
+     */
+    public function delete_moodle_logs() {
+        global $DB;
+        $DB->delete_records('logstore_standard_log');
     }
 
     /**
@@ -198,6 +223,7 @@ class logs {
      */
     protected function sql_array(array $array) {
         $array = array_map(function ($item) {
+            $item = str_replace('\\', '\\\\', $item);
             return "'" . $item . "'";
         }, $array);
         return '(' . implode(', ', $array) . ')';

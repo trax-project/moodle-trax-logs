@@ -92,15 +92,15 @@ class emitter {
             if (empty($batch)) break;
 
             // Get the batch statements
-            $statements = array_map(function ($item) {
+            $statements = array_values(array_map(function ($item) {
                 return $item->statement;
-            }, $batch);
+            }, $batch));
             
             // Get the batch events
             $events = array_map(function ($item) {
                 return $item->event;
             }, $batch);
-            
+
             // Post the statements
             $resp = $this->client->statements()->post($statements);
 

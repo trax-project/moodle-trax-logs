@@ -43,43 +43,48 @@ class external_test extends test_config {
      */
     public function test_get_actor_and_activity() {
 
-        // Generate data.
-        $user = $this->prepare_session();
-        $course = $this->getDataGenerator()->create_course();
-        $lti = $this->getDataGenerator()->create_module('lti', array('course' => $course->id));
+        // Prepare session.
+        $this->prepare_session();
 
-        // Send a Statement.
-        \mod_lti\event\course_module_viewed::create([
-            'objectid' => $lti->id,
-            'context' => context_module::instance($lti->cmid),
-        ])->trigger();
+        // Trigger events.
+        $event = $this->events->course_module_viewed('lti');
+        $this->trigger($event);
 
-        // User without name.
-        $actor = $this->controller->actors->get_existing('user', $user->id, false);
+        // Process logs.
+        $traxlogs = $this->process();
+
+        // Get user without name.
+        $actor = $this->controller->actors->get_existing('user', $this->events->user->id, false);
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
         $this->assertTrue(!isset($actor['name']));
 
-        // User with name.
-        $actor = $this->controller->actors->get_existing('user', $user->id, true);
+        // Get user with name.
+        $actor = $this->controller->actors->get_existing('user', $this->events->user->id, true);
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
         $this->assertTrue(isset($actor['name']));
-        $this->assertTrue($actor['name'] == $user->firstname . ' ' . $user->lastname);
+        $this->assertTrue($actor['name'] == $this->events->user->firstname . ' ' . $this->events->user->lastname);
 
-        // System.
-        $activity = $this->controller->activities->get_existing('system', 0, false);
-        $this->assertTrue($activity && isset($activity['id']));
+        // Get system without name.
+        $system = $this->controller->activities->get_existing('system', 0, false);
+        $this->assertTrue($system && isset($system['id']));
+        $this->assertTrue(!isset($system['definition']['name']));
 
-        // Course.
-        $activity = $this->controller->activities->get_existing('course', $course->id, false);
-        $this->assertTrue($activity && isset($activity['id']));
+        // Get system with name.
+        $system = $this->controller->activities->get_existing('system', 0, true);
+        $this->assertTrue($system && isset($system['id']));
+        $this->assertTrue(isset($system['definition']['name']));
 
-        // LTI module.
-        $activity = $this->controller->activities->get_existing('lti', $lti->id, false);
-        $this->assertTrue($activity && isset($activity['id']));
+        // Get course.
+        $course = $this->controller->activities->get_existing('course', $this->events->course->id, false);
+        $this->assertTrue($course && isset($course['id']));
 
-        // Non existing module.
+        // Get existing module.
+        $module = $this->controller->activities->get_existing('lti', $this->events->module->id, false);
+        $this->assertTrue($module && isset($module['id']));
+
+        // Get non existing module.
         try {
-            $activity = $this->controller->activities->get_existing('lti', 65416871984164, false);
+            $module = $this->controller->activities->get_existing('lti', 65416871984164, false);
             $this->assertTrue(false);
         } catch (\moodle_exception $e) {
             $this->assertTrue(true);

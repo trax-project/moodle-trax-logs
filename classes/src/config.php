@@ -146,10 +146,6 @@ class config {
      */
     public static function selected_additional_events(\stdClass $config) {
         $components = explode(',', $config->additional_components);
-
-        print_r($config->additional_components);
-        die;
-
         $key = array_search('other', $components);
         unset($components[$key]);
         $components = array_intersect_key(events::additional_components(), array_flip($components));

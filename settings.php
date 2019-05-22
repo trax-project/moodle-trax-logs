@@ -106,6 +106,16 @@ if ($hassiteconfig) {
         ''
     ));
 
+    // First log.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/firstlogs',
+        get_string('firstlogs', 'logstore_trax'),
+        get_string('firstlogs_help', 'logstore_trax'),
+        date('d/m/Y'),
+        "/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/",
+        10
+    ));
+
     // Moodle core events.
     $settings->add(new admin_setting_configmulticheckbox(
         'logstore_trax/core_events',
@@ -142,16 +152,6 @@ if ($hassiteconfig) {
         ''
     ));
 
-    // First log.
-    $settings->add(new admin_setting_configtext(
-        'logstore_trax/firstlogs',
-        get_string('firstlogs', 'logstore_trax'),
-        get_string('firstlogs_help', 'logstore_trax'),
-        date('d/m/Y'),
-        "/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/",
-        10
-    ));
-
     // Failed attempts.
     $settings->add(new admin_setting_configtext(
         'logstore_trax/attempts',
@@ -179,3 +179,4 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 }
+

@@ -108,7 +108,7 @@ abstract class index {
     protected function get_db_entry_or_fail(int $mid, string $type) {
         $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
-            throw new moodle_exception();
+            throw new moodle_exception('entry_not_found', 'logstore_trax');
         }
         return $entry;
     }
@@ -122,7 +122,7 @@ abstract class index {
     protected function get_db_entry_by_uuid_or_fail(string $uuid) {
         $entry = $this->get_db_entry_by_uuid($uuid);
         if (!$entry) {
-            throw new moodle_exception();
+            throw new moodle_exception('entry_not_found', 'logstore_trax');
         }
         return $entry;
     }

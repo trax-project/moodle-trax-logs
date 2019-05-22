@@ -53,7 +53,7 @@ Then, save the config file and purge all the Moodle caches. You should have a li
 
 4. Moodle records the event and the embedded statement in its default logstore. 
 
-5. Trax Logs handles the Moodle event (sync mode) or gets the event from the default logstore (async mode, coming soon).
+5. Trax Logs gets the event from the default logstore.
 
 6. Trax Logs transforms the statement in order to conform with the [xAPI VLE profile](http://doc.xapi.fr/profiles/vle) an the [xAPI Moodle profile](http://doc.xapi.fr/profiles/moodle).
 

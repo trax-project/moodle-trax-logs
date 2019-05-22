@@ -24,7 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/test_events.php');
+
 use \logstore_trax\src\controller as trax_controller;
+use \logstore_trax\src\config;
 
 /**
  * Utilities for unit tests.
@@ -49,25 +52,25 @@ trait test_utils {
      */
     protected $store;
 
+    /**
+     * Testing events.
+     *
+     * @var test_events $events
+     */
+    protected $events;
+
 
     /**
      * Prepare test session.
      */
     protected function prepare_session() {
 
-        // Utilities.
-        $this->controller = new trax_controller();
+        // Config (always first).
+        $this->set_default_config();
 
         // Prepare testing context.
         $this->resetAfterTest(true);
         $this->preventResetByRollback();
-
-        // Enable logging plugin and configure it.
-        set_config('lrs_endpoint', $this->lrsendpoint, 'logstore_trax');
-        set_config('lrs_username', $this->lrsusername, 'logstore_trax');
-        set_config('lrs_password', $this->lrspassword, 'logstore_trax');
-        set_config('platform_iri', $this->platformiri, 'logstore_trax');
-        set_config('buffersize', 0, 'logstore_trax');
 
         // Create a user.
         $this->setAdminUser();
@@ -80,14 +83,65 @@ trait test_utils {
         $stores = $manager->get_readers();
         $this->store = $stores['logstore_standard'];
 
-        return $user;
+        // Utilities.
+        $this->controller = new trax_controller();
+        $this->events = new test_events($this->getDataGenerator(), $user);
     }
 
     /**
-     * Flush events.
+     * Set default config.
      */
-    protected function flush() {
+    protected function set_default_config() {
+
+        // Enable logging plugin and configure it.
+        set_config('lrs_endpoint', $this->lrsendpoint, 'logstore_trax');
+        set_config('lrs_username', $this->lrsusername, 'logstore_trax');
+        set_config('lrs_password', $this->lrspassword, 'logstore_trax');
+        set_config('platform_iri', $this->platformiri, 'logstore_trax');
+
+        // Default settings
+        set_config('anonymization', 1, 'logstore_trax');
+        set_config('xis_provide_names', 0, 'logstore_trax');
+        $coreevents = implode(',', array_keys(array_filter(config::default_core_events())));
+        set_config('core_events', $coreevents, 'logstore_trax');
+        $moodlecomp = implode(',', array_keys(array_filter(config::default_moodle_components())));
+        set_config('moodle_components', $moodlecomp, 'logstore_trax');
+        $addcomp = implode(',', array_keys(array_filter(config::default_additional_components())));
+        set_config('additional_components', $addcomp, 'logstore_trax');
+        set_config('firstlogs', date('d/m/Y'), 'logstore_trax');
+        set_config('attempts', 1, 'logstore_trax');
+        set_config('dbbatchsize', 100, 'logstore_trax');
+        set_config('xapibatchsize', 10, 'logstore_trax');
+    }
+
+    /**
+     * Trigger an array of events.
+     * 
+     * @param mixed $events The events to trigger.
+     * @return void
+     */
+    public function trigger($events)
+    {
+        if (is_array($events)) {
+            foreach ($events as $event) {
+                $event->trigger();
+            }
+        } else {
+            $events->trigger();
+        }
         $this->store->flush();
+    }
+
+    /**
+     * Process events from the Moodle logstore.
+     * 
+     * @return array
+     */
+    public function process()
+    {
+        $this->controller->logs->delete_trax_logs();
+        $this->controller->process_logstore();
+        return $this->controller->logs->get_trax_logs();
     }
 
 }

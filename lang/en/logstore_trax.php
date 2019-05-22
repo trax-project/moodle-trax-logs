@@ -78,17 +78,9 @@ $string['other_components'] = 'Other components';
 
 $string['data_transfert_settings'] = 'Data Transfer Settings';
 
-$string['synchro'] = 'Sync mode';
-$string['synchro_help'] = "When synchronous is selected, Statements are directly sent when Moodle triggers events.
-    When asynchronous is selected, Statements are sent periodically (CRON job) from the Moodle standard logstore.
-    Prefer using the asynchronous mode on your production server in order to manage errors. 
-    ";
-$string['sync'] = 'Synchronous (test)';
-$string['async'] = 'Asynchronous (production)';
-
 $string['firstlogs'] = 'First logs';
-$string['firstlogs_help'] = "Format: DD/MM/YYYY. When the sync mode is asynchronous, 
-    this is the date of the first logs to sync from the Moodle standard logstore.";
+$string['firstlogs_help'] = "Format: DD/MM/YYYY. 
+    This is the date of the first logs to sync from the Moodle standard logstore.";
 
 $string['attempts'] = 'Attempts';
 $string['attempts_help'] = "Number of attempts when a request fails.";
@@ -101,9 +93,8 @@ $string['xapibatchsize_help'] = "Number of Statements that can be grouped in a s
 
 
 // Exceptions.
-
-$string['activity_entry_not_found'] = 'Activity entry not found.';
-$string['actor_entry_not_found'] = 'Actor entry not found.';
+$string['invalid_entry_identification'] = 'Invalid entry identification.';
+$string['entry_not_found'] = 'Entry not found.';
 
 
 // Privacy metadata.
