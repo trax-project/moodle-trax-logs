@@ -25,8 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/test_config.php');
-
-use \logstore_trax\src\controller as trax_controller;
+require_once(__DIR__ . '/test_utils.php');
 
 /**
  * Unit tests: generate Moodle events and transform them into xAPI statements.
@@ -37,12 +36,42 @@ use \logstore_trax\src\controller as trax_controller;
  */
 class store_test extends test_config {
 
+    use test_utils;
+
     /**
-     * A collection of events.
+     * Test the overall process.
+     */
+    public function test_process() {
+
+        // Prepare session.
+        $user = $this->prepare_session();
+        $before = $this->controller->logs->get_last_logs(1, 'logstore_standard_log');
+
+        // Trigger a simple event.
+        \core\event\user_loggedin::create([
+            'objectid' => $user->id,
+            'other' => ['username' => $user->username],
+        ])->trigger();
+
+        // Check that there is a new log entry.
+        $this->flush();
+        $after = $this->controller->logs->get_last_logs(1, 'logstore_standard_log');
+        $this->assertTrue(count($after) > 0);
+        $this->assertTrue(empty($before) || $before[0]->id != $after[0]->id);
+
+        print_r(get_config('logstore_trax'));
+        die;
+
+        $this->controller->process_logstore();
+    }
+
+    /**
+     * Test all supported events.
      */
     public function test_all_events() {
-        $triggers = [];
 
+        // Prepare
+        $triggers = [];
         $user = $this->prepare_session();
         $course = $this->getDataGenerator()->create_course();
 
@@ -178,13 +207,12 @@ class store_test extends test_config {
 
         // Process events and check errors.
         /*
-        $controller = new trax_controller();
-        $controller->process_logstore();
-        $logs = $controller->logs->get_last_logs(count($triggers));
+        $this->controller->process_logstore();
+        $logs = $this->controller->logs->get_last_logs(count($triggers));
         foreach ($logs as $log) {
             $this->assertTrue($log->error == 0);
         }
-        */
+         */
     }
 
 }

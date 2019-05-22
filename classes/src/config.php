@@ -55,9 +55,10 @@ class config {
      * @return array
      */
     public static function default_core_events() {
-        return array_map(function($component) {
-            return 1;
-        }, self::loggable_core_events());
+        $default = array_map(function ($key, $comp) {
+            return [$key => 1];
+        }, array_keys(self::loggable_core_events()), self::loggable_core_events());
+        return call_user_func_array("array_merge", $default);
     }
 
     /**
@@ -79,10 +80,12 @@ class config {
      */
     public static function loggable_moodle_components() {
         $components = events::moodle_components();
-        return array_map(function ($comp, $key) {
+        $components = array_map(function ($key, $comp) {
             $parts = explode('_', $key);
-            return get_string('modulename', $parts[1]);
-        }, $components, array_keys($components));
+            return [$key => get_string('modulename', $parts[1])];
+        }, array_keys($components), $components);
+        $components = call_user_func_array("array_merge", $components);
+        return $components;
     }
 
     /**
@@ -91,9 +94,11 @@ class config {
      * @return array
      */
     public static function default_moodle_components() {
-        return array_map(function($component) {
-            return 1;
-        }, self::loggable_moodle_components());
+        $default = array_map(function ($key, $comp) {
+            return [$key => 1];
+        }, array_keys(self::loggable_moodle_components()), self::loggable_moodle_components());
+        return call_user_func_array("array_merge", $default);
+
     }
 
     /**
@@ -113,9 +118,10 @@ class config {
      */
     public static function loggable_additional_components() {
         $components = events::additional_components();
-        $components = array_map(function($comp, $key) {
-            return get_string($key, 'logstore_trax');
-        }, $components, array_keys($components));
+        $components = array_map(function($key, $comp) {
+            return [$key => get_string($key, 'logstore_trax')];
+        }, array_keys($components), $components);
+        $components = call_user_func_array("array_merge", $components);
         $components['other'] = get_string('other_components', 'logstore_trax');
         return $components;
     }
@@ -126,9 +132,10 @@ class config {
      * @return array
      */
     public static function default_additional_components() {
-        return array_map(function($component) {
-            return 1;
-        }, self::loggable_additional_components());
+        $default = array_map(function ($key, $comp) {
+            return [$key => 1];
+        }, array_keys(self::loggable_additional_components()), self::loggable_additional_components());
+        return call_user_func_array("array_merge", $default);
     }
 
     /**
@@ -139,6 +146,10 @@ class config {
      */
     public static function selected_additional_events(\stdClass $config) {
         $components = explode(',', $config->additional_components);
+
+        print_r($config->additional_components);
+        die;
+
         $key = array_search('other', $components);
         unset($components[$key]);
         $components = array_intersect_key(events::additional_components(), array_flip($components));

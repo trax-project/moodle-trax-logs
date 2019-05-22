@@ -135,7 +135,7 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         $table->add_field('newattempt', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
 
         // Adding keys to table.
-        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('xid'));
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
 
         // Create the table.
         $dbman->create_table($table);

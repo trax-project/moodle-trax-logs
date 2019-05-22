@@ -161,11 +161,20 @@ if ($hassiteconfig) {
         PARAM_INT
     ));
 
-    // Buffer size.
+    // DB batch size.
     $settings->add(new admin_setting_configtext(
-        'logstore_trax/batchsize',
-        new lang_string('batchsize', 'logstore_trax'),
-        new lang_string('batchsize_help', 'logstore_trax'),
+        'logstore_trax/dbbatchsize',
+        new lang_string('dbbatchsize', 'logstore_trax'),
+        new lang_string('dbbatchsize_help', 'logstore_trax'),
+        100,
+        PARAM_INT
+    ));
+
+    // xAPI batch size.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/xapibatchsize',
+        new lang_string('xapibatchsize', 'logstore_trax'),
+        new lang_string('xapibatchsize_help', 'logstore_trax'),
         10,
         PARAM_INT
     ));

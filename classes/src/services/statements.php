@@ -80,7 +80,7 @@ class statements {
     }
 
     /**
-     * Get an array of Statements given an array of events.
+     * Get an array of Statement + Event given an array of events.
      *
      * @param array $events Moodle events data
      * @return array
@@ -93,7 +93,7 @@ class statements {
     }
 
     /**
-     * Get a Statement given an event.
+     * Get a Statement + Event given an event.
      *
      * @param \stdClass $event Moodle event data
      * @return mixed

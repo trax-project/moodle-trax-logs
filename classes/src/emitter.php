@@ -88,7 +88,7 @@ class emitter {
         for ($i = 0; 1; $i++) {
 
             // Get a batch
-            $batch = array_slice($items, $i * $this->config->batchsize, $this->config->batchsize, true);
+            $batch = array_slice($items, $i * $this->config->xapibatchsize, $this->config->xapibatchsize, true);
             if (empty($batch)) break;
 
             // Get the batch statements

@@ -31,7 +31,7 @@ This unit test triggers all the supported Moodle events, transform them into xAP
 Currently, the test function doesn't check that the LRS received and recorded the statements.
 So you will have to open your LRS and check it manually.
 
-To run the test: `vendor/bin/phpunit store_test admin/tool/log/store/trax/tests/store_test.php`.
+To run the test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/store_test.php`.
 
 
 ### Testing the xAPI Identification Services
@@ -40,7 +40,7 @@ This unit test checks the behaviour of the **xAPI Identification Services** whic
 It calls the plugin Web Services, so you have to activate these services before running the test.
 Please, refer to the [LTI integration](lti.md) page if don't know how to do that.
 
-To run the test: `vendor/bin/phpunit external_test admin/tool/log/store/trax/tests/external_test.php`.
+To run the test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/external_test.php`.
 
 
 

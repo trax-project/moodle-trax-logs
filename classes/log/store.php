@@ -70,15 +70,7 @@ class store implements log_writer {
      * @return bool
      */
     protected function is_event_ignored(moodle_event $event) {
-
-        // Guests are not allowed.
-        if (!CLI_SCRIPT or PHPUNIT_TEST) {
-            // Always log inside CLI scripts because we do not login there.
-            if (!isloggedin() or isguestuser()) {
-                return true;
-            }
-        }
-        return false;
+        return true;
     }
 
     /**

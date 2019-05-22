@@ -25,8 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/test_config.php');
-
-use \logstore_trax\src\controller as trax_controller;
+require_once(__DIR__ . '/test_utils.php');
 
 /**
  * Unit tests for external services.
@@ -36,6 +35,8 @@ use \logstore_trax\src\controller as trax_controller;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class external_test extends test_config {
+
+    use test_utils;
 
     /**
      * Get actors and activities used by a statement.
@@ -53,35 +54,32 @@ class external_test extends test_config {
             'context' => context_module::instance($lti->cmid),
         ])->trigger();
 
-        // Check data.
-        $controller = new trax_controller();
-
         // User without name.
-        $actor = $controller->actors->get_existing('user', $user->id, false);
+        $actor = $this->controller->actors->get_existing('user', $user->id, false);
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
         $this->assertTrue(!isset($actor['name']));
 
         // User with name.
-        $actor = $controller->actors->get_existing('user', $user->id, true);
+        $actor = $this->controller->actors->get_existing('user', $user->id, true);
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
         $this->assertTrue(isset($actor['name']));
         $this->assertTrue($actor['name'] == $user->firstname . ' ' . $user->lastname);
 
         // System.
-        $activity = $controller->activities->get_existing('system', 0, false);
+        $activity = $this->controller->activities->get_existing('system', 0, false);
         $this->assertTrue($activity && isset($activity['id']));
 
         // Course.
-        $activity = $controller->activities->get_existing('course', $course->id, false);
+        $activity = $this->controller->activities->get_existing('course', $course->id, false);
         $this->assertTrue($activity && isset($activity['id']));
 
         // LTI module.
-        $activity = $controller->activities->get_existing('lti', $lti->id, false);
+        $activity = $this->controller->activities->get_existing('lti', $lti->id, false);
         $this->assertTrue($activity && isset($activity['id']));
 
         // Non existing module.
         try {
-            $activity = $controller->activities->get_existing('lti', 65416871984164, false);
+            $activity = $this->controller->activities->get_existing('lti', 65416871984164, false);
             $this->assertTrue(false);
         } catch (\moodle_exception $e) {
             $this->assertTrue(true);

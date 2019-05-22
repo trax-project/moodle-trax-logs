@@ -61,29 +61,4 @@ class test_config extends advanced_testcase {
      */
     protected $platformiri = 'http://moodle.test';
 
-
-    /**
-     * Prepare test session.
-     */
-    protected function prepare_session() {
-
-        // Prepare testing context.
-        $this->resetAfterTest(true);
-        $this->preventResetByRollback();
-
-        // Enable logging plugin and configure it.
-        set_config('enabled_stores', 'logstore_trax', 'tool_log');
-        set_config('lrs_endpoint', $this->lrsendpoint, 'logstore_trax');
-        set_config('lrs_username', $this->lrsusername, 'logstore_trax');
-        set_config('lrs_password', $this->lrspassword, 'logstore_trax');
-        set_config('platform_iri', $this->platformiri, 'logstore_trax');
-        set_config('buffersize', 0, 'logstore_trax');
-
-        // Create a user.
-        $this->setAdminUser();
-        $user = $this->getDataGenerator()->create_user();
-        $this->setUser($user);
-        return $user;
-    }
-
 }

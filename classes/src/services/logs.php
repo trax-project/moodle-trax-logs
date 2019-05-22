@@ -44,13 +44,6 @@ class logs {
      */
     protected $config;
 
-    /**
-     * Batch size.
-     *
-     * @var int $batchsize
-     */
-    protected $batchsize = 1;
-
 
     /**
      * Constructor.
@@ -119,7 +112,7 @@ class logs {
             WHERE " . $where . "
             ORDER BY id
         ";
-        return $DB->get_records_sql($sql, $params, 0, $this->batchsize);
+        return $DB->get_records_sql($sql, $params, 0, $this->config->dbbatchsize);
     }
 
     /**
@@ -128,11 +121,11 @@ class logs {
      * @param int $number Number of logs to return.
      * @return array
      */
-    public function get_last_logs(int $number) {
+    public function get_last_logs(int $number, string $table = 'logstore_trax_logs') {
         global $DB;
         $sql = "
             SELECT *
-            FROM {logstore_trax_logs}
+            FROM {" . $table . "}
             ORDER BY id DESC
         ";
         return $DB->get_records_sql($sql, null, 0, $number);

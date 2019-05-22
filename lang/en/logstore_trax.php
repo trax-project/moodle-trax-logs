@@ -93,8 +93,11 @@ $string['firstlogs_help'] = "Format: DD/MM/YYYY. When the sync mode is asynchron
 $string['attempts'] = 'Attempts';
 $string['attempts_help'] = "Number of attempts when a request fails.";
 
-$string['batchsize'] = 'Batch size';
-$string['batchsize_help'] = "Number of Statements that can be grouped to be sent in a single request.";
+$string['dbbatchsize'] = 'Database batch size';
+$string['dbbatchsize_help'] = "Number of log entries that can be processed during a single CRON job.";
+
+$string['xapibatchsize'] = 'xAPI batch size';
+$string['xapibatchsize_help'] = "Number of Statements that can be grouped in a single POST request.";
 
 
 // Exceptions.
