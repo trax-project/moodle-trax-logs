@@ -33,8 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class config extends events {
-
+class config {
     
     /**
      * Get the loggable core events.
@@ -68,8 +67,8 @@ class config extends events {
      * @return array
      */
     public static function selected_core_events(\stdClass $config) {
-        $families = array_keys(array_filter($config->core_events));
-        $families = array_intersect_key($this->core, array_flip($families));
+        $families = explode(',', $config->core_events);
+        $families = array_intersect_key(events::core(), array_flip($families));
         return call_user_func_array("array_merge", $families);
     }
 
@@ -79,28 +78,11 @@ class config extends events {
      * @return array
      */
     public static function loggable_moodle_components() {
-        return [
-            'mod_assign' => get_string('modulename', 'assign'),
-            'mod_book' => get_string('modulename', 'book'),
-            'mod_chat' => get_string('modulename', 'chat'),
-            'mod_choice' => get_string('modulename', 'choice'),
-            'mod_data' => get_string('modulename', 'data'),
-            'mod_feedback' => get_string('modulename', 'feedback'),
-            'mod_folder' => get_string('modulename', 'folder'),
-            'mod_forum' => get_string('modulename', 'forum'),
-            'mod_glossary' => get_string('modulename', 'glossary'),
-            'mod_imscp' => get_string('modulename', 'imscp'),
-            'mod_lesson' => get_string('modulename', 'lesson'),
-            'mod_lti' => get_string('modulename', 'lti'),
-            'mod_page' => get_string('modulename', 'page'),
-            'mod_quiz' => get_string('modulename', 'quiz'),
-            'mod_resource' => get_string('modulename', 'resource'),
-            'mod_scorm' => get_string('modulename', 'scorm'),
-            'mod_survey' => get_string('modulename', 'survey'),
-            'mod_url' => get_string('modulename', 'url'),
-            'mod_wiki' => get_string('modulename', 'wiki'),
-            'mod_workshop' => get_string('modulename', 'workshop'),
-        ];
+        $components = events::moodle_components();
+        return array_map(function ($comp, $key) {
+            $parts = explode('_', $key);
+            return get_string('modulename', $parts[1]);
+        }, $components, array_keys($components));
     }
 
     /**
@@ -121,7 +103,7 @@ class config extends events {
      * @return array
      */
     public static function selected_moodle_components(\stdClass $config) {
-        return array_keys(array_filter($config->moodle_components));
+        return explode(',', $config->moodle_components);
     }
 
     /**
@@ -130,10 +112,12 @@ class config extends events {
      * @return array
      */
     public static function loggable_additional_components() {
-        return [
-            'mod_hvp' => get_string('hvp', 'logstore_trax'),
-            'other' => get_string('other_components', 'logstore_trax'),
-        ];
+        $components = events::additional_components();
+        $components = array_map(function($comp, $key) {
+            return get_string($key, 'logstore_trax');
+        }, $components, array_keys($components));
+        $components['other'] = get_string('other_components', 'logstore_trax');
+        return $components;
     }
 
     /**
@@ -154,10 +138,10 @@ class config extends events {
      * @return array
      */
     public static function selected_additional_events(\stdClass $config) {
-        $components = array_filter($config->additional_components);
-        unset($components['other']);
-        $components = array_keys($components);
-        $components = array_intersect_key($this->additional, array_flip($components));
+        $components = explode(',', $config->additional_components);
+        $key = array_search('other', $components);
+        unset($components[$key]);
+        $components = array_intersect_key(events::additional_components(), array_flip($components));
         return call_user_func_array("array_merge", $components);
     }
 

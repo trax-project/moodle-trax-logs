@@ -169,6 +169,4 @@ if ($hassiteconfig) {
         10,
         PARAM_INT
     ));
-
-    (new \logstore_trax\src\controller)->process_logstore();
 }

@@ -80,38 +80,40 @@ class logs {
 
         // Log status
         $whereStatus = [
-            'xid IS NULL',
+            'error IS NULL',
             '(error = 1 AND attempts < ?)',
-            'force = 1',
+            'newattempt = 1',
         ];
         $where[] = '(' . implode(' OR ', $whereStatus) . ')';
         $params[] = $this->config->attempts;
 
         // Components
+        $param1 = $this->sql_array(config::selected_core_events($this->config));
+        $param2 = $this->sql_array(config::selected_moodle_components($this->config));
+        $param3 = $this->sql_array(config::selected_additional_events($this->config));
         $whereComponent = [
-            '(component = core AND eventname IN ?)',
-            '(component IN ?)',
-            '(component = logstore_trax AND eventname IN ?)',
+            "(component = 'core' AND eventname IN " . $param1 . ')',
+            '(component IN ' . $param2 . ')',
+            "(component = 'logstore_trax' AND eventname IN " . $param3 . ')',
         ];
-        $params[] = config::selected_core_events($this->config);
-        $params[] = config::selected_moodle_components($this->config);
-        $params[] = config::selected_additional_events($this->config);
 
         // Additional components
-        if (config::other_components_selected()) {
-            $whereComponent[] = '(
-                component <> core 
-                AND component <> logstore_trax
-                AND component NOT IN ?
-            )';
-            $params[] = config::selected_moodle_components($this->config);
+        if (config::other_components_selected($this->config)) {
+            $param4 = $this->sql_array(config::selected_moodle_components($this->config));
+            $whereComponent[] = "(
+                component <> 'core' 
+                AND component <> 'logstore_trax'
+                AND component NOT IN ' . $param4 . '
+            )";
         }
+
+        // All components
         $where[] = '(' . implode(' OR ', $whereComponent) . ')';
 
         // Final request
         $where = implode(' AND ', $where);
         $sql = "
-            SELECT *
+            SELECT {logstore_standard_log}.*, error, attempts, newattempt, {logstore_trax_logs}.id AS xid
             FROM {logstore_standard_log}
             LEFT JOIN {logstore_trax_logs} ON {logstore_standard_log}.id = {logstore_trax_logs}.mid
             WHERE " . $where . "
@@ -131,7 +133,7 @@ class logs {
         $sql = "
             SELECT *
             FROM {logstore_trax_logs}
-            ORDER BY xid DESC
+            ORDER BY id DESC
         ";
         return $DB->get_records_sql($sql, null, 0, $number);
     }
@@ -178,8 +180,8 @@ class logs {
         if (isset($event->xid) && $event->xid) {
 
             // Existing log.
-            $DB->insert_record('logstore_trax_logs', (object)[
-                'xid' => $event->xid,
+            $DB->update_record('logstore_trax_logs', (object)[
+                'id' => $event->xid,
                 'mid' => $event->mid,
                 'error' => $error,
                 'attempts' => $event->attempts + 1
@@ -188,12 +190,26 @@ class logs {
         } else if (isset($event->id) && $event->id) {
 
             // New log with a Moodle event.
-            $DB->update_record('logstore_trax_logs', (object)[
+            $DB->insert_record('logstore_trax_logs', (object)[
                 'mid' => $event->id,
                 'error' => $error,
             ]);
         }
     }
+
+    /**
+     * Convert array to SQL array.
+     *
+     * @param array $array array
+     * @return string
+     */
+    protected function sql_array(array $array) {
+        $array = array_map(function ($item) {
+            return "'" . $item . "'";
+        }, $array);
+        return '(' . implode(', ', $array) . ')';
+    }
+
 
 
 }

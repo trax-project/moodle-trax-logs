@@ -73,7 +73,7 @@ $string['moodle_components_help'] = 'Select Moodle components you want to track.
 
 $string['additional_components'] = 'Additional components';
 $string['additional_components_help'] = 'Select additional components you want to track.';
-$string['hvp'] = 'H5P';
+$string['mod_hvp'] = 'H5P';
 $string['other_components'] = 'Other components';
 
 $string['data_transfert_settings'] = 'Data Transfer Settings';

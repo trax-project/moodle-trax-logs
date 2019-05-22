@@ -100,12 +100,12 @@ class controller {
      */
     public function __construct() {
         $this->config = get_config('logstore_trax');
+        $this->logs = new logs($this->config);
+        $this->emitter = new emitter($this->config, $this->logs);
         $this->actors = new actors($this->config);
         $this->verbs = new verbs($this->config);
         $this->activities = new activities($this->config);
         $this->statements = new statements($this->actors, $this->verbs, $this->activities, $this->logs);
-        $this->logs = new logs($this->config);
-        $this->emitter = new emitter($this->config, $this->logs);
     }
 
     /**

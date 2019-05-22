@@ -31,11 +31,11 @@
 
     <TABLE NAME="logstore_trax_logs" COMMENT="Logs table">
       <FIELDS>
-        <FIELD NAME="xid" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="mid" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="false" SEQUENCE="false"/>
         <FIELD NAME="error" TYPE="int" LENGTH="1" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="0"/>
         <FIELD NAME="attempts" TYPE="int" LENGTH="3" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="1"/>
-        <FIELD NAME="force" TYPE="int" LENGTH="1" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="0"/>
+        <FIELD NAME="newattempt" TYPE="int" LENGTH="1" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="0"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="xid"/>

@@ -38,101 +38,107 @@ class events {
     /**
      * Core events.
      *
-     * @var array $core
+     * @return array
      */
-    protected $core = [
-        'authentication' => [
-            '\core\event\user_loggedin',
-            '\core\event\user_loggedout',
-        ],
-        'navigation' => [
-            '\core\event\course_viewed',
-        ],
-        'completion' => [],
-        'grading' => [],
-    ];
+    public static function core() {
+        return [
+            'authentication' => [
+                '\core\event\user_loggedin',
+                '\core\event\user_loggedout',
+            ],
+            'navigation' => [
+                '\core\event\course_viewed',
+            ],
+            'completion' => [],
+            'grading' => [],
+        ];
+    }
 
     /**
-     * Moodle modules events.
+     * Moodle components events.
      *
-     * @var array $modules
+     * @return array
      */
-    protected $modules = [
-        'mod_assign' => [
-            '\mod_assign\event\course_module_viewed',
-        ],
-        'mod_book' => [
-            '\mod_book\event\course_module_viewed',
-        ],
-        'mod_chat' => [
-            '\mod_chat\event\course_module_viewed',
-        ],
-        'mod_choice' => [
-            '\mod_choice\event\course_module_viewed',
-        ],
-        'mod_data' => [
-            '\mod_data\event\course_module_viewed',
-        ],
-        'mod_feedback' => [
-            '\mod_feedback\event\course_module_viewed',
-        ],
-        'mod_folder' => [
-            '\mod_folder\event\course_module_viewed',
-        ],
-        'mod_forum' => [
-            '\mod_forum\event\course_module_viewed',
-        ],
-        'mod_glossary' => [
-            '\mod_glossary\event\course_module_viewed',
-        ],
-        'mod_imscp' => [
-            '\mod_imscp\event\course_module_viewed',
-        ],
-        'mod_lesson' => [
-            '\mod_lesson\event\course_module_viewed',
-        ],
-        'mod_lti' => [
-            '\mod_lti\event\course_module_viewed',
-        ],
-        'mod_page' => [
-            '\mod_page\event\course_module_viewed',
-        ],
-        'mod_quiz' => [
-            '\mod_quiz\event\course_module_viewed',
-        ],
-        'mod_resource' => [
-            '\mod_resource\event\course_module_viewed',
-        ],
-        'mod_scorm' => [
-            '\mod_scorm\event\course_module_viewed',
-        ],
-        'mod_survey' => [
-            '\mod_survey\event\course_module_viewed',
-        ],
-        'mod_url' => [
-            '\mod_url\event\course_module_viewed',
-        ],
-        'mod_wiki' => [
-            '\mod_wiki\event\course_module_viewed',
-        ],
-        'mod_workshop' => [
-            '\mod_workshop\event\course_module_viewed',
-        ],
-    ];
+    public static function moodle_components() {
+        return [
+            'mod_assign' => [
+                '\mod_assign\event\course_module_viewed',
+            ],
+            'mod_book' => [
+                '\mod_book\event\course_module_viewed',
+            ],
+            'mod_chat' => [
+                '\mod_chat\event\course_module_viewed',
+            ],
+            'mod_choice' => [
+                '\mod_choice\event\course_module_viewed',
+            ],
+            'mod_data' => [
+                '\mod_data\event\course_module_viewed',
+            ],
+            'mod_feedback' => [
+                '\mod_feedback\event\course_module_viewed',
+            ],
+            'mod_folder' => [
+                '\mod_folder\event\course_module_viewed',
+            ],
+            'mod_forum' => [
+                '\mod_forum\event\course_module_viewed',
+            ],
+            'mod_glossary' => [
+                '\mod_glossary\event\course_module_viewed',
+            ],
+            'mod_imscp' => [
+                '\mod_imscp\event\course_module_viewed',
+            ],
+            'mod_lesson' => [
+                '\mod_lesson\event\course_module_viewed',
+            ],
+            'mod_lti' => [
+                '\mod_lti\event\course_module_viewed',
+            ],
+            'mod_page' => [
+                '\mod_page\event\course_module_viewed',
+            ],
+            'mod_quiz' => [
+                '\mod_quiz\event\course_module_viewed',
+            ],
+            'mod_resource' => [
+                '\mod_resource\event\course_module_viewed',
+            ],
+            'mod_scorm' => [
+                '\mod_scorm\event\course_module_viewed',
+            ],
+            'mod_survey' => [
+                '\mod_survey\event\course_module_viewed',
+            ],
+            'mod_url' => [
+                '\mod_url\event\course_module_viewed',
+            ],
+            'mod_wiki' => [
+                '\mod_wiki\event\course_module_viewed',
+            ],
+            'mod_workshop' => [
+                '\mod_workshop\event\course_module_viewed',
+            ],
+        ];
+    }
 
     /**
-     * Additional events.
+     * Additional components events.
      *
-     * @var array $additional
+     * @return array
      */
-    protected $additional = [
-        'mod_hvp' => [
-            '\mod_hvp\event\course_module_viewed',
-            '\logstore_trax\event\hvp_module_answered',
-            '\logstore_trax\event\hvp_module_completed',
-            '\logstore_trax\event\hvp_question_answered',
-        ],
-    ];
+    public static function additional_components() {
+        return [
+            'mod_hvp' => [
+                '\mod_hvp\event\course_module_viewed',
+                '\logstore_trax\event\hvp_module_answered',
+                '\logstore_trax\event\hvp_module_completed',
+                '\logstore_trax\event\hvp_question_answered',
+            ],
+        ];
+    }
     
 
 }

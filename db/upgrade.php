@@ -128,11 +128,11 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         $table = new xmldb_table('logstore_trax_logs');
 
         // Add fields.
-        $table->add_field('xid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
         $table->add_field('mid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED);
         $table->add_field('error', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
         $table->add_field('attempts', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1');
-        $table->add_field('force', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $table->add_field('newattempt', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
 
         // Adding keys to table.
         $table->add_key('primary', XMLDB_KEY_PRIMARY, array('xid'));
