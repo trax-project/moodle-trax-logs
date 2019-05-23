@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for external services.
+ * Unit tests: external services.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once(__DIR__ . '/base.php');
 
 /**
- * Unit tests for external services.
+ * Unit tests: external services.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -55,7 +55,13 @@ class test_external extends base {
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
         $this->assertTrue(!isset($actor['name']));
 
+        // Get user with name when it is not allowed.
+        $actor = $this->controller->actors->get_existing('user', $this->events->user->id, true);
+        $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
+        $this->assertTrue(!isset($actor['name']));
+
         // Get user with name.
+        set_config('xis_provide_names', 1, 'logstore_trax');
         $actor = $this->controller->actors->get_existing('user', $this->events->user->id, true);
         $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
         $this->assertTrue(isset($actor['name']));

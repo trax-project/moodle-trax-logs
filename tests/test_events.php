@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Configuration for unit tests.
+ * Unit tests: supported events.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -24,41 +24,39 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use \logstore_trax\src\config;
+
+require_once(__DIR__ . '/base.php');
+
 /**
- * Configuration for unit tests.
+ * Unit tests: supported events.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-trait lrs_config {
+class test_events extends base {
 
     /**
-     * LRS endpoint.
-     *
-     * @var string $lrsendpoint
+     * Test all supported events.
      */
-    protected $lrsendpoint = 'http://trax.test/trax/ws/xapi';
+    public function test_all_events() {
 
-    /**
-     * Basic HTTP username.
-     *
-     * @var string $lrsusername
-     */
-    protected $lrsusername = 'testsuite';
+        // Prepare session.
+        $this->prepare_session();
 
-    /**
-     * Basic HTTP password.
-     *
-     * @var string $lrspassword
-     */
-    protected $lrspassword = 'password';
+        // Trigger events.
+        $events = $this->events->all_events();
+        $this->trigger($events);
 
-    /**
-     * Platform IRI.
-     *
-     * @var string $platformiri
-     */
-    protected $platformiri = 'http://moodle.test';
+        // Process logs.
+        $traxlogs = $this->process();
+
+        // Check logs.
+        $this->assertTrue(count($traxlogs) == count($events));
+        foreach ($traxlogs as $log) {
+            $this->assertTrue($log->error == 0);
+        }
+    }
 
 }

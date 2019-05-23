@@ -123,6 +123,9 @@ class client {
      * @return stdClass Response object
      */
     protected function response($guzzleresponse) {
+        if (is_null($guzzleresponse)) {
+            return (object)['code' => 404];
+        }
         $res = (object)[
             'code' => $guzzleresponse->getStatusCode(),
         ];

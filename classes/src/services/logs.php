@@ -189,9 +189,10 @@ class logs {
             // Existing log.
             $DB->update_record('logstore_trax_logs', (object)[
                 'id' => $event->xid,
-                'mid' => $event->mid,
+                'mid' => $event->id,
                 'error' => $error,
-                'attempts' => $event->attempts + 1
+                'attempts' => $event->attempts + 1,
+                'newattempt' => 0
             ]);
 
         } else if (isset($event->id) && $event->id) {

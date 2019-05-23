@@ -49,8 +49,8 @@ class course_module_viewed extends base_statement {
         global $DB;
 
         // Get the H5P type.
-        $hvp = $DB->get_record('hvp', array('id' => $this->event->objectid));
-        $library = $DB->get_record('hvp_libraries', array('id' => $hvp->main_library_id));
+        $hvp = $DB->get_record('hvp', array('id' => $this->event->objectid), '*', MUST_EXIST);
+        $library = $DB->get_record('hvp_libraries', array('id' => $hvp->main_library_id), '*', MUST_EXIST);
         $hvptype = $library->machine_name;
 
         // Get the vocab type.

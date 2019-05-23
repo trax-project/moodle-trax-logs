@@ -111,7 +111,7 @@ class hvp_question_answered extends base_statement {
     protected function transform_object_strings($nativeobject, $base)
     {
         global $DB;
-        $course = $DB->get_record('course', array('id' => $this->event->courseid));
+        $course = $DB->get_record('course', array('id' => $this->event->courseid), '*', MUST_EXIST);
 
         // Clean name.
         if (isset($nativeobject->definition->name)) {

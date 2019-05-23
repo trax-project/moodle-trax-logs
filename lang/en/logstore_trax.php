@@ -116,6 +116,7 @@ $string['xapi_batch_size_help'] = "Number of Statements that can be grouped in a
 // Exceptions.
 $string['invalid_entry_identification'] = 'Invalid entry identification.';
 $string['entry_not_found'] = 'Entry not found.';
+$string['record_not_found'] = 'Record not found.';
 
 
 // Privacy metadata.

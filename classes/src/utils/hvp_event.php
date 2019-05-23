@@ -75,7 +75,7 @@ class hvp_event extends \core\event\base {
         }
 
         // Prepare data.
-        $cm = $DB->get_record('course_modules', array('id' => $cmid), 'id,instance');
+        $cm = $DB->get_record('course_modules', array('id' => $cmid), 'id,instance', MUST_EXIST);
         $data = array(
             'objectid' => $cm->instance,
             'context' => \context_module::instance($cmid),

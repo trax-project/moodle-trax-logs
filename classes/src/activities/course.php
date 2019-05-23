@@ -54,7 +54,7 @@ class course extends activity
 
             // Name & description.
             global $DB;
-            $course = $DB->get_record('course', array('id' => $mid));
+            $course = $DB->get_record('course', array('id' => $mid), '*', MUST_EXIST);
             $activity['definition']['name'] = utils::lang_string($course->fullname, $course);
             if (!empty($course->summary)) {
                 $activity['definition']['description'] = utils::lang_string($course->summary, $course);

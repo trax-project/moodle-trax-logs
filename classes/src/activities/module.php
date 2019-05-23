@@ -54,8 +54,8 @@ class module extends activity
 
             // Name & description.
             global $DB;
-            $module = $DB->get_record($type, array('id' => $mid));
-            $course = $DB->get_record('course', array('id' => $module->course));
+            $module = $DB->get_record($type, array('id' => $mid), '*', MUST_EXIST);
+            $course = $DB->get_record('course', array('id' => $module->course), '*', MUST_EXIST);
             $activity['definition']['name'] = utils::lang_string($module->name, $course);
             if (!empty($module->intro)) {
                 $activity['definition']['description'] = utils::lang_string($module->intro, $course);

@@ -77,6 +77,9 @@ class actors extends index {
             }
             $accountname = $entry->uuid;
         } else {
+            if (!$record) {
+                throw new \moodle_exception('record_not_found', 'logstore_trax');
+            }
             $accountname = $record->username;
         }
         $res = [
@@ -86,7 +89,7 @@ class actors extends index {
                 'name' => $accountname,
             ],
         ];
-        if ($full && $config->xis_provide_names) {
+        if ($full && $config->xis_provide_names && $record) {
             $res['name'] = $record->firstname . ' ' . $record->lastname;
         }
         return $res;

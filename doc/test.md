@@ -22,7 +22,7 @@ A test folder is included with the plugin, so you can test most of the plugin fe
 
 2. Reinitialize the testing environment if it has not been already done: `php admin/tool/phpunit/cli/init.php`.
 
-3. In `admin/tool/log/store/trax/tests/test_config.php`, change the LRS access settings at the begining of the script.
+3. In `admin/tool/log/store/trax/tests/lrs_config.php`, set the LRS access settings for your tests.
 
 
 ### Sending statements to the LRS

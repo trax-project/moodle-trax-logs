@@ -26,7 +26,6 @@ defined('MOODLE_INTERNAL') || die;
 
 require_once("$CFG->libdir/externallib.php");
 
-use \moodle_exception;
 use \logstore_trax\src\controller as trax_controller;
 
 /**
@@ -133,7 +132,7 @@ class logstore_trax_external extends external_api {
             } else if (isset($item['type']) && isset($item['id'])) {
                 $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], $full);
             } else {
-                throw new moodle_exception('invalid_entry_identification', 'logstore_trax');
+                throw new \moodle_exception('invalid_entry_identification', 'logstore_trax');
             }
             $item['xapi'] = json_encode($item['xapi']);
             return $item;

@@ -42,13 +42,6 @@ class base extends advanced_testcase {
     use lrs_config;
 
     /**
-     * Logstores.
-     *
-     * @var \tool_log\log\writer $stores
-     */
-    protected $stores;
-
-    /**
      * Trax Logs controller.
      *
      * @var controller $controller
@@ -71,7 +64,7 @@ class base extends advanced_testcase {
     protected function prepare_session($config = []) {
 
         // Config (always first).
-        $this->set_default_config($config);
+        $this->set_config($config);
 
         // Prepare testing context.
         $this->resetAfterTest(true);
@@ -81,12 +74,6 @@ class base extends advanced_testcase {
         $this->setAdminUser();
         $user = $this->getDataGenerator()->create_user();
         $this->setUser($user);
-
-        // Enable standard logstore.
-        set_config('enabled_stores', 'logstore_standard,logstore_trax', 'tool_log');
-        $manager = get_log_manager(true);
-        $stores = $manager->get_readers();
-        $this->stores = $stores['logstore_standard'];
 
         // Utilities.
         $this->controller = new trax_controller();
@@ -100,14 +87,28 @@ class base extends advanced_testcase {
      * 
      * @param array $config Config.
      */
-    protected function set_default_config($config = []) {
+    protected function set_config($config = []) {
 
-        // LRS settings.
-        set_config('lrs_endpoint', $this->lrsendpoint, 'logstore_trax');
-        set_config('lrs_username', $this->lrsusername, 'logstore_trax');
-        set_config('lrs_password', $this->lrspassword, 'logstore_trax');
+        // Enable logstores witout buffers.
+        set_config('enabled_stores', 'logstore_standard,logstore_trax', 'tool_log');
+        set_config('buffersize', 0, 'logstore_standard');
+        set_config('buffersize', 0, 'logstore_trax');
 
-        // Other settings.
+        // LRS endpoint.
+        $value = isset($config['lrs_endpoint']) ? $config['lrs_endpoint'] : $this->lrsendpoint;
+        set_config('lrs_endpoint', $value, 'logstore_trax');
+
+        // LRS username.
+        $value = isset($config['lrs_username']) ? $config['lrs_username'] : $this->lrsusername;
+        set_config('lrs_username', $value, 'logstore_trax');
+
+        // LRS password.
+        $value = isset($config['lrs_password']) ? $config['lrs_password'] : $this->lrspassword;
+        set_config('lrs_password', $value, 'logstore_trax');
+
+        // Platform IRI.
+        $value = isset($config['platform_iri']) ? $config['platform_iri'] : $this->platformiri;
+        set_config('platform_iri', $value, 'logstore_trax');
 
         // Anonymization.
         $value = isset($config['anonymization']) ? $config['anonymization'] : 1;
@@ -117,9 +118,9 @@ class base extends advanced_testcase {
         $value = isset($config['xis_provide_names']) ? $config['xis_provide_names'] : 0;
         set_config('xis_provide_names', $value, 'logstore_trax');
 
-        // Sync mode.
-        $value = isset($config['sync_mode']) ? $config['sync_mode'] : config::ASYNC;
-        set_config('sync_mode', $value, 'logstore_trax');
+        // First logs to sync.
+        $value = isset($config['firstlogs']) ? $config['firstlogs'] : date('d/m/Y');
+        set_config('firstlogs', $value, 'logstore_trax');
 
         // Core events.
         $coreevents = implode(',', array_keys(array_filter(config::default_core_events())));
@@ -136,9 +137,9 @@ class base extends advanced_testcase {
         $value = isset($config['additional_components']) ? $config['additional_components'] : $addcomp;
         set_config('additional_components', $value, 'logstore_trax');
 
-        // First logs to sync.
-        $value = isset($config['firstlogs']) ? $config['firstlogs'] : date('d/m/Y');
-        set_config('firstlogs', $value, 'logstore_trax');
+        // Sync mode.
+        $value = isset($config['sync_mode']) ? $config['sync_mode'] : config::ASYNC;
+        set_config('sync_mode', $value, 'logstore_trax');
 
         // Number of attempts.
         $value = isset($config['attempts']) ? $config['attempts'] : 1;
@@ -159,7 +160,7 @@ class base extends advanced_testcase {
      * @param mixed $events The events to trigger.
      * @return void
      */
-    public function trigger($events)
+    protected function trigger($events)
     {
         if (is_array($events)) {
             foreach ($events as $event) {
@@ -168,7 +169,6 @@ class base extends advanced_testcase {
         } else {
             $events->trigger();
         }
-        $this->stores->flush();
     }
 
     /**
@@ -176,10 +176,24 @@ class base extends advanced_testcase {
      * 
      * @return array
      */
-    public function process()
+    protected function process()
     {
         $this->controller->process_logstore();
         return $this->controller->logs->get_trax_logs();
+    }
+
+    /**
+     * Trigger a simple event.
+     * 
+     * @param bool $process Process the events.
+     * @return mixed
+     */
+    protected function trigger_simple_event($process = true) {
+        $event = $this->events->user_loggedin();
+        $this->trigger($event);
+        if ($process) {
+            return $this->process();
+        }
     }
 
 }
