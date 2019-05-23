@@ -33,7 +33,7 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_heading(
         'lrs',
         get_string('lrs_settings', 'logstore_trax'),
-        ''
+        get_string('lrs_settings_help', 'logstore_trax')
     ));
 
     // Endpoint.
@@ -69,7 +69,7 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_heading(
         'identification',
         get_string('xapi_identification_settings', 'logstore_trax'),
-        ''
+        get_string('xapi_identification_settings_help', 'logstore_trax')
     ));
 
     // Platform IRI.
@@ -103,7 +103,7 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_heading(
         'events',
         get_string('logged_events', 'logstore_trax'),
-        ''
+        get_string('logged_events_help', 'logstore_trax')
     ));
 
     // First log.
@@ -149,7 +149,16 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_heading(
         'transfer',
         get_string('data_transfert_settings', 'logstore_trax'),
-        ''
+        get_string('data_transfert_settings_help', 'logstore_trax')
+    ));
+
+    // Sync mode
+    $settings->add(new admin_setting_configselect(
+        'logstore_trax/sync_mode', 
+        get_string('sync_mode', 'logstore_trax'), 
+        get_string('sync_mode_help', 'logstore_trax'),
+        config::SYNC,
+        config::sync_modes()
     ));
 
     // Failed attempts.
@@ -163,18 +172,18 @@ if ($hassiteconfig) {
 
     // DB batch size.
     $settings->add(new admin_setting_configtext(
-        'logstore_trax/dbbatchsize',
-        new lang_string('dbbatchsize', 'logstore_trax'),
-        new lang_string('dbbatchsize_help', 'logstore_trax'),
+        'logstore_trax/db_batch_size',
+        new lang_string('db_batch_size', 'logstore_trax'),
+        new lang_string('db_batch_size_help', 'logstore_trax'),
         100,
         PARAM_INT
     ));
 
     // xAPI batch size.
     $settings->add(new admin_setting_configtext(
-        'logstore_trax/xapibatchsize',
-        new lang_string('xapibatchsize', 'logstore_trax'),
-        new lang_string('xapibatchsize_help', 'logstore_trax'),
+        'logstore_trax/xapi_batch_size',
+        new lang_string('xapi_batch_size', 'logstore_trax'),
+        new lang_string('xapi_batch_size_help', 'logstore_trax'),
         10,
         PARAM_INT
     ));

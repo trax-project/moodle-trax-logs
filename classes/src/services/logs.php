@@ -38,37 +38,20 @@ use logstore_trax\src\config;
 class logs {
 
     /**
-     * Config.
-     *
-     * @var stdClass $config
-     */
-    protected $config;
-
-
-    /**
-     * Constructor.
-     *
-     * @param stdClass $config Config
-     * @return void
-     */
-    public function __construct(\stdClass $config) {
-        $this->config = $config;
-    }
-
-    /**
      * Get the new events to process.
      *
      * @return array
      */
     public function get_events_to_process() {
         global $DB;
+        $config = get_config('logstore_trax');
         $where = [];
         $params = [];
 
         // First logs.
-        if (!empty($this->config->firstlogs)) {
+        if (!empty($config->firstlogs)) {
             $where[] = 'timecreated >= ?';
-            $params[] = strtotime(str_replace('/', '-', $this->config->firstlogs));
+            $params[] = strtotime(str_replace('/', '-', $config->firstlogs));
         }
 
         // Log status
@@ -78,12 +61,12 @@ class logs {
             'newattempt = 1',
         ];
         $where[] = '(' . implode(' OR ', $whereStatus) . ')';
-        $params[] = $this->config->attempts;
+        $params[] = $config->attempts;
 
         // Components
-        $param1 = $this->sql_array(config::selected_core_events($this->config));
-        $param2 = $this->sql_array(config::selected_moodle_components($this->config));
-        $param3 = $this->sql_array(config::selected_additional_events($this->config));
+        $param1 = $this->sql_array(config::selected_core_events($config));
+        $param2 = $this->sql_array(config::selected_moodle_components($config));
+        $param3 = $this->sql_array(config::selected_additional_events($config));
         $whereComponent = [
             "(component = 'core' AND eventname IN " . $param1 . ')',
             '(component IN ' . $param2 . ')',
@@ -91,8 +74,8 @@ class logs {
         ];
 
         // Additional components
-        if (config::other_components_selected($this->config)) {
-            $param4 = $this->sql_array(config::selected_moodle_components($this->config));
+        if (config::other_components_selected($config)) {
+            $param4 = $this->sql_array(config::selected_moodle_components($config));
             $whereComponent[] = "(
                 component <> 'core' 
                 AND component <> 'logstore_trax'
@@ -113,7 +96,7 @@ class logs {
             ORDER BY id
         ";
         
-        return $DB->get_records_sql($sql, $params, 0, $this->config->dbbatchsize);
+        return $DB->get_records_sql($sql, $params, 0, $config->db_batch_size);
     }
 
     /**
@@ -194,6 +177,12 @@ class logs {
      * @return void
      */
     protected function log_event(\stdClass $event, int $error) {
+
+        // Never log in sync mode, except for unit tests.
+        if (config::sync() && !PHPUNIT_TEST) {
+            return;
+        }
+
         global $DB;
         if (isset($event->xid) && $event->xid) {
 
@@ -212,7 +201,27 @@ class logs {
                 'mid' => $event->id,
                 'error' => $error,
             ]);
+
+        } else {
+
+            // Sync mode.
+            $DB->insert_record('logstore_trax_logs', (object)[
+                'error' => $error,
+            ]);
         }
+    }
+
+    /**
+     * Clean logs.
+     *
+     * @return void
+     */
+    public function clean() {
+        global $DB;
+
+        // Remove sync logs.
+        $select = 'mid IS NULL';
+        $DB->delete_records_select('logstore_trax_logs', $select);
     }
 
     /**

@@ -33,6 +33,11 @@ $string['pluginname_desc'] = 'A log plugin which transforms Moodle logs into xAP
 // Settings.
 
 $string['lrs_settings'] = 'LRS Settings';
+$string['lrs_settings_help'] = "The following settings should be found in your LRS.
+    If you did'n choose an LRS yet, you should take a look at 
+    <a href='http://traxlrs.com' target='_blank'>Trax LRS</a>.
+    However, this plugin should work with any 
+    <a href='https://adopters.adlnet.gov/products/all/0' target='_blank'>xAPI compliant LRS</a>.";
 
 $string['lrs_endpoint'] = 'LRS endpoint';
 $string['lrs_endpoint_help'] = "This is the URL used to call the xAPI services of your LRS.";
@@ -44,6 +49,9 @@ $string['lrs_password'] = 'LRS password (Basic HTTP)';
 $string['lrs_password_help'] = "This is the password of the Basic HTTP account created on your LRS.";
 
 $string['xapi_identification_settings'] = 'xAPI Identification Settings';
+$string['xapi_identification_settings_help'] = "In this section, you can define how users will 
+    be identified in the Statements. Be carefull with data privacy and take a look at the 
+    <a href='https://eugdpr.org/' target='_blank'>GDPR</a>.";
 
 $string['platform_iri'] = 'Platform IRI';
 $string['platform_iri_help'] = "An IRI that will identify your platform and will never change.";
@@ -60,6 +68,12 @@ $string['xis_provide_names_help'] = 'When this option is selected and when Web S
     Be aware of the consequences in terms of GDPR compliance when you select this option.';
 
 $string['logged_events'] = 'Logged events';
+$string['logged_events_help'] = 'In this section, you can choose the events you want to send to the LRS.
+    The sync mode must be set to "asynchronous". When set to "synchronous", all known events are sent.';
+
+$string['firstlogs'] = 'First logs';
+$string['firstlogs_help'] = "Format: DD/MM/YYYY. 
+    This is the date of the first logs to sync from the Moodle standard logstore.";
 
 $string['core_events'] = 'Moodle core events';
 $string['core_events_help'] = 'Select event families you want to track.';
@@ -77,19 +91,26 @@ $string['mod_hvp'] = 'H5P';
 $string['other_components'] = 'Other components';
 
 $string['data_transfert_settings'] = 'Data Transfer Settings';
+$string['data_transfert_settings_help'] = 'This section defines how this plugin will transfer
+    data to the LRS. Please, take the time to make tests and define the right settings 
+    before going into production.';
 
-$string['firstlogs'] = 'First logs';
-$string['firstlogs_help'] = "Format: DD/MM/YYYY. 
-    This is the date of the first logs to sync from the Moodle standard logstore.";
+$string['sync_mode'] = 'Sync mode';
+$string['sync_mode_help'] = "In asynchronous mode, logs are read from the Moodle logstore
+    with a CRON job. This is the best choice for production. In synchronous mode,
+    events are catched in real time. Choose it for tests only.
+    ";
+$string['sync'] = 'Synchronous (test)';
+$string['async'] = 'Asynchronous (production)';
 
 $string['attempts'] = 'Attempts';
-$string['attempts_help'] = "Number of attempts when a request fails.";
+$string['attempts_help'] = "Number of attempts when a request fails (async mode only).";
 
-$string['dbbatchsize'] = 'Database batch size';
-$string['dbbatchsize_help'] = "Number of log entries that can be processed during a single CRON job.";
+$string['db_batch_size'] = 'Database batch size';
+$string['db_batch_size_help'] = "Number of log entries that can be processed during a single CRON job.";
 
-$string['xapibatchsize'] = 'xAPI batch size';
-$string['xapibatchsize_help'] = "Number of Statements that can be grouped in a single POST request.";
+$string['xapi_batch_size'] = 'xAPI batch size';
+$string['xapi_batch_size_help'] = "Number of Statements that can be grouped in a single POST request.";
 
 
 // Exceptions.

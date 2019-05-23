@@ -34,7 +34,39 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class config {
+
+    /**
+     * Synchronous mode.
+     */
+    const SYNC = 0;
+
+    /**
+     * Asynchronous mode.
+     */
+    const ASYNC = 1;
+
     
+    /**
+     * Get the sync modes.
+     *
+     * @return array
+     */
+    public static function sync_modes() {
+        return [
+            self::SYNC => get_string('sync', 'logstore_trax'),
+            self::ASYNC => get_string('async', 'logstore_trax'),
+        ];
+    }
+
+    /**
+     * Is sync mode?
+     *
+     * @return bool
+     */
+    public static function sync() {
+        return get_config('logstore_trax', 'sync_mode') == self::SYNC;
+    }
+
     /**
      * Get the loggable core events.
      *

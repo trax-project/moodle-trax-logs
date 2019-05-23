@@ -103,7 +103,9 @@ class activities extends index {
             $class = '\\logstore_trax\\src\\activities\\'.$model;
         }
 
-        return (new $class($this->config))->get($type, $mid, $entry->uuid, $full, $vocabtype);
+        $config = get_config('logstore_trax');
+        $config->platform_iri = $this->platform_iri();
+        return (new $class($config))->get($type, $mid, $entry->uuid, $full, $vocabtype);
     }
 
     /**

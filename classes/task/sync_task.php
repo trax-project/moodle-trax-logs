@@ -24,7 +24,8 @@
 
 namespace logstore_trax\task;
 
-use logstore_trax\src\controller;
+use logstore_trax\src\controller as trax_controller;
+use logstore_trax\src\config;
 
 /**
  * Asynchronous sync task.
@@ -51,7 +52,9 @@ class sync_task extends \core\task\scheduled_task
      */
     public function execute()
     {
-        (new controller())->process_logstore();
+        if (!config::sync()) {
+            (new trax_controller())->process_logstore();
+        }
     }
 }
 

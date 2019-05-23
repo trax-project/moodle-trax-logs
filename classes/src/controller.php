@@ -44,13 +44,6 @@ require_once(__DIR__ . '/../../vendor/autoload.php');
 class controller {
 
     /**
-     * Config.
-     *
-     * @var stdClass $config
-     */
-    protected $config;
-
-    /**
      * Statements service.
      *
      * @var statements $statements
@@ -85,13 +78,6 @@ class controller {
      */
     public $logs;
 
-    /**
-     * Emitter.
-     *
-     * @var emitter $emitter
-     */
-    protected $emitter;
-
 
     /**
      * Constructor.
@@ -99,12 +85,10 @@ class controller {
      * @return void
      */
     public function __construct() {
-        $this->config = get_config('logstore_trax');
-        $this->logs = new logs($this->config);
-        $this->emitter = new emitter($this->config, $this->logs);
-        $this->actors = new actors($this->config);
-        $this->verbs = new verbs($this->config);
-        $this->activities = new activities($this->config);
+        $this->logs = new logs();
+        $this->actors = new actors();
+        $this->verbs = new verbs();
+        $this->activities = new activities();
         $this->statements = new statements($this->actors, $this->verbs, $this->activities, $this->logs);
     }
 
@@ -126,7 +110,7 @@ class controller {
      */
     public function process_events(array $events) {
         $statements = $this->statements->get_from_events($events);
-        $this->emitter->send($statements);
+        (new emitter($this->logs))->send($statements);
     }
 
 }

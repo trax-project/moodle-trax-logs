@@ -32,6 +32,7 @@ use \tool_log\log\manager as log_manager;
 use \tool_log\helper\store as helper_store;
 use \tool_log\helper\buffered_writer as helper_writer;
 use \logstore_trax\src\controller as trax_controller;
+use logstore_trax\src\config;
 
 
 /**
@@ -45,13 +46,6 @@ class store implements log_writer {
     use helper_store;
     use helper_writer;
 
-    /**
-     * Trax controller.
-     *
-     * @var trax_controller $controller
-     */
-    protected $controller;
-
 
     /**
      * Constructs a new store.
@@ -60,17 +54,16 @@ class store implements log_writer {
      */
     public function __construct(log_manager $manager) {
         $this->helper_setup($manager);
-        $this->controller = new trax_controller();
     }
 
     /**
      * Should the event be ignored (== not logged)?
-     *
-     * @param moodle_event $event
+     * 
+     * @param \core\event\base $event
      * @return bool
      */
-    protected function is_event_ignored(moodle_event $event) {
-        return true;
+    protected function is_event_ignored(\core\event\base $event) {
+        return !config::sync() || (CLI_SCRIPT && !PHPUNIT_TEST) || !isloggedin();
     }
 
     /**
@@ -79,6 +72,7 @@ class store implements log_writer {
      * @param array $evententries raw event data
      */
     protected function insert_event_entries(array $evententries) {
+        (new trax_controller())->process_events($evententries);
     }
 
 }

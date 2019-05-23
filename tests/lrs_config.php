@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class test_config extends advanced_testcase {
+trait lrs_config {
 
     /**
      * LRS endpoint.
@@ -53,12 +53,5 @@ class test_config extends advanced_testcase {
      * @var string $lrspassword
      */
     protected $lrspassword = 'password';
-
-    /**
-     * Moodle platform IRI.
-     *
-     * @var string $platformiri
-     */
-    protected $platformiri = 'http://moodle.test';
 
 }

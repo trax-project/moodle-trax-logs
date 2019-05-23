@@ -24,8 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/test_config.php');
-require_once(__DIR__ . '/test_utils.php');
+use \logstore_trax\src\config;
+
+require_once(__DIR__ . '/base.php');
 
 /**
  * Unit tests: generate Moodle events and transform them into xAPI statements.
@@ -34,20 +35,44 @@ require_once(__DIR__ . '/test_utils.php');
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class store_test extends test_config {
-
-    use test_utils;
+class test_store extends base {
 
     /**
-     * Test the overall process.
+     * Test the sync process.
      */
-    public function test_process() {
+    public function test_sync_process() {
+
+        // Prepare session.
+        $this->prepare_session([
+            'sync_mode' => config::SYNC
+        ]);
+
+        // Trigger events.
+        $event = $this->events->user_loggedin();
+        $this->trigger($event);
+
+        // Check Trax logs.
+        $traxlogs = $this->controller->logs->get_trax_logs();
+        $this->assertTrue(count($traxlogs) == 1);
+
+        // Check error.
+        $this->assertTrue(reset($traxlogs)->error == 0);
+
+        // Clean logs (don't keep sync logs).
+        $this->controller->logs->clean();
+
+        // Check that logs are clean.
+        $traxlogs = $this->controller->logs->get_trax_logs();
+        $this->assertTrue(count($traxlogs) == 0);
+    }
+
+    /**
+     * Test the async process.
+     */
+    public function test_async_process() {
 
         // Prepare session.
         $this->prepare_session();
-
-        // Prepare Moodle logs.
-        $this->controller->logs->delete_moodle_logs();
 
         // Trigger events.
         $event = $this->events->user_loggedin();
@@ -70,7 +95,7 @@ class store_test extends test_config {
     /**
      * Test all supported events.
      */
-    public function test_events() {
+    public function test_all_events() {
 
         // Prepare session.
         $this->prepare_session();

@@ -24,7 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/test_events.php');
+require_once(__DIR__ . '/lrs_config.php');
+require_once(__DIR__ . '/events_generator.php');
 
 use \logstore_trax\src\controller as trax_controller;
 use \logstore_trax\src\config;
@@ -36,7 +37,16 @@ use \logstore_trax\src\config;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-trait test_utils {
+class base extends advanced_testcase {
+
+    use lrs_config;
+
+    /**
+     * Logstores.
+     *
+     * @var \tool_log\log\writer $stores
+     */
+    protected $stores;
 
     /**
      * Trax Logs controller.
@@ -46,27 +56,22 @@ trait test_utils {
     protected $controller;
 
     /**
-     * Moodle standard store.
-     *
-     * @var \tool_log\log\writer $store
-     */
-    protected $store;
-
-    /**
      * Testing events.
      *
-     * @var test_events $events
+     * @var events_generator $events
      */
     protected $events;
 
 
     /**
      * Prepare test session.
+     * 
+     * @param array $config Config.
      */
-    protected function prepare_session() {
+    protected function prepare_session($config = []) {
 
         // Config (always first).
-        $this->set_default_config();
+        $this->set_default_config($config);
 
         // Prepare testing context.
         $this->resetAfterTest(true);
@@ -78,40 +83,74 @@ trait test_utils {
         $this->setUser($user);
 
         // Enable standard logstore.
-        set_config('enabled_stores', 'logstore_standard', 'tool_log');
+        set_config('enabled_stores', 'logstore_standard,logstore_trax', 'tool_log');
         $manager = get_log_manager(true);
         $stores = $manager->get_readers();
-        $this->store = $stores['logstore_standard'];
+        $this->stores = $stores['logstore_standard'];
 
         // Utilities.
         $this->controller = new trax_controller();
-        $this->events = new test_events($this->getDataGenerator(), $user);
+        $this->controller->logs->delete_trax_logs();
+        $this->controller->logs->delete_moodle_logs();
+        $this->events = new events_generator($this->getDataGenerator(), $user);
     }
 
     /**
      * Set default config.
+     * 
+     * @param array $config Config.
      */
-    protected function set_default_config() {
+    protected function set_default_config($config = []) {
 
-        // Enable logging plugin and configure it.
+        // LRS settings.
         set_config('lrs_endpoint', $this->lrsendpoint, 'logstore_trax');
         set_config('lrs_username', $this->lrsusername, 'logstore_trax');
         set_config('lrs_password', $this->lrspassword, 'logstore_trax');
-        set_config('platform_iri', $this->platformiri, 'logstore_trax');
 
-        // Default settings
-        set_config('anonymization', 1, 'logstore_trax');
-        set_config('xis_provide_names', 0, 'logstore_trax');
+        // Other settings.
+
+        // Anonymization.
+        $value = isset($config['anonymization']) ? $config['anonymization'] : 1;
+        set_config('anonymization', $value, 'logstore_trax');
+
+        // xis_provide_names.
+        $value = isset($config['xis_provide_names']) ? $config['xis_provide_names'] : 0;
+        set_config('xis_provide_names', $value, 'logstore_trax');
+
+        // Sync mode.
+        $value = isset($config['sync_mode']) ? $config['sync_mode'] : config::ASYNC;
+        set_config('sync_mode', $value, 'logstore_trax');
+
+        // Core events.
         $coreevents = implode(',', array_keys(array_filter(config::default_core_events())));
-        set_config('core_events', $coreevents, 'logstore_trax');
+        $value = isset($config['core_events']) ? $config['core_events'] : $coreevents;
+        set_config('core_events', $value, 'logstore_trax');
+
+        // Moodle components.
         $moodlecomp = implode(',', array_keys(array_filter(config::default_moodle_components())));
-        set_config('moodle_components', $moodlecomp, 'logstore_trax');
+        $value = isset($config['moodle_components']) ? $config['moodle_components'] : $moodlecomp;
+        set_config('moodle_components', $value, 'logstore_trax');
+
+        // Additional components.
         $addcomp = implode(',', array_keys(array_filter(config::default_additional_components())));
-        set_config('additional_components', $addcomp, 'logstore_trax');
-        set_config('firstlogs', date('d/m/Y'), 'logstore_trax');
-        set_config('attempts', 1, 'logstore_trax');
-        set_config('dbbatchsize', 100, 'logstore_trax');
-        set_config('xapibatchsize', 10, 'logstore_trax');
+        $value = isset($config['additional_components']) ? $config['additional_components'] : $addcomp;
+        set_config('additional_components', $value, 'logstore_trax');
+
+        // First logs to sync.
+        $value = isset($config['firstlogs']) ? $config['firstlogs'] : date('d/m/Y');
+        set_config('firstlogs', $value, 'logstore_trax');
+
+        // Number of attempts.
+        $value = isset($config['attempts']) ? $config['attempts'] : 1;
+        set_config('attempts', $value, 'logstore_trax');
+
+        // Database batch size.
+        $value = isset($config['db_batch_size']) ? $config['db_batch_size'] : 100;
+        set_config('db_batch_size', $value, 'logstore_trax');
+
+        // xAPI batch size.
+        $value = isset($config['xapi_batch_size']) ? $config['xapi_batch_size'] : 10;
+        set_config('xapi_batch_size', $value, 'logstore_trax');
     }
 
     /**
@@ -129,7 +168,7 @@ trait test_utils {
         } else {
             $events->trigger();
         }
-        $this->store->flush();
+        $this->stores->flush();
     }
 
     /**
@@ -139,7 +178,6 @@ trait test_utils {
      */
     public function process()
     {
-        $this->controller->logs->delete_trax_logs();
         $this->controller->process_logstore();
         return $this->controller->logs->get_trax_logs();
     }

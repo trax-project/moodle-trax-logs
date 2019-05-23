@@ -39,13 +39,6 @@ use logstore_trax\src\utils;
 abstract class index {
 
     /**
-     * Config.
-     *
-     * @var stdClass $config
-     */
-    protected $config;
-
-    /**
      * DB table.
      *
      * @var string $table
@@ -56,14 +49,9 @@ abstract class index {
     /**
      * Constructor.
      *
-     * @param stdClass $config Config
      * @return void
      */
-    public function __construct($config) {
-        $this->config = $config;
-        if (substr($this->config->platform_iri, -1) == '/') {
-            $this->config->platform_iri = substr($this->config->platform_iri, 0, -1);
-        }
+    public function __construct() {
         $this->types = json_decode(json_encode($this->types));
     }
 
@@ -153,6 +141,19 @@ abstract class index {
         return $DB->get_record($this->table, [
             'uuid' => $uuid,
         ]);
+    }
+
+    /**
+     * Get the platform IRI.
+     *
+     * @return string
+     */
+    protected function platform_iri() {
+        $platformiri = get_config('logstore_trax', 'platform_iri');
+        if (substr($platformiri, -1) == '/') {
+            $platformiri = substr($platformiri, 0, -1);
+        }
+        return $platformiri;
     }
 
 }

@@ -38,44 +38,21 @@ use logstore_trax\src\services\logs;
 class emitter {
 
     /**
-     * Config.
-     *
-     * @var stdClass $config
-     */
-    protected $config;
-
-    /**
      * Logs.
      *
      * @var logs $logs
      */
     protected $logs;
 
-    /**
-     * LRS client.
-     *
-     * @var client $client
-     */
-    protected $client;
-
 
     /**
      * Constructor.
      *
-     * @param stdClass $config Config
      * @param logs $logs logs service
      * @return void
      */
-    public function __construct(\stdClass $config, logs $logs) {
-        $this->config = $config;
+    public function __construct(logs $logs) {
         $this->logs = $logs;
-
-        // HTTP Client.
-        $this->client = new client((object)[
-            'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
-            'username' => get_config('logstore_trax', 'lrs_username'),
-            'password' => get_config('logstore_trax', 'lrs_password'),
-        ]);
     }
 
     /**
@@ -85,10 +62,12 @@ class emitter {
      * @return void
      */
     public function send(array $items) {
+        $config = get_config('logstore_trax');
+        $client = $this->client();
         for ($i = 0; 1; $i++) {
 
             // Get a batch
-            $batch = array_slice($items, $i * $this->config->xapibatchsize, $this->config->xapibatchsize, true);
+            $batch = array_slice($items, $i * $config->xapi_batch_size, $config->xapi_batch_size, true);
             if (empty($batch)) break;
 
             // Get the batch statements
@@ -102,7 +81,7 @@ class emitter {
             }, $batch);
 
             // Post the statements
-            $resp = $this->client->statements()->post($statements);
+            $resp = $client->statements()->post($statements);
 
             // Manage success and errors
             foreach($events as $event) {
@@ -114,5 +93,19 @@ class emitter {
             }
         }
     }
+
+    /**
+     * Get a HTTP client.
+     *
+     * @return client
+     */
+    protected function client() {
+        return new client((object)[
+            'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
+            'username' => get_config('logstore_trax', 'lrs_username'),
+            'password' => get_config('logstore_trax', 'lrs_password'),
+        ]);
+    }
+
 
 }
