@@ -27,20 +27,18 @@ A test folder is included with the plugin, so you can test most of the plugin fe
 
 ### Sending statements to the LRS
 
-This unit test triggers all the supported Moodle events, transform them into xAPI statements and send them to the LRS.
-Currently, the test function doesn't check that the LRS received and recorded the statements.
-So you will have to open your LRS and check it manually.
+This unit tests check that Statements are correctly generated and sent to the LRS.
 
-To run the test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/store_test.php`.
+To run the tests: `vendor/bin/phpunit admin/tool/log/store/trax/tests/test_store.php`.
 
 
 ### Testing the xAPI Identification Services
 
-This unit test checks the behaviour of the **xAPI Identification Services** which is used for the **LTI integration**.
+This unit tests check the behaviour of the **xAPI Identification Services** which is used for the **LTI integration**.
 It calls the plugin Web Services, so you have to activate these services before running the test.
 Please, refer to the [LTI integration](lti.md) page if don't know how to do that.
 
-To run the test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/external_test.php`.
+To run the test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/test_external.php`.
 
 
 
