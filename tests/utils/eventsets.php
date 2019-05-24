@@ -53,7 +53,8 @@ trait eventsets {
     public function core_events() {
         return array_merge(
             $this->authentication_events(),
-            $this->navigation_events()
+            $this->navigation_events(),
+            $this->completion_events()
         );
     }
 
@@ -77,6 +78,18 @@ trait eventsets {
     public function navigation_events() {
         return [
             $this->course_viewed(),
+            $this->course_category_viewed(),
+        ];
+    }
+
+    /**
+     * Get completion events.
+     * 
+     * @return array
+     */
+    public function completion_events() {
+        return [
+            $this->course_completed(),
         ];
     }
 

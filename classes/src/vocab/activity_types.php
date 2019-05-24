@@ -53,6 +53,9 @@ trait activity_types {
         'course' => [
             'type' => 'http://vocab.xapi.fr/activities/course',
         ],
+        'course_category' => [
+            'type' => 'http://vocab.xapi.fr/activities/course-category',
+        ],
 
         // Modules.
 

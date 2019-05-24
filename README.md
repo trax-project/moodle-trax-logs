@@ -24,12 +24,11 @@ However, Trax Logs for Moodle aims to bring some key improvements:
 
 The current version of this plugin supports [a limited number of events](doc/events.md):
 * Login and logout,
-* Course access, course module access,
+* Course access, course module access, course category access,
+* Course completion,
 * A few H5P events.
 
-The number of supported events will increase during the next months, including:
-* Progress, completion, success and competency development,
-* Specific interactions for each type of course module.
+The number of supported events will increase during the next months.
 
 
 ## Plugin maturity

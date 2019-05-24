@@ -89,9 +89,9 @@ class utils {
      * @param \stdClass $course Course or course ID
      * @return array
      */
-    public static function lang_string(string $text, \stdClass $course) {
+    public static function lang_string(string $text, \stdClass $course = null) {
         global $CFG;
-        $lang = empty($course->lang) ? $CFG->lang : $course->lang;
+        $lang = !isset($course) || empty($course->lang) ? $CFG->lang : $course->lang;
         $lang = explode('_', $lang)[0];
         $text = strip_tags($text);
         return [$lang => $text];

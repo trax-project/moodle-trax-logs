@@ -48,8 +48,11 @@ class events {
             ],
             'navigation' => [
                 '\core\event\course_viewed',
+                '\core\event\course_category_viewed',
             ],
-            'completion' => [],
+            'completion' => [
+                '\core\event\course_completed',
+            ],
             'grading' => [],
         ];
     }

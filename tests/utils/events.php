@@ -65,6 +65,13 @@ class events {
      */
     public $module;
 
+    /**
+     * The course category in which the events occur.
+     *
+     * @var stdClass $category
+     */
+    public $category;
+
 
     /**
      * Constructor.
@@ -114,6 +121,38 @@ class events {
     }
 
     /**
+     * Get course_category_viewed event.
+     * 
+     * @return \core\event\course_category_viewed
+     */
+    public function course_category_viewed() {
+        $this->set_category();
+        return \core\event\course_category_viewed::create([
+            'objectid' => $this->category->id,
+            'context' => context_system::instance(),
+        ]);
+    }
+
+    /**
+     * Get course_completed event.
+     * 
+     * @return \core\event\course_completed
+     */
+    public function course_completed() {
+        $this->set_course();
+        $completion = new completion_completion([
+            'course' => $this->course->id,
+            'userid' => $this->user->id,
+            'timeenrolled' => time(),
+            'timestarted' => time(),
+            'reaggregate' => time(),
+        ]);
+        $completion->insert();
+        $data = $completion->get_record_data();
+        return \core\event\course_completed::create_from_completion($data);
+    }
+
+    /**
      * Get course_module_viewed event.
      * 
      * @param string $module Type of module.
@@ -140,11 +179,20 @@ class events {
     }
 
     /**
-     * Set the course property.
+     * Define a testing course.
      */
     protected function set_course() {
         if (!isset($this->course)) {
             $this->course = $this->generator->create_course();
+        }
+    }
+
+    /**
+     * Define a testing course category.
+     */
+    protected function set_category() {
+        if (!isset($this->category)) {
+            $this->category = $this->generator->create_category();
         }
     }
 

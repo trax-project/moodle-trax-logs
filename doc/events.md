@@ -13,6 +13,10 @@ Please, refer to these documentations to understand xAPI data structures and rul
 
 - `\core\event\course_viewed`: a user navigated in a Moodle course ([JSON example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-course)).
 
+- `\core\event\course_category_viewed`: a user navigated in a Moodle course category ([JSON example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-course-category)).
+
+- `\core\event\course_completed`: a user completed a Moodle course ([JSON example](http://doc.xapi.fr/profiles/moodle/comp#completed-course)).
+
 
 ## Moodle common events
 
