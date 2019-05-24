@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use \logstore_trax\src\config;
 
-require_once(__DIR__ . '/base.php');
+require_once(__DIR__ . '/utils/base.php');
 
 /**
  * Unit tests: errors management.
@@ -35,7 +35,7 @@ require_once(__DIR__ . '/base.php');
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class test_errors extends base {
+class errors_test extends base {
 
     /**
      * Test LRS error.

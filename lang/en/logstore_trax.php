@@ -140,7 +140,7 @@ $string['event_hvp_xapi_error_unsupported'] = 'H5P xAPI event: unsupported event
 
 // Tasks.
 
-$string['sync_task'] = 'TRAX LOGS: sync Moodle standard logstore with the LRS.';
+$string['sync_task'] = 'Trax Logs synchronization';
 
 
 

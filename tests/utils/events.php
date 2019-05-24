@@ -24,6 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__ . '/eventsets.php');
+
 /**
  * Unit tests: testing events.
  *
@@ -31,7 +33,9 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class events_generator {
+class events {
+
+    use eventsets;
 
     /**
      * Data generator.
@@ -74,51 +78,6 @@ class events_generator {
     }
 
     /**
-     * Get all events.
-     * 
-     * @return array
-     */
-    public function all_events() {
-
-        return array_merge(
-            $this->authentication_events(),
-            $this->navigation_events()
-        );
-    }
-
-    /**
-     * Get authentication events.
-     * 
-     * @return array
-     */
-    public function authentication_events() {
-        return [
-            $this->user_loggedout(),
-            $this->user_loggedin(),
-        ];
-    }
-
-    /**
-     * Get navigation events.
-     * 
-     * @return array
-     */
-    public function navigation_events() {
-        $events = [
-            $this->course_viewed(),
-        ];
-        $types = [
-            'book', 'chat', 'choice', 'data', 'feedback', 'folder', 'forum', 'glossary',
-            'imscp', 'lesson', 'lti', 'page', 'quiz', 'resource', 'scorm', 'survey', 'url',
-            'wiki', 'workshop'
-        ];
-        foreach ($types as $type) {
-            $events[] = $this->course_module_viewed($type);
-        }
-        return $events;
-    }
-
-    /**
      * Get user_loggedin event.
      * 
      * @return \core\event\user_loggedin
@@ -157,18 +116,18 @@ class events_generator {
     /**
      * Get course_module_viewed event.
      * 
-     * @param string $type Type of module.
+     * @param string $module Type of module.
      * @return course_module_viewed
      */
-    public function course_module_viewed($type) {
+    public function course_module_viewed($module) {
         $this->set_course();
-        $this->module = $this->generator->create_module($type, array('course' => $this->course->id));
-        $class = '\mod_' . $type . '\event\course_module_viewed';
+        $this->module = $this->generator->create_module($module, array('course' => $this->course->id));
+        $class = '\mod_' . $module . '\event\course_module_viewed';
         $params = [
             'objectid' => $this->module->id,
             'context' => context_module::instance($this->module->cmid),
         ];
-        switch ($type) {
+        switch ($module) {
             case 'feedback':
                 $params['other'] = ['anonymous' => FEEDBACK_ANONYMOUS_YES];
                 break;

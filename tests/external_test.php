@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/base.php');
+require_once(__DIR__ . '/utils/base.php');
 
 /**
  * Unit tests: external services.
@@ -33,7 +33,7 @@ require_once(__DIR__ . '/base.php');
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class test_external extends base {
+class external_test extends base {
 
     /**
      * Get actors and activities used by a statement.

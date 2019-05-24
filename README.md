@@ -9,13 +9,15 @@ The idea of transforming Moodle logs into xAPI Statements is not new.
 It has been experimented with [Logstore xAPI](https://moodle.org/plugins/view/logstore_xapi).
 
 However, Trax Logs for Moodle aims to bring some key improvements:
-* [Statements designed with best practices in mind](doc/best-practices.md),
-* [Reinforcement of data privacy](doc/privacy.md),
-* [Integration of LTI activities](doc/lti.md),
+* [Automatically synched with you Moodle history](doc/config.md),
 * [Integration of H5P activities](doc/h5p.md),
+* [Integration of LTI activities](doc/lti.md),
+* [Reinforcement of data privacy](doc/privacy.md),
 * [Simple and extensible architecture](doc/extend.md),
 * [Code quality and unit testing](doc/test.md),
-* Extensive documentation.
+* [Statements designed with best practices in mind](doc/best-practices.md),
+* [Documented xAPI profile](http://doc.xapi.fr/profiles/moodle),
+* Extensive documentation (here).
 
 
 ## Currently supported events
@@ -42,13 +44,14 @@ However, you are encouraged to [install](doc/install.md) the plugin, to test it,
 ## Contents
 
 * [Overview](README.md)
-* [Installation and configuration](doc/install.md)
+* [Installation](doc/install.md)
+* [Configuration](doc/config.md)
 * [Supported events](doc/events.md)
 * [Supporting new events](doc/extend.md)
-* [LTI integration](doc/lti.md)
 * [H5P integration](doc/h5p.md)
+* [LTI integration](doc/lti.md)
+* [xAPI Identification Services](doc/id.md)
 * [Best pratices in designing Statements](doc/best-practices.md)
 * [Data privacy](doc/privacy.md)
-* [xAPI Identification Services](doc/id.md)
 * [Coding style and unit testing](doc/test.md)
 

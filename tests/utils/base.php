@@ -24,8 +24,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once(__DIR__ . '/lrs_config.php');
-require_once(__DIR__ . '/events_generator.php');
+require_once(__DIR__ . '/settings.php');
+require_once(__DIR__ . '/events.php');
 
 use \logstore_trax\src\controller as trax_controller;
 use \logstore_trax\src\config;
@@ -39,7 +39,7 @@ use \logstore_trax\src\config;
  */
 class base extends advanced_testcase {
 
-    use lrs_config;
+    use settings;
 
     /**
      * Trax Logs controller.
@@ -51,7 +51,7 @@ class base extends advanced_testcase {
     /**
      * Testing events.
      *
-     * @var events_generator $events
+     * @var events $events
      */
     protected $events;
 
@@ -79,7 +79,7 @@ class base extends advanced_testcase {
         $this->controller = new trax_controller();
         $this->controller->logs->delete_trax_logs();
         $this->controller->logs->delete_moodle_logs();
-        $this->events = new events_generator($this->getDataGenerator(), $user);
+        $this->events = new events($this->getDataGenerator(), $user);
     }
 
     /**

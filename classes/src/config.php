@@ -102,6 +102,7 @@ class config {
     public static function selected_core_events(\stdClass $config) {
         $families = explode(',', $config->core_events);
         $families = array_intersect_key(events::core(), array_flip($families));
+        if (empty($families)) return [];
         return call_user_func_array("array_merge", $families);
     }
 
@@ -181,6 +182,7 @@ class config {
         $key = array_search('other', $components);
         unset($components[$key]);
         $components = array_intersect_key(events::additional_components(), array_flip($components));
+        if (empty($components)) return [];
         return call_user_func_array("array_merge", $components);
     }
 

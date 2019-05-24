@@ -22,35 +22,43 @@ A test folder is included with the plugin, so you can test most of the plugin fe
 
 2. Reinitialize the testing environment if it has not been already done: `php admin/tool/phpunit/cli/init.php`.
 
-3. In `admin/tool/log/store/trax/tests/lrs_config.php`, set the LRS access settings for your tests.
+3. In `admin/tool/log/store/trax/tests/utils/settings.php`, set the LRS access settings for your tests.
+
+<aside class="warning">
+    Unit tests will send a lot of fake Statements to your LRS. 
+    You should setup a specific LRS environment to support your tests.
+    Don't use your production LRS!
+</aside>
 
 
-### Sending statements to the LRS
+### Running all the tests
 
-This unit tests check that Statements are correctly generated and sent to the LRS.
-
-To run the tests: `vendor/bin/phpunit admin/tool/log/store/trax/tests/test_store.php`.
+To run all the tests: `vendor/bin/phpunit --testsuite logstore_trax_testsuite`.
 
 
-### Testing the xAPI Identification Services
+### Running specific tests
 
-This unit tests check the behaviour of the **xAPI Identification Services** which is used for the **LTI integration**.
-It calls the plugin Web Services, so you have to activate these services before running the test.
-Please, refer to the [LTI integration](lti.md) page if don't know how to do that.
+To run a specific test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/xxx_test.php`, where `xxx` can be:
 
-To run the test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/test_external.php`.
-
+- `store`: send a simple Statement to the LRS both with sync and async modes.
+- `events`: generate and send all supported events, except H5P.
+- `settings`: test some of the plugin settings.
+- `filters`: test the capability of the plugin to filter logs.
+- `batches`: test the capability of the plugin to send batches of Statements.
+- `errors`: test errors management.
+- `external`: test the functions used by the plugin Web Services.
 
 
 ## Contents
 
 * [Overview](../README.md)
-* [Installation and configuration](install.md)
+* [Installation](install.md)
+* [Configuration](config.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
-* [LTI integration](lti.md)
 * [H5P integration](h5p.md)
+* [LTI integration](lti.md)
+* [xAPI Identification Services](id.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)
-* [xAPI Identification Services](id.md)
 * [Coding style and unit testing](test.md)

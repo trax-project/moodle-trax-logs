@@ -1,4 +1,4 @@
-# Installation and configuration
+# Installation
 
 ## LRS installation
 
@@ -12,8 +12,6 @@ When it is done, create a new BasicHTTP client in your LRS. You will be prompted
 
 ## Trax Logs installation
 
-**If Trax Logs v0.3 (or older) is already installed, you must first uninstall it! Then:**
-
 1. [Download the lastest version of the plugin for Moodle 3.5.](https://github.com/trax-project/moodle-trax-logs/releases)
 
 2. Drag and drop the ZIP file in `http://my-moodle-address.com/admin/tool/installaddon/index.php`.
@@ -23,33 +21,26 @@ For a manual installation, unzip the ZIP file in `my-moodle-install-folder/admin
 
 4. Confirm the plugin installation and follow the configuration process.
 
-5. Go to `Administration > Plugins > Logstore` in order to activate the plugin.
+5. Go to `Administration > Plugins > Logstore` and activate the plugin.
 
-6. You can now navigate in your courses and see new Statements in your LRS.
+6. Check that the Moodle CRON job is running.
 
+That's all. At this step, we recommend you to run the [unit tests](test.md) in order to check that everything works fine. 
 
-## Trax Logs configuration
+Then, you can start to navigate in your courses and see the Statements arriving into your LRS.
 
-- **LRS endpoint** - This is the URL Trax Logs will use in order to communicate with the LRS. Check your LRS installation in order to get this setting.
-
-- **LRS username** - This is the username you entered when you created the BasicHTTP client in your LRS. 
-
-- **LRS password** - This is the password you entered when you created the BasicHTTP client in your LRS. 
-
-- **Plateform IRI** - It looks like an URL and will permanently identify your Moodle instance. It may be your hosting URL or a symbolic URL that will stay unchanged, even if your hosting URL changes. 
-
-- **Buffer size** - Number of statements which can be grouped to be sent in a single request. You should check your LRS capabilities. 
 
 
 ## Contents
 
 * [Overview](../README.md)
-* [Installation and configuration](install.md)
+* [Installation](install.md)
+* [Configuration](config.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
-* [LTI integration](lti.md)
 * [H5P integration](h5p.md)
+* [LTI integration](lti.md)
+* [xAPI Identification Services](id.md)
 * [Best pratices in designing Statements](best-practices.md)
 * [Data privacy](privacy.md)
-* [xAPI Identification Services](id.md)
 * [Coding style and unit testing](test.md)

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Configuration for unit tests.
+ * Unit tests: plugin settings.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -24,41 +24,60 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+use \logstore_trax\src\config;
+
+require_once(__DIR__ . '/utils/base.php');
+
 /**
- * Configuration for unit tests.
+ * Unit tests: plugin settings.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-trait lrs_config {
+class filters_test extends base {
 
     /**
-     * LRS endpoint.
-     *
-     * @var string $lrsendpoint
+     * Test core events filters.
      */
-    protected $lrsendpoint = 'http://trax.test/trax/ws/xapi';
+    public function test_core_events() {
+
+        // Prepare session.
+        $this->prepare_session([
+            'core_events' => ''
+        ]);
+
+        // Trigger events.
+        $events = $this->events->core_events();
+        $this->trigger($events);
+
+        // Process logs.
+        $traxlogs = $this->process();
+
+        // Check logs.
+        $this->assertTrue(count($traxlogs) == 0);
+    }
 
     /**
-     * Basic HTTP username.
-     *
-     * @var string $lrsusername
+     * Test moodle components filters.
      */
-    protected $lrsusername = 'testsuite';
+    public function test_moodle_components() {
 
-    /**
-     * Basic HTTP password.
-     *
-     * @var string $lrspassword
-     */
-    protected $lrspassword = 'password';
+        // Prepare session.
+        $this->prepare_session([
+            'moodle_components' => ''
+        ]);
 
-    /**
-     * Platform IRI.
-     *
-     * @var string $platformiri
-     */
-    protected $platformiri = 'http://moodle.test';
+        // Trigger events.
+        $events = $this->events->moodle_components();
+        $this->trigger($events);
+
+        // Process logs.
+        $traxlogs = $this->process();
+
+        // Check logs.
+        $this->assertTrue(count($traxlogs) == 0);
+    }
+
 
 }

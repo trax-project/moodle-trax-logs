@@ -67,13 +67,19 @@ class logs {
         $param1 = $this->sql_array(config::selected_core_events($config));
         $param2 = $this->sql_array(config::selected_moodle_components($config));
         $param3 = $this->sql_array(config::selected_additional_events($config));
-        $whereComponent = [
-            "(component = 'core' AND eventname IN " . $param1 . ')',
-            '(component IN ' . $param2 . ')',
-            "(component = 'logstore_trax' AND eventname IN " . $param3 . ')',
-        ];
+        $whereComponent = [];
+        if ($param1 != '()') {
+            $whereComponent[] = "(component = 'core' AND eventname IN " . $param1 . ')';
+        }
+        if ($param2 != '()') {
+            $whereComponent[] = '(component IN ' . $param2 . ')';
+        }
+        if ($param3 != '()') {
+            $whereComponent[] = "(component = 'logstore_trax' AND eventname IN " . $param3 . ')';
+        }
 
         // Additional components
+        /*
         if (config::other_components_selected($config)) {
             $param4 = $this->sql_array(config::selected_moodle_components($config));
             $whereComponent[] = "(
@@ -82,6 +88,7 @@ class logs {
                 AND component NOT IN ' . $param4 . '
             )";
         }
+        */
 
         // All components
         $where[] = '(' . implode(' OR ', $whereComponent) . ')';

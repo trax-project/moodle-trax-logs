@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests: synchronization process.
+ * Unit tests: plugin settings.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -26,70 +26,67 @@ defined('MOODLE_INTERNAL') || die();
 
 use \logstore_trax\src\config;
 
-require_once(__DIR__ . '/base.php');
+require_once(__DIR__ . '/utils/base.php');
 
 /**
- * Unit tests: synchronization process.
+ * Unit tests: plugin settings.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class test_store extends base {
+class settings_test extends base {
 
     /**
-     * Test the sync process.
+     * Test the async process.
      */
-    public function test_sync_process() {
+    public function test_firstlogs() {
 
         // Prepare session.
+        $tomorrow = new DateTime('tomorrow');
         $this->prepare_session([
-            'sync_mode' => config::SYNC
+            'firstlogs' => $tomorrow->format('d/m/Y')
         ]);
 
-        // Trigger events.
-        $event = $this->events->user_loggedin();
-        $this->trigger($event);
+        // Trigger event and get logs.
+        $traxlogs = $this->trigger_simple_event();
 
         // Check Trax logs.
-        $traxlogs = $this->controller->logs->get_trax_logs();
-        $this->assertTrue(count($traxlogs) == 1);
-
-        // Check error.
-        $this->assertTrue(reset($traxlogs)->error == 0);
-
-        // Clean logs (don't keep sync logs).
-        $this->controller->logs->clean();
-
-        // Check that logs are clean.
-        $traxlogs = $this->controller->logs->get_trax_logs();
         $this->assertTrue(count($traxlogs) == 0);
     }
 
     /**
      * Test the async process.
      */
-    public function test_async_process() {
+    public function test_anonymization() {
 
         // Prepare session.
         $this->prepare_session();
 
-        // Trigger events.
-        $event = $this->events->user_loggedin();
-        $this->trigger($event);
+        // Trigger event and get logs.
+        $traxlogs = $this->trigger_simple_event();
+        $log = reset($traxlogs);
 
-        // Check Moodle logs.
-        $logs = $this->controller->logs->get_moodle_logs();
-        $this->assertTrue(count($logs) == 1);
+        // Get the Moodle event.
+        global $DB;
+        $mlog = $DB->get_record('logstore_standard_log', ['id' => $log->mid]);
 
-        // Process logs.
-        $traxlogs = $this->process();
+        // Transform it into a Statement.
+        $mixed = $this->controller->statements->get_from_event($mlog);
+        $name = $mixed->statement['actor']['account']['name'];
+        
+        // Check anonymization.
+        $this->assertTrue($name != $this->events->user->username);
 
-        // Check Trax logs.
-        $this->assertTrue(count($traxlogs) == 1);
+        // Disable anonymization.
+        set_config('anonymization', 0, 'logstore_trax');
 
-        // Check error.
-        $this->assertTrue(reset($traxlogs)->error == 0);
+        // Transform it into a Statement.
+        $mixed = $this->controller->statements->get_from_event($mlog);
+        $name = $mixed->statement['actor']['account']['name'];
+        
+        // Check anonymization.
+        $this->assertTrue($name == $this->events->user->username);
     }
 
 }
