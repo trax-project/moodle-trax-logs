@@ -8,7 +8,7 @@ Trax Logs has been successfully checked with:
 - [Code checker](http://moodle.org/plugins/view.php?plugin=local_codechecker)
 - [PHPDoc checker](https://github.com/marinaglancy/moodle-local_moodlecheck)
 
-Before running these tests, please exclude the plugin `vendor` folder which contains third-party libraries that follow their own quality standards.
+Before running these tests, please exclude the **vendor** folder which contains third-party libraries that follow their own quality standards.
 
 
 ## Unit testing
@@ -40,13 +40,13 @@ To run all the tests: `vendor/bin/phpunit --testsuite logstore_trax_testsuite`.
 
 To run a specific test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/xxx_test.php`, where `xxx` can be:
 
-- `store`: send a simple Statement to the LRS both with sync and async modes.
-- `events`: generate and send all supported events, except H5P.
-- `settings`: test some of the plugin settings.
-- `filters`: test the capability of the plugin to filter logs.
-- `batches`: test the capability of the plugin to send batches of Statements.
-- `errors`: test errors management.
-- `external`: test the functions used by the plugin Web Services.
+- **store**: send a simple Statement to the LRS both with sync and async modes.
+- **events**: generate and send all supported events, except H5P.
+- **settings**: test some of the plugin settings.
+- **filters**: test the capability of the plugin to filter logs.
+- **batches**: test the capability of the plugin to send batches of Statements.
+- **errors**: test errors management.
+- **external**: test the functions used by the plugin Web Services.
 
 
 ## Contents
