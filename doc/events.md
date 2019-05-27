@@ -23,7 +23,7 @@ Please, refer to these documentations to understand xAPI data structures and rul
     [JSON example](http://doc.xapi.fr/profiles/moodle/comp#completed-course)).
 
 - `\core\event\course_completion_updated`: the completion status of a course module changed. 
-The resulting Statement depends of the completion status. (
+The resulting Statement depends of the completion status (
     [Completed](http://doc.xapi.fr/profiles/moodle/comp#completed-module), 
     [Passed](http://doc.xapi.fr/profiles/moodle/comp#passed-module), 
     [Failed](http://doc.xapi.fr/profiles/moodle/comp#failed-module)
