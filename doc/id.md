@@ -49,6 +49,8 @@ This is the only required input data. It is a list of items identified with one 
 
 This is an optional setting. Its default value is *0*. When set to *1*, all known information is added to the xAPI object, like the name of the user, or the full definition of the activity.
 
+Furthermore, when you request a user with this option, the `account.name` property of the xAPI object is the username of the user, and not its UUID.
+
 
 ### Activities request example
 
