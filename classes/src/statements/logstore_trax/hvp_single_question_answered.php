@@ -26,8 +26,7 @@ namespace logstore_trax\src\statements\logstore_trax;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\statements\base_statement;
-use logstore_trax\src\utils\module_context;
+use logstore_trax\src\utils;
 
 /**
  * xAPI transformation of a H5P event.
@@ -36,38 +35,36 @@ use logstore_trax\src\utils\module_context;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_module_completed extends base_statement {
-
-    use module_context;
+class hvp_single_question_answered extends hvp_quiz_question_answered {
 
     /**
-     * Build the Statement.
+     * Vocab type of the H5P activity.
      *
-     * @return array
+     * @var string $vocabtype
      */
-    protected function statement() {
+    protected $vocabtype = 'hvp-poll';
 
-        // Get the H5P statement.
-        $statement = json_decode($this->eventother['statement']);
-        $hvptype = $this->eventother['hvptype'];
 
-        // Determine the activity type.
-        $vocabtype = 'hvp-quiz';
+    /**
+     * Transform the H5P object.
+     *
+     * @param \stdClass $nativeobject H5P object
+     * @param array $base Statement base
+     * @return \stdClass
+     */
+    protected function transform_object($nativeobject, $base) {
 
-        // Base statement (includes context).
-        $base = $this->base('hvp', true, $vocabtype);
+        // Change ID.
+        $nativeobject->id = $base['context']['contextActivities']['parent'][0]['id'] . '/question';
 
-        // Statement props.
-        $props = [
-            'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $this->verbs->get('completed'),
-            'object' => $this->activities->get('hvp', $this->event->objectid, true, 'module', $vocabtype),
-        ];
-        if (isset($statement->result)) {
-            $props['result'] = $statement->result;
-        }
+        // Adapt name and description.
+        $this->transform_object_strings($nativeobject, $base);
 
-        return array_replace($base, $props);
+        // Remove extensions.
+        unset($nativeobject->definition->extensions);
+
+        return $nativeobject;
     }
+
 
 }

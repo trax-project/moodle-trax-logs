@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * H5P xAPI event: module completed.
+ * H5P xAPI event: question answered.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -35,7 +35,7 @@ use logstore_trax\src\utils\hvp_event;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_module_completed extends hvp_event {
+class hvp_quiz_question_answered extends hvp_event {
 
     /**
      * Return localised event name.
@@ -43,7 +43,7 @@ class hvp_module_completed extends hvp_event {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_hvp_module_completed', 'logstore_trax');
+        return get_string('event_hvp_question_answered', 'logstore_trax');
     }
 
     /**
@@ -52,7 +52,18 @@ class hvp_module_completed extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' completed the H5P activity with id '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' answered one of the questions
+            of the H5P activity with id '$this->contextinstanceid'.";
+    }
+
+    /**
+     * Get the H5P module IRI from the Statement.
+     *
+     * @param \stdClass $statement
+     * @return string
+     */
+    protected static function get_module_iri(\stdClass $statement) {
+        return $statement->context->contextActivities->parent[0]->id;
     }
 
 }

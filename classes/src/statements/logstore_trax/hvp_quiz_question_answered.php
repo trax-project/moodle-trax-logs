@@ -37,7 +37,7 @@ use logstore_trax\src\utils;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_question_answered extends base_statement {
+class hvp_quiz_question_answered extends base_statement {
 
     use inside_module_context;
 
@@ -57,7 +57,7 @@ class hvp_question_answered extends base_statement {
     protected function statement() {
 
         // Get the H5P statement.
-        $statement = json_decode($this->eventother['statement']);
+        $statement = json_decode($this->eventother->statement);
 
         // Base statement (includes context).
         $base = $this->base('hvp', true, $this->vocabtype);

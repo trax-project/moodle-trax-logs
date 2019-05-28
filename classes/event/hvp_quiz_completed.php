@@ -15,56 +15,44 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * xAPI transformation of a H5P event.
+ * H5P xAPI event: module completed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\statements\logstore_trax;
+namespace logstore_trax\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\utils;
+use logstore_trax\src\utils\hvp_event;
 
 /**
- * xAPI transformation of a H5P event.
+ * H5P xAPI event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_module_answered extends hvp_question_answered {
+class hvp_quiz_completed extends hvp_event {
 
     /**
-     * Vocab type of the H5P activity.
+     * Return localised event name.
      *
-     * @var string $vocabtype
+     * @return string
      */
-    protected $vocabtype = 'hvp-poll';
-
-
-    /**
-     * Transform the H5P object.
-     *
-     * @param \stdClass $nativeobject H5P object
-     * @param array $base Statement base
-     * @return \stdClass
-     */
-    protected function transform_object($nativeobject, $base) {
-
-        // Change ID.
-        $nativeobject->id = $base['context']['contextActivities']['parent'][0]['id'] . '/question';
-
-        // Adapt name and description.
-        $this->transform_object_strings($nativeobject, $base);
-
-        // Remove extensions.
-        unset($nativeobject->definition->extensions);
-
-        return $nativeobject;
+    public static function get_name() {
+        return get_string('event_hvp_module_completed', 'logstore_trax');
     }
 
+    /**
+     * Returns description of what happened.
+     *
+     * @return string
+     */
+    public function get_description() {
+        return "The user with id '$this->userid' completed the H5P activity with id '$this->contextinstanceid'.";
+    }
 
 }

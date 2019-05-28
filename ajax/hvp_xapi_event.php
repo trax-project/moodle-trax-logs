@@ -42,17 +42,17 @@ if ($statement->verb->id == 'http://adlnet.gov/expapi/verbs/answered') {
     if ($inside) {
 
         // Answering a question in a question set.
-        \logstore_trax\event\hvp_question_answered::create_statement($statement)->trigger();
+        \logstore_trax\event\hvp_quiz_question_answered::create_statement($statement)->trigger();
     } else {
 
         // Answering a single question activity.
-        \logstore_trax\event\hvp_module_answered::create_statement($statement)->trigger();
+        \logstore_trax\event\hvp_single_question_answered::create_statement($statement)->trigger();
     }
 
 } else if ($statement->verb->id == 'http://adlnet.gov/expapi/verbs/completed') {
 
     // Completion event.
-    \logstore_trax\event\hvp_module_completed::create_statement($statement)->trigger();
+    \logstore_trax\event\hvp_quiz_completed::create_statement($statement)->trigger();
 
 } else {
 
