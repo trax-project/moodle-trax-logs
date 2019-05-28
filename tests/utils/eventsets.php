@@ -54,7 +54,8 @@ trait eventsets {
         return array_merge(
             $this->authentication_events(),
             $this->navigation_events(),
-            $this->completion_events()
+            $this->completion_events(),
+            $this->grading_events()
         );
     }
 
@@ -90,6 +91,23 @@ trait eventsets {
     public function completion_events() {
         return [
             $this->course_completed(),
+            $this->course_module_completion_updated('scorm', COMPLETION_COMPLETE),
+            $this->course_module_completion_updated('scorm', COMPLETION_COMPLETE_PASS),
+            $this->course_module_completion_updated('scorm', COMPLETION_COMPLETE_FAIL),
+        ];
+    }
+
+    /**
+     * Get grading events.
+     * 
+     * @return array
+     */
+    public function grading_events() {
+        return [
+            $this->user_graded('scorm', GRADE_TYPE_SCALE, 0.5),
+            $this->user_graded('scorm', GRADE_TYPE_VALUE, 25, 0, 100),
+            $this->user_graded('scorm', GRADE_TYPE_VALUE, 25, 0, 100, 50),
+            $this->user_graded('scorm', GRADE_TYPE_VALUE, 75, 0, 100, 50),
         ];
     }
 

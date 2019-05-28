@@ -79,7 +79,7 @@ class base extends advanced_testcase {
         $this->controller = new trax_controller();
         $this->controller->logs->delete_trax_logs();
         $this->controller->logs->delete_moodle_logs();
-        $this->events = new events($this->getDataGenerator(), $user);
+        $this->events = new events($this, $this->getDataGenerator(), $user);
     }
 
     /**

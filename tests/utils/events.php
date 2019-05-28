@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__ . '/eventsets.php');
+require_once(__DIR__ . '/utils.php');
 
 /**
  * Unit tests: testing events.
@@ -35,54 +36,8 @@ require_once(__DIR__ . '/eventsets.php');
  */
 class events {
 
-    use eventsets;
+    use utils, eventsets;
 
-    /**
-     * Data generator.
-     *
-     * @var stdClass $generator
-     */
-    public $generator;
-
-    /**
-     * The user who triggers the events.
-     *
-     * @var stdClass $user
-     */
-    public $user;
-
-    /**
-     * The course in which the events occur.
-     *
-     * @var stdClass $course
-     */
-    public $course;
-
-    /**
-     * The course on which the events occur.
-     *
-     * @var stdClass $module
-     */
-    public $module;
-
-    /**
-     * The course category in which the events occur.
-     *
-     * @var stdClass $category
-     */
-    public $category;
-
-
-    /**
-     * Constructor.
-     * 
-     * @param stdClass $user The user who triggers the events.
-     * @param stdClass $generator Data generator.
-     */
-    public function __construct($generator, $user) {
-        $this->generator = $generator;
-        $this->user = $user;
-    }
 
     /**
      * Get user_loggedin event.
@@ -134,25 +89,6 @@ class events {
     }
 
     /**
-     * Get course_completed event.
-     * 
-     * @return \core\event\course_completed
-     */
-    public function course_completed() {
-        $this->set_course();
-        $completion = new completion_completion([
-            'course' => $this->course->id,
-            'userid' => $this->user->id,
-            'timeenrolled' => time(),
-            'timestarted' => time(),
-            'reaggregate' => time(),
-        ]);
-        $completion->insert();
-        $data = $completion->get_record_data();
-        return \core\event\course_completed::create_from_completion($data);
-    }
-
-    /**
      * Get course_module_viewed event.
      * 
      * @param string $module Type of module.
@@ -160,7 +96,8 @@ class events {
      */
     public function course_module_viewed($module) {
         $this->set_course();
-        $this->module = $this->generator->create_module($module, array('course' => $this->course->id));
+        $this->set_module($module);
+
         $class = '\mod_' . $module . '\event\course_module_viewed';
         $params = [
             'objectid' => $this->module->id,
@@ -170,7 +107,6 @@ class events {
             case 'feedback':
                 $params['other'] = ['anonymous' => FEEDBACK_ANONYMOUS_YES];
                 break;
-
             case 'survey':
                 $params['other'] = ['viewed' => 'What was viewed'];
                 break;
@@ -179,21 +115,46 @@ class events {
     }
 
     /**
-     * Define a testing course.
+     * Get course_completed event.
+     * 
+     * @return \core\event\course_completed
      */
-    protected function set_course() {
-        if (!isset($this->course)) {
-            $this->course = $this->generator->create_course();
-        }
+    public function course_completed() {
+        $this->set_course();
+        $completion = $this->get_course_completion();
+        return \core\event\course_completed::create_from_completion($completion);
     }
 
     /**
-     * Define a testing course category.
+     * Get course_module_completion_updated event.
+     * 
+     * @return \core\event\course_module_completion_updated
      */
-    protected function set_category() {
-        if (!isset($this->category)) {
-            $this->category = $this->generator->create_category();
-        }
+    public function course_module_completion_updated($module, $status) {
+        $this->set_course();
+        $this->set_module($module);
+        $completion = $this->get_module_completion($status);
+        return \core\event\course_module_completion_updated::create(array(
+            'objectid' => $completion->id,
+            'context' => context_module::instance($this->module->cmid),
+            'relateduserid' => $this->user->id,
+            'other' => array(
+                'relateduserid' => $this->user->id,
+                'completionstate' => $status
+            )
+        ));
+    }
+
+    /**
+     * Get user_graded event.
+     * 
+     * @return \core\event\user_graded
+     */
+    public function user_graded($module, $type, $raw, $min = null, $max = null, $pass = null) {
+        $this->set_course();
+        $this->set_module($module);
+        $grade = $this->get_module_grade($module, $type, $raw, $min, $max, $pass);
+        return \core\event\user_graded::create_from_grade($grade);
     }
 
 }

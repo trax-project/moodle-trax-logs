@@ -26,7 +26,11 @@ defined('MOODLE_INTERNAL') || die();
 
 use \logstore_trax\src\config;
 
+global $CFG;
+require_once(__DIR__ . '/../../../../../../config.php');
 require_once(__DIR__ . '/utils/base.php');
+require_once($CFG->libdir . '/completionlib.php');
+require_once($CFG->libdir . '/gradelib.php');
 
 /**
  * Unit tests: supported events.
