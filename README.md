@@ -9,7 +9,7 @@ The idea of transforming Moodle logs into xAPI Statements is not new.
 It has been experimented with [Logstore xAPI](https://moodle.org/plugins/view/logstore_xapi).
 
 However, Trax Logs for Moodle aims to bring some key improvements:
-* [Automatically synched with you Moodle history](doc/config.md),
+* [Automated transfer of your Moodle history (standard logs)](doc/config.md),
 * [Integration of H5P activities](doc/h5p.md),
 * [Integration of LTI activities](doc/lti.md),
 * [Reinforcement of data privacy](doc/privacy.md),

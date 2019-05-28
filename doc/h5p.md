@@ -64,13 +64,14 @@ Then, save the config file and purge all the Moodle caches. You should have a li
 
 Here is the list of the H5P events which are currently (triggered and) handled by Trax Logs:
 
-- `\logstore_trax\event\hvp_module_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#completed-quiz)).
+- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#course-module-viewed)).
 
-- `\logstore_trax\event\hvp_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-quiz-question)).
+- `\logstore_trax\event\hvp_quiz_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-completed)).
 
-- `\logstore_trax\event\hvp_module_answered`: a user answered a single question H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-single-question)).
+- `\logstore_trax\event\hvp_quiz_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-question-answered)).
 
-- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#course-module-viewed)).
+- `\logstore_trax\event\hvp_single_question_answered`: a user answered a H5P single question activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#single-question-answered)).
+
 
 
 ## Contents

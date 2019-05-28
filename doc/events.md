@@ -8,42 +8,57 @@ Please, refer to these documentations to understand xAPI data structures and rul
 ## Moodle core events
 
 - `\core\event\user_loggedin`: a user logged into Moodle (
-    [JSON example](http://doc.xapi.fr/profiles/moodle/nav#logged-in)).
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_auth#logged-in)).
 
 - `\core\event\user_loggedout`: a user logged out from Moodle (
-    [JSON example](http://doc.xapi.fr/profiles/moodle/nav#logged-out)).
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_auth#logged-out)).
 
 - `\core\event\course_viewed`: a user navigated in a Moodle course (
-    [JSON example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-course)).
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_nav#nav-in-course)).
 
 - `\core\event\course_category_viewed`: a user navigated in a Moodle course category (
-    [JSON example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-course-category)).
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_nav#nav-in-course-category)).
 
 - `\core\event\course_completed`: a user completed a Moodle course (
-    [JSON example](http://doc.xapi.fr/profiles/moodle/comp#completed-course)).
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#course-completed)).
 
-- `\core\event\course_module_completion_updated`: the completion status of a course module changed. 
-The resulting Statement depends of the completion status (
-    [Completed](http://doc.xapi.fr/profiles/moodle/comp#completed-module), 
-    [Passed](http://doc.xapi.fr/profiles/moodle/comp#passed-module), 
-    [Failed](http://doc.xapi.fr/profiles/moodle/comp#failed-module)
+- `\core\event\course_module_completion_updated`: the completion status of a course module changed. A Statement is sent when the status is *completed* (
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#module-completed)).
+
+- `\core\event\user_graded`: a user got a grade in the Moodle gradebook. The resulting Statement depends on the success status (
+    [scored](http://doc.xapi.fr/profiles/moodle/events_result#module-scored),
+    [passed](http://doc.xapi.fr/profiles/moodle/events_result#module-passed), 
+    [failed](http://doc.xapi.fr/profiles/moodle/events_result#module-failed)
     JSON examples).
 
 
-## Moodle module events
+## Common module events
 
-- `\mod_xxx\event\course_module_viewed`: a user navigated in a Moodle course module, `xxx` being the type of the module ([JSON example](http://doc.xapi.fr/profiles/moodle/nav#nav-in-module)).
+- `\mod_xxx\event\course_module_viewed`: a user navigated in a Moodle course module, `xxx` being the type of the module ([JSON example](http://doc.xapi.fr/profiles/moodle/events_nav#nav-in-module)).
 
 
 ## H5P events
 
-- `\logstore_trax\event\hvp_module_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#completed-quiz)).
+- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#course-module-viewed)).
 
-- `\logstore_trax\event\hvp_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-quiz-question)).
+- `\logstore_trax\event\hvp_quiz_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-completed)).
 
-- `\logstore_trax\event\hvp_module_answered`: a user answered a H5P single question activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#answered-single-question)).
+- `\logstore_trax\event\hvp_quiz_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-question-answered)).
 
-- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/hvp#course-module-viewed)).
+- `\logstore_trax\event\hvp_single_question_answered`: a user answered a H5P single question activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#single-question-answered)).
+
+
+## Risky events
+
+Some of the above events should be considered as risky when you want to transfer you **Moodle history**.
+The reason is that these events are based on data that may change after the events occur 
+and before they are processed by the plugin. 
+In this case, some information contained in the Statements may be inaccurate,
+or other Statements may be impossible to build.
+
+- `\core\event\course_module_completion_updated`: the completion status may change.
+- `\core\event\user_graded`: the grade and success status may change.
+
 
 
 ## Contents

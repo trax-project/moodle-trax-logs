@@ -115,6 +115,10 @@ Note that `system` ID is always `0`.
         "type": "lti",
         "id": 1,
         "xapi": "{\"objectType\":\"Activity\",\"id\":\"http:\\\/\\\/xapi.moodle.test\\\/xapi\\\/activities\\\/lti\\\/e403e7ee-4cdd-4d25-b7d9-5de3569a1cc2\",\"definition\":{\"type\":\"http:\\\/\\\/vocab.xapi.fr\\\/activities\\\/external-activity\"}}"
+    },
+    {
+        "uuid": "857dcc1b-aaed-4f22-a6bd-ae00eace9211",
+        "xapi": "{\"objectType\":\"Activity\",\"id\":\"http:\\\/\\\/xapi.moodle.test\\\/xapi\\\/activities\\\/lti\\\/e403e7ee-4cdd-4d25-b7d9-5de3569a1cc2\",\"definition\":{\"type\":\"http:\\\/\\\/vocab.xapi.fr\\\/activities\\\/external-activity\"}}"
     }
 ]
 ```
@@ -126,12 +130,11 @@ Note that `system` ID is always `0`.
     {
         "type": "user",
         "id": 2,
-        "xapi": "{\"objectType\":\"Agent\",\"account\":{\"homePage\":\"http:\\\/\\\/xapi.moodle.test\",\"name\":\"23a5bb2e-80c5-464a-8472-632261df912d\"}}"
+        "xapi": "{\"objectType\":\"Agent\",\"name\":\"Jon Snow\",\"account\":{\"homePage\":\"http:\\\/\\\/xapi.moodle.test\",\"name\":\"23a5bb2e-80c5-464a-8472-632261df912d\"}}"
     },
     {
-        "type": "user",
-        "id": 10,
-        "xapi": "{\"objectType\":\"Agent\",\"account\":{\"homePage\":\"http:\\\/\\\/xapi.moodle.test\",\"name\":\"564642e-80c5-464a-8472-632264564564\"}}"
+        "uuid": "9f3a73fe-ff56-435b-8052-2c361686942d",
+        "xapi": "{\"objectType\":\"Agent\",\"name\":\"Dany\",\"account\":{\"homePage\":\"http:\\\/\\\/xapi.moodle.test\",\"name\":\"564642e-80c5-464a-8472-632264564564\"}}"
     }
 ]
 ```
