@@ -47,6 +47,7 @@ class course_completed extends base_statement {
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $this->verbs->get('completed'),
             'object' => $this->activities->get('course', $this->event->courseid),
+            'result' => ['completion' => true]
         ]);
     }
 

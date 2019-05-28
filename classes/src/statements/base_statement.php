@@ -87,7 +87,7 @@ abstract class base_statement {
      */
     public function __construct($event, actors $actors, verbs $verbs, activities $activities) {
         $this->event = $event;
-        $this->eventother = unserialize($this->event->other);
+        $this->eventother = (object)unserialize($this->event->other);
         $this->actors = $actors;
         $this->verbs = $verbs;
         $this->activities = $activities;

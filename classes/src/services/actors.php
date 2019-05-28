@@ -91,6 +91,7 @@ class actors extends index {
         ];
         if ($full && $config->xis_provide_names && $record) {
             $res['name'] = $record->firstname . ' ' . $record->lastname;
+            $res['account']['name'] = $record->username;
         }
         return $res;
     }

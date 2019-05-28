@@ -53,6 +53,15 @@ trait verbs {
         'completed' => [
             'iri' => 'http://adlnet.gov/expapi/verbs/completed',
         ],
+        'passed' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/passed',
+        ],
+        'failed' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/failed',
+        ],
+        'scored' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/scored',
+        ],
         'answered' => [
             'iri' => 'http://adlnet.gov/expapi/verbs/answered',
         ],

@@ -125,6 +125,7 @@ class statements {
 
             // Get the statement and return the result object.
             $statement = (new $class($event, $this->actors, $this->verbs, $this->activities))->get();
+            if (!$statement) return;
             return (object)['statement' => $statement, 'event' => $event];
 
         } catch (\moodle_exception $e) {

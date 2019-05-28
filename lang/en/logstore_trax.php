@@ -130,9 +130,9 @@ $string['privacy:metadata:lrs:uuid'] = 'Anonymous identifier sent to the externa
 
 // Events.
 
-$string['event_hvp_question_answered'] = 'H5P question answered';
-$string['event_hvp_module_answered'] = 'H5P module answered (single question)';
-$string['event_hvp_module_completed'] = 'H5P module completed';
+$string['event_hvp_quiz_question_answered'] = 'H5P quiz question answered';
+$string['event_hvp_single_question_answered'] = 'H5P single question answered';
+$string['event_hvp_quiz_completed'] = 'H5P quiz completed';
 $string['event_hvp_xapi_error_json'] = 'H5P xAPI event: invalid JSON string!';
 $string['event_hvp_xapi_error_iri'] = 'H5P xAPI event: unknown object IRI!';
 $string['event_hvp_xapi_error_unsupported'] = 'H5P xAPI event: unsupported event!';

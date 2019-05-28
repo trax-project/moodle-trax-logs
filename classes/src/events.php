@@ -52,8 +52,11 @@ class events {
             ],
             'completion' => [
                 '\core\event\course_completed',
+                '\core\event\course_module_completion_updated',
             ],
-            'grading' => [],
+            'grading' => [
+                '\core\event\user_graded',
+            ],
         ];
     }
 
@@ -136,9 +139,9 @@ class events {
         return [
             'mod_hvp' => [
                 '\mod_hvp\event\course_module_viewed',
-                '\logstore_trax\event\hvp_module_answered',
-                '\logstore_trax\event\hvp_module_completed',
-                '\logstore_trax\event\hvp_question_answered',
+                '\logstore_trax\event\hvp_single_question_answered',
+                '\logstore_trax\event\hvp_quiz_completed',
+                '\logstore_trax\event\hvp_quiz_question_answered',
             ],
         ];
     }
