@@ -29,13 +29,13 @@ $functions = array(
     'logstore_trax_get_actors' => array(
         'classname'     => 'logstore_trax_external',
         'methodname'    => 'get_actors',
-        'description'   => 'Get xAPI actors from Moodle IDs and types.',
+        'description'   => 'Get xAPI actors.',
         'type'          => 'read'
     ),
     'logstore_trax_get_activities' => array(
         'classname' => 'logstore_trax_external',
         'methodname' => 'get_activities',
-        'description' => 'Get xAPI activities from Moodle IDs and types.',
+        'description' => 'Get xAPI activities.',
         'type' => 'read'
     )
 );
