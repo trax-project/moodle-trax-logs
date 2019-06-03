@@ -113,4 +113,13 @@ class controller {
         (new emitter($this->logs))->send($statements);
     }
 
+    /**
+     * Return an HTTP client to communicate with the LRS.
+     *
+     * @return \logstore_trax\src\client
+     */
+    public function client() {
+        return new client();
+    }
+
 }

@@ -100,11 +100,7 @@ class emitter {
      * @return client
      */
     protected function client() {
-        return new client((object)[
-            'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
-            'username' => get_config('logstore_trax', 'lrs_username'),
-            'password' => get_config('logstore_trax', 'lrs_password'),
-        ]);
+        return new client();
     }
 
 

@@ -64,11 +64,14 @@ class client {
     /**
      * Constructor.
      *
-     * @param stdClass $config LRS config
      * @return void
      */
-    public function __construct($config) {
-        $this->config = $config;
+    public function __construct() {
+        $this->config = (object)[
+            'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
+            'username' => get_config('logstore_trax', 'lrs_username'),
+            'password' => get_config('logstore_trax', 'lrs_password'),
+        ];
         if (substr($this->config->endpoint, -1) != '/') {
             $this->config->endpoint .= '/';
         }
@@ -83,6 +86,21 @@ class client {
     public function statements() {
         $this->endpoint = $this->config->endpoint.'statements';
         return $this;
+    }
+
+    /**
+     * GET xAPI data.
+     */
+    public function get($query = []) {
+        try {
+            $response = $this->guzzle->get($this->endpoint, [
+                'headers' => $this->headers(),
+                'query' => $query,
+            ]);
+        } catch (GuzzleException $e) {
+            $response = $e->getResponse();
+        }
+        return $this->response($response);
     }
 
     /**
@@ -126,12 +144,32 @@ class client {
         if (is_null($guzzleresponse)) {
             return (object)['code' => 404];
         }
+
+        // Code.
         $res = (object)[
             'code' => $guzzleresponse->getStatusCode(),
         ];
+
+        // Body.
         if ($res->code == 200) {
             $res->content = json_decode($guzzleresponse->getBody());
         }
+
+        // Headers.
+        $res->headers = [];
+        $headers = [
+            'content_type' => $guzzleresponse->getHeader('Content-Type'),
+            'content_length' => $guzzleresponse->getHeader('Content-Length'),
+            'xapi_version' => $guzzleresponse->getHeader('X-Experience-API-Version'),
+            'xapi_consistent_through' => $guzzleresponse->getHeader('X-Experience-API-Consistent-Through'),
+        ];
+        foreach ($headers as $key => $header) {
+            if (!empty($header)) {
+                $res->headers[$key] = $header[0];
+            }
+        }
+        $res->headers = (object)$res->headers;
+
         return $res;
     }
 
