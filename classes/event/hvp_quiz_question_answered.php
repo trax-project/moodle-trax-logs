@@ -26,8 +26,6 @@ namespace logstore_trax\event;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\utils\hvp_event;
-
 /**
  * H5P xAPI event.
  *

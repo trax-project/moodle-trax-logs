@@ -68,7 +68,6 @@ class events {
     public static function moodle_components() {
         return [
             'mod_assign' => [
-                '\mod_assign\event\course_module_viewed',
             ],
             'mod_book' => [
                 '\mod_book\event\course_module_viewed',

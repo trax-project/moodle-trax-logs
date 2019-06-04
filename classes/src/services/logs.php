@@ -54,7 +54,7 @@ class logs {
             $params[] = strtotime(str_replace('/', '-', $config->firstlogs));
         }
 
-        // Log status
+        // Log status.
         $whereStatus = [
             'error IS NULL',
             '(error = 1 AND attempts < ?)',
@@ -63,44 +63,18 @@ class logs {
         $where[] = '(' . implode(' OR ', $whereStatus) . ')';
         $params[] = $config->attempts;
 
-        // Components
-        $param1 = $this->sql_array(config::selected_core_events($config));
-        $param2 = $this->sql_array(config::selected_moodle_components($config));
-        $param3 = $this->sql_array(config::selected_additional_events($config));
-        $whereComponent = [];
-        if ($param1 != '()') {
-            $whereComponent[] = "(component = 'core' AND eventname IN " . $param1 . ')';
-        }
-        if ($param2 != '()') {
-            $whereComponent[] = '(component IN ' . $param2 . ')';
-        }
-        if ($param3 != '()') {
-            $whereComponent[] = "(component = 'logstore_trax' AND eventname IN " . $param3 . ')';
-        }
+        // Selected events.
+        $param = $this->sql_array(config::selected_events($config));
+        $where[] = "eventname IN " . $param;
 
-        // Additional components
-        /*
-        if (config::other_components_selected($config)) {
-            $param4 = $this->sql_array(config::selected_moodle_components($config));
-            $whereComponent[] = "(
-                component <> 'core' 
-                AND component <> 'logstore_trax'
-                AND component NOT IN ' . $param4 . '
-            )";
-        }
-        */
-
-        // All components
-        $where[] = '(' . implode(' OR ', $whereComponent) . ')';
-
-        // Final request
+        // Final request.
         $where = implode(' AND ', $where);
         $sql = "
             SELECT {logstore_standard_log}.*, error, attempts, newattempt, {logstore_trax_logs}.id AS xid
             FROM {logstore_standard_log}
             LEFT JOIN {logstore_trax_logs} ON {logstore_standard_log}.id = {logstore_trax_logs}.mid
             WHERE " . $where . "
-            ORDER BY id
+            ORDER BY timecreated
         ";
         
         return $DB->get_records_sql($sql, $params, 0, $config->db_batch_size);
@@ -174,6 +148,16 @@ class logs {
      */
     public function log_internal_error(\stdClass $event) {
         $this->log_event($event, 2);
+    }
+
+    /**
+     * Log an unsupported event.
+     *
+     * @param stdClass $event event
+     * @return void
+     */
+    public function log_unsupported(\stdClass $event) {
+        $this->log_event($event, 3);
     }
 
     /**

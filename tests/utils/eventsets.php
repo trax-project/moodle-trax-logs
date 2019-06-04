@@ -41,7 +41,7 @@ trait eventsets {
     public function all_events() {
         return array_merge(
             $this->core_events(),
-            $this->moodle_components()
+            $this->moodle_components_events()
         );
     }
 
@@ -66,8 +66,8 @@ trait eventsets {
      */
     public function authentication_events() {
         return [
-            $this->user_loggedout(),
             $this->user_loggedin(),
+            $this->user_loggedout(),
         ];
     }
 
@@ -116,7 +116,7 @@ trait eventsets {
      * 
      * @return array
      */
-    public function moodle_components() {
+    public function moodle_components_events() {
         $modules = [
             'book', 'chat', 'choice', 'data', 'feedback', 'folder', 'forum', 'glossary',
             'imscp', 'lesson', 'lti', 'page', 'quiz', 'resource', 'scorm', 'survey', 'url',

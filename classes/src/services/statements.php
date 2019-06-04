@@ -107,17 +107,26 @@ class statements {
         $class = '\\'.$plugin.'\\xapi\\statements\\'.$name;
 
         // Then, search in Trax Logs, plugin subfolder.
-        if (!class_exists($class)) {
+        if (!class_exists($class) && $plugin != 'core') {
             $class = '\\logstore_trax\\src\\statements\\'.$plugin.'\\'.$name;
         }
 
+        // Search core events statement class.
+        if (!class_exists($class) && $plugin == 'core') {
+            $method = 'get_' . $name . '_statement_class';
+            if (method_exists($this, $method)) {
+                $class = $this->$method($event);
+            }
+        }
+
         // Finally, search in Trax Logs, core subfolder.
-        if (!class_exists($class)) {
+        if (!$class || !class_exists($class)) {
             $class = '\\logstore_trax\\src\\statements\\core\\'.$name;
         }
 
-        // No class, do nothing.
+        // No class, log as unsupported.
         if (!class_exists($class)) {
+            $this->logs->log_unsupported($event);
             return;
         }
 
@@ -125,7 +134,12 @@ class statements {
 
             // Get the statement and return the result object.
             $statement = (new $class($event, $this->actors, $this->verbs, $this->activities))->get();
-            if (!$statement) return;
+            if (!$statement) {
+
+                // No error, but refused to process the event. Log as unsupported.
+                $this->logs->log_unsupported($event);
+                return;
+            }
             return (object)['statement' => $statement, 'event' => $event];
 
         } catch (\moodle_exception $e) {
@@ -133,6 +147,52 @@ class statements {
             // Log the error.
             $this->logs->log_internal_error($event);
         }
+    }
+
+    /**
+     * Get user_graded Statement class.
+     *
+     * @param \stdClass $event Moodle event data
+     * @return string
+     */
+    protected function get_user_graded_statement_class(\stdClass $event) {
+        global $DB;
+        $sql = "
+            SELECT {grade_items}.itemtype, {grade_items}.itemmodule
+            FROM {grade_grades}
+            INNER JOIN {grade_items} ON {grade_items}.id = {grade_grades}.itemid
+            WHERE {grade_grades}.id = ?
+        ";
+        $params = [$event->objectid];
+        $record = $DB->get_record_sql($sql, $params);
+        if (!$record) {
+            return false;
+        }
+        $plugin = $record->itemtype . '_' . $record->itemmodule;
+        return '\\logstore_trax\\src\\statements\\' . $plugin . '\\user_graded';
+    }
+
+    /**
+     * Get course_module_completion_updated Statement class.
+     *
+     * @param \stdClass $event Moodle event data
+     * @return string
+     */
+    protected function get_course_module_completion_updated_statement_class(\stdClass $event) {
+        global $DB;
+        $sql = "
+            SELECT {modules}.name
+            FROM {course_modules_completion}
+            INNER JOIN {course_modules} ON {course_modules}.id = {course_modules_completion}.coursemoduleid
+            INNER JOIN {modules} ON {modules}.id = {course_modules}.module
+            WHERE {course_modules_completion}.id = ?
+        ";
+        $params = [$event->objectid];
+        $record = $DB->get_record_sql($sql, $params);
+        if (!$record) {
+            return false;
+        }
+        return '\\logstore_trax\\src\\statements\\mod_' . $record->name . '\\course_module_completion_updated';
     }
 
 

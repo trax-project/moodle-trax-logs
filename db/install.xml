@@ -6,40 +6,51 @@
   <TABLES>
 
     <TABLE NAME="logstore_trax_actors" COMMENT="Actors table">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="mid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="type" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="uuid" TYPE="char" LENGTH="36" NOTNULL="true" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-      </KEYS>
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="mid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="type" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="uuid" TYPE="char" LENGTH="36" NOTNULL="true" SEQUENCE="false"/>
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="mid-type" UNIQUE="true" FIELDS="mid,type"/>
+            <INDEX NAME="uuid" UNIQUE="true" FIELDS="uuid"/>
+        </INDEXES>
     </TABLE>
 
     <TABLE NAME="logstore_trax_activities" COMMENT="Activities table">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="mid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="type" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
-        <FIELD NAME="uuid" TYPE="char" LENGTH="36" NOTNULL="true" SEQUENCE="false"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-      </KEYS>
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="mid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="type" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="uuid" TYPE="char" LENGTH="36" NOTNULL="true" SEQUENCE="false"/>
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="mid-type" UNIQUE="true" FIELDS="mid,type"/>
+            <INDEX NAME="uuid" UNIQUE="false" FIELDS="uuid"/>
+        </INDEXES>
     </TABLE>
 
     <TABLE NAME="logstore_trax_logs" COMMENT="Logs table">
-      <FIELDS>
-        <FIELD NAME="id" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="mid" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="false" SEQUENCE="false"/>
-        <FIELD NAME="error" TYPE="int" LENGTH="1" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="0"/>
-        <FIELD NAME="attempts" TYPE="int" LENGTH="3" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="1"/>
-        <FIELD NAME="newattempt" TYPE="int" LENGTH="1" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="0"/>
-      </FIELDS>
-      <KEYS>
-        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
-      </KEYS>
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="mid" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="false" SEQUENCE="false"/>
+            <FIELD NAME="error" TYPE="int" LENGTH="1" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="0"/>
+            <FIELD NAME="attempts" TYPE="int" LENGTH="3" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="1"/>
+            <FIELD NAME="newattempt" TYPE="int" LENGTH="1" UNSIGNED="true" NOTNULL="true" SEQUENCE="false" DEFAULT="0"/>
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+        <INDEXES>
+            <INDEX NAME="mid" UNIQUE="true" FIELDS="mid" COMMENT="The standard logstore record ID."/>
+        </INDEXES>
     </TABLE>
 
   </TABLES>

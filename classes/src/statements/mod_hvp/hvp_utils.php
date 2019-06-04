@@ -15,43 +15,45 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * H5P xAPI event: module answered (single question).
+ * xAPI transformation of a Moodle event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\event;
+namespace logstore_trax\src\statements\mod_hvp;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * H5P xAPI event.
+ * xAPI transformation of a Moodle event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_single_question_answered extends hvp_event {
+trait hvp_utils {
 
     /**
-     * Return localised event name.
+     * Return the H5P module vocab type.
      *
+     * @param \stdClass $hvp HVP module record
      * @return string
      */
-    public static function get_name() {
-        return get_string('event_hvp_module_answered', 'logstore_trax');
-    }
+    public function vocab_type(\stdClass $hvp) {
+        global $DB;
 
-    /**
-     * Returns description of what happened.
-     *
-     * @return string
-     */
-    public function get_description() {
-        return "The user with id '$this->userid' answered the unique question
-            of the H5P activity with id '$this->contextinstanceid'.";
+        // Get the H5P type.
+        $library = $DB->get_record('hvp_libraries', array('id' => $hvp->main_library_id), '*', MUST_EXIST);
+        $hvptype = $library->machine_name;
+
+        // Get the vocab type.
+        $vocabtype = 'hvp-poll';
+        if (in_array($hvptype, ['H5P.SingleChoiceSet', 'H5P.QuestionSet'])) {
+            $vocabtype = 'hvp-quiz';
+        }
+        return $vocabtype;
     }
 
 }

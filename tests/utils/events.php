@@ -40,6 +40,17 @@ class events {
 
 
     /**
+     * Get user_login_failed event.
+     * 
+     * @return \core\event\user_login_failed
+     */
+    public function user_login_failed() {
+        return \core\event\user_login_failed::create([
+            'other' => ['username' => $this->user->username, 'reason' => 1],
+        ]);
+    }
+
+    /**
      * Get user_loggedin event.
      * 
      * @return \core\event\user_loggedin

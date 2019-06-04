@@ -128,15 +128,23 @@ trait utils {
      */
     protected function get_course_completion() {
         $sink = $this->testcase->redirectEvents();
-        $completion = new completion_completion([
-            'course' => $this->course->id,
-            'userid' => $this->user->id,
-            'timeenrolled' => time(),
-            'timestarted' => time(),
-            'reaggregate' => time(),
-        ]);
-        $completion->insert();
-        $data = $completion->get_record_data();
+
+        // Get existing completion.
+        global $DB;
+        $data = $DB->get_record('course_completions', ['course' => $this->course->id, 'userid' => $this->user->id]);
+
+        // Create one.
+        if (!$data) {
+            $completion = new completion_completion([
+                'course' => $this->course->id,
+                'userid' => $this->user->id,
+                'timeenrolled' => time(),
+                'timestarted' => time(),
+                'reaggregate' => time(),
+            ]);
+            $completion->insert();
+            $data = $completion->get_record_data();
+        }
         $sink->close();
         return $data;
     }
@@ -171,6 +179,15 @@ trait utils {
             'iteminstance' => $this->module->id,
             'courseid' => $this->course->id,
         ]);
+        if (!$gradeitem) {
+            $gradeitem = new \grade_item([
+                'itemtype' => 'mod',
+                'itemmodule' => $module,
+                'iteminstance' => $this->module->id,
+                'courseid' => $this->course->id,
+            ]);
+            $gradeitem->id = $gradeitem->insert();
+        }
         $gradeitem->gradetype = $type;
         if (isset($min)) {
             $gradeitem->grademin = $min;

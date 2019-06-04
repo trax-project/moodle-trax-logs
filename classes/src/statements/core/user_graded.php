@@ -26,6 +26,8 @@ namespace logstore_trax\src\statements\core;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->libdir . '/gradelib.php');
+
 use logstore_trax\src\statements\base_statement;
 use logstore_trax\src\utils\module_context;
 
@@ -46,26 +48,62 @@ class user_graded extends base_statement {
      * @return array
      */
     protected function statement() {
+
+        // Get data.
+        list($grade, $gradeitem, $object) = $this->get_grade_data();
+        if (!$grade) return false;
+        list($verb, $result) = $this->get_verb_result($grade, $gradeitem);
+
+        // Build the statement.
+        return array_replace($this->base($gradeitem->itemmodule), [
+            'actor' => $this->actors->get('user', $this->event->userid),
+            'verb' => $verb,
+            'object' => $this->activities->get($gradeitem->itemmodule, $gradeitem->iteminstance, true, 'module'),
+            'result' => $result
+        ]);
+    }
+
+    /**
+     * Get grade data.
+     *
+     * @return array
+     */
+    protected function get_grade_data() {
+        global $DB;
         
         // Get grade.
-        global $DB;
         $grade = $DB->get_record('grade_grades', ['id' => $this->event->objectid], '*', MUST_EXIST);
         $gradeitem = $DB->get_record('grade_items', ['id' => $this->eventother->itemid], '*', MUST_EXIST);
 
         // Check that it is an activity grade.
         if ($gradeitem->itemtype != 'mod') {
-            return false;
+            return [false, false, false];
         }
+
+        // Get the object.
+        $object = $DB->get_record($gradeitem->itemmodule, ['id' => $gradeitem->iteminstance], '*', MUST_EXIST);
 
         // Check that it is a value or scale grade.
         if (!in_array($gradeitem->gradetype, [GRADE_TYPE_SCALE, GRADE_TYPE_VALUE])) {
-            return false;
+            return [false, false, false];
         }
 
         // Check that there is a raw grade.
         if (!isset($grade->rawgrade)) {
-            return false;
+            return [false, false, false];
         }
+
+        return [$grade, $gradeitem, $object];
+    }
+
+    /**
+     * Get verb and result.
+     *
+     * @param \stdClass $grade Grade
+     * @param \stdClass $gradeitem Grade item
+     * @return array
+     */
+    protected function get_verb_result(\stdClass $grade, \stdClass $gradeitem) {
 
         // Define scoring values.
         $raw = floatval($grade->rawgrade);
@@ -100,13 +138,9 @@ class user_graded extends base_statement {
             $result['success'] = $passed;
         }
 
-        // Build the statement.
-        return array_replace($this->base($gradeitem->itemmodule), [
-            'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $verb,
-            'object' => $this->activities->get($gradeitem->itemmodule, $gradeitem->iteminstance, true, 'module'),
-            'result' => $result
-        ]);
+        // Result.
+        return [$verb, $result];
     }
+
 
 }

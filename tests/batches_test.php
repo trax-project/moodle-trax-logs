@@ -78,6 +78,42 @@ class batches_test extends base {
     }
 
     /**
+     * Test batch with unsupported events.
+     */
+    public function test_unsupported_events() {
+
+        // Prepare session.
+        $this->prepare_session([
+            'xapi_batch_size' => 1
+        ]);
+
+        // Trigger events.
+        $events = [
+            $this->events->user_login_failed(),
+        ];
+        $this->trigger($events);
+
+        // Process logs.
+        $traxlogs = $this->process();
+
+        // Check logs.
+        $this->assertTrue(count($traxlogs) == 0);
+
+        // Trigger events.
+        $events = [
+            $this->events->user_login_failed(),
+            $this->events->user_loggedin(),
+        ];
+        $this->trigger($events);
+
+        // Process logs.
+        $traxlogs = $this->process();
+
+        // Check logs.
+        $this->assertTrue(count($traxlogs) == 1);
+    }
+
+    /**
      * Send the batches.
      */
     protected function send_batches() {

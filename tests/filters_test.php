@@ -59,9 +59,9 @@ class filters_test extends base {
     }
 
     /**
-     * Test moodle components filters.
+     * Test moodle events filters.
      */
-    public function test_moodle_components() {
+    public function test_moodle_components_events() {
 
         // Prepare session.
         $this->prepare_session([
@@ -69,7 +69,7 @@ class filters_test extends base {
         ]);
 
         // Trigger events.
-        $events = $this->events->moodle_components();
+        $events = $this->events->moodle_components_events();
         $this->trigger($events);
 
         // Process logs.
@@ -78,6 +78,5 @@ class filters_test extends base {
         // Check logs.
         $this->assertTrue(count($traxlogs) == 0);
     }
-
 
 }

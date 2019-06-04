@@ -29,6 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 use logstore_trax\src\statements\base_statement;
 use logstore_trax\src\statements\mod_hvp\hvp_utils;
 use logstore_trax\src\utils\module_context;
+use logstore_trax\src\statements\core\user_graded as core_user_graded;
+
 
 /**
  * xAPI transformation of a Moodle event.
@@ -37,7 +39,7 @@ use logstore_trax\src\utils\module_context;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course_module_viewed extends base_statement {
+class user_graded extends core_user_graded {
 
     use module_context, hvp_utils;
 
@@ -47,10 +49,11 @@ class course_module_viewed extends base_statement {
      * @return array
      */
     protected function statement() {
-        global $DB;
 
         // Get data.
-        $object = $DB->get_record('hvp', array('id' => $this->event->objectid), '*', MUST_EXIST);
+        list($grade, $gradeitem, $object) = $this->get_grade_data();
+        if (!$grade) return false;
+        list($verb, $result) = $this->get_verb_result($grade, $gradeitem);
 
         // Get the vocab type.
         $vocabtype = $this->vocab_type($object);
@@ -58,8 +61,9 @@ class course_module_viewed extends base_statement {
         // Build the statement.
         return array_replace($this->base('hvp', true, $vocabtype), [
             'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $this->verbs->get('navigated-in'),
+            'verb' => $verb,
             'object' => $this->activities->get('hvp', $object->id, true, 'module', $vocabtype),
+            'result' => $result
         ]);
     }
 

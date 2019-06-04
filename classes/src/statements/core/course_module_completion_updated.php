@@ -26,6 +26,8 @@ namespace logstore_trax\src\statements\core;
 
 defined('MOODLE_INTERNAL') || die();
 
+require_once($CFG->libdir . '/completionlib.php');
+
 use logstore_trax\src\statements\base_statement;
 use logstore_trax\src\utils\module_context;
 
@@ -47,23 +49,59 @@ class course_module_completion_updated extends base_statement {
      */
     protected function statement() {
 
-        // Get completion.
+        // Get data.
+        list($completion, $module, $object) = $this->get_completion_data();
+        if (!$completion) return false;
+        list($verb, $result) = $this->get_verb_result($completion);
+
+        // Build the statement.
+        return array_replace($this->base($module->name), [
+            'actor' => $this->actors->get('user', $this->event->userid),
+            'verb' => $verb,
+            'object' => $this->activities->get($module->name, $object->id, true, 'module'),
+            'result' => $result
+        ]);
+    }
+
+    /**
+     * Get completion data.
+     *
+     * @return array
+     */
+    protected function get_completion_data() {
         global $DB;
+
+        // Get completion.
         $completion = $DB->get_record('course_modules_completion', ['id' => $this->event->objectid], '*', MUST_EXIST);
         $cm = $DB->get_record('course_modules', ['id' => $completion->coursemoduleid], '*', MUST_EXIST);
         $module = $DB->get_record('modules', ['id' => $cm->module], '*', MUST_EXIST);
+        $object = $DB->get_record($module->name, ['id' => $cm->instance], '*', MUST_EXIST);
 
         // Check that the completion is automated.
         if ($cm->completion != COMPLETION_TRACKING_AUTOMATIC) {
-            return false;
+            return [false, false, false];
         }
 
         // Check the completion status.
         if (!in_array($completion->completionstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL])) {
-            return false;
+            return [false, false, false];
         }
 
+        return [$completion, $module, $object];
+    }
+
+    /**
+     * Get verb and result.
+     *
+     * @param \stdClass $completion Completion
+     * @return array
+     */
+    protected function get_verb_result(\stdClass $completion) {
+
         // Define the verb.
+        $verb = $this->verbs->get('completed');
+
+        // Define the success.
         $passed = null;
         switch ($completion->completionstate) {
             case COMPLETION_COMPLETE_PASS:
@@ -82,13 +120,10 @@ class course_module_completion_updated extends base_statement {
             $result['success'] = $passed;
         }
 
-        // Build the statement.
-        return array_replace($this->base($module->name), [
-            'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $this->verbs->get('completed'),
-            'object' => $this->activities->get($module->name, $cm->instance, true, 'module'),
-            'result' => $result
-        ]);
+        // Result.
+        return [$verb, $result];
     }
+
+
 
 }

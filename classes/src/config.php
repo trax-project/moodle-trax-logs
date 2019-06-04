@@ -140,8 +140,12 @@ class config {
      * @param stdClass $config Config
      * @return array
      */
-    public static function selected_moodle_components(\stdClass $config) {
-        return explode(',', $config->moodle_components);
+    public static function selected_moodle_events(\stdClass $config) {
+        $components = explode(',', $config->moodle_components);
+        $components = array_intersect_key(events::moodle_components(), array_flip($components));
+        if (empty($components)) return [];
+        return call_user_func_array("array_merge", $components);
+
     }
 
     /**
@@ -195,6 +199,20 @@ class config {
     public static function other_components_selected(\stdClass $config) {
         $additional = $config->additional_components;
         return isset($additional['other']) && $additional['other'];
+    }
+
+    /**
+     * Get all the selected events.
+     *
+     * @param stdClass $config Config
+     * @return array
+     */
+    public static function selected_events(\stdClass $config) {
+        return array_merge(
+            self::selected_core_events($config),
+            self::selected_moodle_events($config),
+            self::selected_additional_events($config)
+        );
     }
 
 
