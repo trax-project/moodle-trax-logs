@@ -49,6 +49,12 @@ To run a specific test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/xxx_
 - **external**: test the functions used by the plugin Web Services.
 
 
+### Running a specific test function
+
+To run a specific test function, add the option `--filter=yyy` to the previous command, 
+where `yyy` is the name of the function you want to run.
+
+
 ## Contents
 
 * [Overview](../README.md)
