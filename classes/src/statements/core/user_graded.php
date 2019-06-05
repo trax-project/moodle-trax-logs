@@ -70,13 +70,8 @@ class user_graded extends base_statement {
      */
     protected function get_grade_data() {
         global $DB;
-        
-        // Get grade.
-        $grade = $DB->get_record('grade_grades_history', [
-            'itemid' => $this->eventother->itemid,
-            'userid' => $this->event->userid,
-            'timemodified' => $this->event->timecreated,
-        ], '*', MUST_EXIST);
+
+        // Get the grade item.
         $gradeitem = $DB->get_record('grade_items', ['id' => $this->eventother->itemid], '*', MUST_EXIST);
 
         // Check that it is an activity grade.
@@ -84,18 +79,26 @@ class user_graded extends base_statement {
             return [false, false, false];
         }
 
-        // Get the object.
-        $object = $DB->get_record($gradeitem->itemmodule, ['id' => $gradeitem->iteminstance], '*', MUST_EXIST);
-
         // Check that it is a value or scale grade.
         if (!in_array($gradeitem->gradetype, [GRADE_TYPE_SCALE, GRADE_TYPE_VALUE])) {
             return [false, false, false];
         }
 
+        // Get grade.
+        $grade = $DB->get_record('grade_grades_history', [
+            'itemid' => $this->eventother->itemid,
+            'userid' => $this->event->userid,
+            'timemodified' => $this->event->timecreated,
+            'source' => 'mod/' . $gradeitem->itemmodule,
+        ], '*', MUST_EXIST);
+
         // Check that there is a raw grade.
         if (!isset($grade->rawgrade)) {
             return [false, false, false];
         }
+
+        // Get the object.
+        $object = $DB->get_record($gradeitem->itemmodule, ['id' => $gradeitem->iteminstance], '*', MUST_EXIST);
 
         return [$grade, $gradeitem, $object];
     }

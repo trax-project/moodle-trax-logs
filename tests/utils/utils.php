@@ -211,10 +211,10 @@ trait utils {
                 'userid' => $this->user->id,
                 'rawgrade' => $raw,
             ]);
-            $grade->id = $grade->insert();
+            $grade->id = $grade->insert('mod/' . $module);
         } else {
             $grade->rawgrade = $raw;
-            $grade->update();
+            $grade->update('mod/' . $module);
         }
 
         $sink->close();
