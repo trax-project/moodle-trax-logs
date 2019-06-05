@@ -52,20 +52,20 @@ class external_test extends base {
 
         // Get user without name.
         $actor = $this->controller->actors->get_existing('user', $this->events->user->id, false);
-        $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
-        $this->assertTrue(!isset($actor['name']));
+        $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']) && !isset($actor['name']));
+        $this->assertTrue($actor['account']['name'] != $this->events->user->username);
 
         // Get user with name when it is not allowed.
         $actor = $this->controller->actors->get_existing('user', $this->events->user->id, true);
-        $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
-        $this->assertTrue(!isset($actor['name']));
+        $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']) && !isset($actor['name']));
+        $this->assertTrue($actor['account']['name'] != $this->events->user->username);
 
-        // Get user with name.
-        set_config('xis_provide_names', 1, 'logstore_trax');
+        // Get user with name when it is allowed.
+        set_config('xis_anonymization', 0, 'logstore_trax');
         $actor = $this->controller->actors->get_existing('user', $this->events->user->id, true);
-        $this->assertTrue($actor && isset($actor['account']) && isset($actor['account']['name']));
-        $this->assertTrue(isset($actor['name']));
+        $this->assertTrue($actor && isset($actor['name']) && isset($actor['account']) && isset($actor['account']['name']));
         $this->assertTrue($actor['name'] == $this->events->user->firstname . ' ' . $this->events->user->lastname);
+        $this->assertTrue($actor['account']['name'] == $this->events->user->username);
 
         // Get system without name.
         $system = $this->controller->activities->get_existing('system', 0, false);

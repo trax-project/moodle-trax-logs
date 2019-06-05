@@ -89,12 +89,12 @@ if ($hassiteconfig) {
         1
     ));
 
-    // XIS: provide names.
+    // Actors anonymization in XIS.
     $settings->add(new admin_setting_configcheckbox(
-        'logstore_trax/xis_provide_names',
-        get_string('xis_provide_names', 'logstore_trax'),
-        get_string('xis_provide_names_help', 'logstore_trax'),
-        0
+        'logstore_trax/xis_anonymization',
+        get_string('xis_anonymization', 'logstore_trax'),
+        get_string('xis_anonymization_help', 'logstore_trax'),
+        1
     ));
 
 

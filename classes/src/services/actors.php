@@ -63,35 +63,30 @@ class actors extends index {
      */
     public function get(string $type, int $mid = 0, bool $full = false, $entry = null) {
         $config = get_config('logstore_trax');
+        $named = !$config->anonymization || ($full && !$config->xis_anonymization);
 
-        // Get DB record.
-        if (!$config->anonymization || ($full && $config->xis_provide_names)) {
-            global $DB;
-            $record = $DB->get_record($type, ['id' => $mid]);
-        }
-
-        // Define account name.
-        if ($config->anonymization) {
-            if (!isset($entry)) {
-                $entry = $this->get_or_create_db_entry($mid, $type);
-            }
-            $accountname = $entry->uuid;
-        } else {
-            if (!$record) {
-                throw new \moodle_exception('record_not_found', 'logstore_trax');
-            }
-            $accountname = $record->username;
-        }
+        // Base.
         $res = [
             'objectType' => $this->types->$type->object_type,
             'account' => [
                 'homePage' => $this->platform_iri(),
-                'name' => $accountname,
             ],
         ];
-        if ($full && $config->xis_provide_names && $record) {
-            $res['name'] = $record->firstname . ' ' . $record->lastname;
+        if (!$named) {
+
+            // Anonymized.
+            if (!isset($entry)) {
+                $entry = $this->get_or_create_db_entry($mid, $type);
+            }
+            $res['account']['name'] = $entry->uuid;
+
+        } else {
+
+            // Not anonymized.
+            global $DB;
+            $record = $DB->get_record($type, ['id' => $mid], '*', MUST_EXIST);
             $res['account']['name'] = $record->username;
+            $res['name'] = $record->firstname . ' ' . $record->lastname;
         }
         return $res;
     }

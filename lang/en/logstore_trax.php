@@ -56,16 +56,17 @@ $string['xapi_identification_settings_help'] = "In this section, you can define 
 $string['platform_iri'] = 'Platform IRI';
 $string['platform_iri_help'] = "An IRI that will identify your platform and will never change.";
 
-$string['anonymization'] = 'Anonymization';
+$string['anonymization'] = 'Statements anonymization';
 $string['anonymization_help'] = "Anonymize actors in Statements. 
-    When selected, usernames are replaced by generated UUIDs.
+    When selected, usernames are replaced by generated UUIDs
+    and the name of users is not included in the Statements.
     This option should be selected to conform with the GDPR.";
 
-$string['xis_provide_names'] = 'Provide user names when requested';
-$string['xis_provide_names_help'] = 'When this option is selected and when Web Services are activated, 
-    client applications are allowed to get the user names using the "full" 
-    option of the "logstore_trax_get_actors" function. 
-    Be aware of the consequences in terms of GDPR compliance when you select this option.';
+$string['xis_anonymization'] = 'Web services anonymization';
+$string['xis_anonymization_help'] = "Anonymize actors in the xAPI Identification Services.
+    When selected, usernames are replaced by generated UUIDs
+    and the name of users is not included in the response,
+    except when Statements anonymization is deactivated.";
 
 $string['logged_events'] = 'Logged events';
 $string['logged_events_help'] = 'In this section, you can choose the events you want to send to the LRS.
@@ -116,7 +117,6 @@ $string['xapi_batch_size_help'] = "Number of Statements that can be grouped in a
 // Exceptions.
 $string['invalid_entry_identification'] = 'Invalid entry identification.';
 $string['entry_not_found'] = 'Entry not found.';
-$string['record_not_found'] = 'Record not found.';
 
 
 // Privacy metadata.

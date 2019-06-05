@@ -114,9 +114,9 @@ class base extends advanced_testcase {
         $value = isset($config['anonymization']) ? $config['anonymization'] : 1;
         set_config('anonymization', $value, 'logstore_trax');
 
-        // xis_provide_names.
-        $value = isset($config['xis_provide_names']) ? $config['xis_provide_names'] : 0;
-        set_config('xis_provide_names', $value, 'logstore_trax');
+        // xis_anonymization.
+        $value = isset($config['xis_anonymization']) ? $config['xis_anonymization'] : 1;
+        set_config('xis_anonymization', $value, 'logstore_trax');
 
         // First logs to sync.
         $value = isset($config['firstlogs']) ? $config['firstlogs'] : date('d/m/Y');
