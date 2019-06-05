@@ -25,21 +25,25 @@
 require_once('../../../../../../config.php');
 require_login();
 
+use \logstore_trax\src\controller as trax_controller;
+
 $controller = new \logstore_trax\src\controller();
 
 // Get data.
 $input = file_get_contents('php://input');
-$data = json_decode($input, true);
+$data = json_decode($input);
 if (!$data) {
     http_response_code(400);
     die;
 }
 
-// Force the agent.
-// ...
+// Get profile.
+$statement = is_array($data) ? $data[0] : $data;
+$mbox = substr($statement->actor->mbox, 7);
+$profile = explode('@', $mbox)[0];
 
-// Convert the activity ID.
-// ...
+// Transform statements.
+$data = $controller->proxy($profile)->get($data);
 
 // Get the statements.
 $response = $controller->client()->statements()->post($data);

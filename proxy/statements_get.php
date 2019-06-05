@@ -25,16 +25,17 @@
 require_once('../../../../../../config.php');
 require_login();
 
-$controller = new \logstore_trax\src\controller();
+use \logstore_trax\src\controller as trax_controller;
+
+$params = $_GET;
+$controller = new trax_controller();
 
 // Force the agent and related_agents for security reasons.
-// ...
-
-// Convert the activity ID.
-// ...
+$params['agent'] = json_encode($controller->actors->get('user', $USER->id));
+$params['related_agents'] = 0;
 
 // Get the statements.
-$response = $controller->client()->statements()->get($_GET);
+$response = $controller->client()->statements()->get($params);
 
 // Return error.
 if ($response->code != 200) {

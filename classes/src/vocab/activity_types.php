@@ -175,6 +175,14 @@ trait activity_types {
             'family' => 'assessment',
         ],
 
+        // Trax Video.
+
+        'traxvideo' => [
+            'type' => 'http://vocab.xapi.fr/activities/resources',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'resource',
+        ],
+
     ];
 
 
