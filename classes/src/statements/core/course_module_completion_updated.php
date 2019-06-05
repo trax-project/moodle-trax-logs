@@ -83,7 +83,7 @@ class course_module_completion_updated extends base_statement {
         }
 
         // Check the completion status.
-        if (!in_array($completion->completionstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL])) {
+        if (!in_array($this->eventother->completionstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL])) {
             return [false, false, false];
         }
 
