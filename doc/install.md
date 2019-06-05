@@ -21,13 +21,17 @@ For a manual installation, unzip the ZIP file in `my-moodle-install-folder/admin
 
 4. Confirm the plugin installation and follow the configuration process.
 
-5. Go to `Administration > Plugins > Logstore` and activate the plugin.
+5. Go to `Administration > Plugins > Logging > Manage log stores` and activate **Trax Logs**.
 
-6. Check that the Moodle CRON job is running.
+6. On the same page, check that the **Standard log** store is activated and that its **Keep logs for** setting has an appropriate value. If you are not sure, choose `Never delete logs`. 
+
+7. Go to `Administration > Server > Cleanup` and check that the **Disable grade history** is unchecked. Choose an appropriate value for **Grade history lifetime**. If you are not sure, choose `Never delete history`. 
+
+8. Check that Moodle CRON job is configured and running. 
 
 That's all. At this step, we recommend you to run the [unit tests](test.md) in order to check that everything works fine. 
 
-Then, you can start to navigate in your courses and see the Statements arriving into your LRS.
+Then, you can start to navigate in your courses and see the Statements recorded into your LRS.
 
 
 
