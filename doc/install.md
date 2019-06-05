@@ -23,9 +23,9 @@ For a manual installation, unzip the ZIP file in `my-moodle-install-folder/admin
 
 5. Go to `Administration > Plugins > Logging > Manage log stores` and activate **Trax Logs**.
 
-6. On the same page, check that the **Standard log** store is activated and that its **Keep logs for** setting has an appropriate value. If you are not sure, choose `Never delete logs`. 
+6. On the same page, check that the **Standard log** store is activated and that its `Keep logs for` setting has an appropriate value. If you are not sure, choose `Never delete logs`. 
 
-7. Go to `Administration > Server > Cleanup` and check that the **Disable grade history** is unchecked. Choose an appropriate value for **Grade history lifetime**. If you are not sure, choose `Never delete history`. 
+7. Go to `Administration > Server > Cleanup` and check that the `Disable grade history` is unchecked. Choose an appropriate value for `Grade history lifetime`. If you are not sure, choose `Never delete history`. 
 
 8. Check that Moodle CRON job is configured and running. 
 
