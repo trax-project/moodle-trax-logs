@@ -72,7 +72,11 @@ class user_graded extends base_statement {
         global $DB;
         
         // Get grade.
-        $grade = $DB->get_record('grade_grades', ['id' => $this->event->objectid], '*', MUST_EXIST);
+        $grade = $DB->get_record('grade_grades_history', [
+            'itemid' => $this->eventother->itemid,
+            'userid' => $this->event->userid,
+            'timemodified' => $this->event->timecreated,
+        ], '*', MUST_EXIST);
         $gradeitem = $DB->get_record('grade_items', ['id' => $this->eventother->itemid], '*', MUST_EXIST);
 
         // Check that it is an activity grade.
