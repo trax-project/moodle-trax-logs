@@ -22,10 +22,10 @@ Please, refer to these documentations to understand xAPI data structures and rul
 - `\core\event\course_completed`: a user completed a Moodle course (
     [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#course-completed)).
 
-- `\core\event\course_module_completion_updated`: the completion status of a course module changed. A Statement is sent when the status is *completed* (
+- `\core\event\course_module_completion_updated`: the completion status of a course module changed. A Statement is sent only when the status is *completed* and when the completion is determined automatically (
     [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#module-completed)).
 
-- `\core\event\user_graded`: a user got a grade in the Moodle gradebook. The resulting Statement depends on the success status (
+- `\core\event\user_graded`: a user got a grade in the Moodle gradebook. A Statement is sent only when the type of grade is *value* or *scale* and when the grade is associated with a *course module*. The resulting Statement depends on the success status (
     [scored](http://doc.xapi.fr/profiles/moodle/events_result#module-scored),
     [passed](http://doc.xapi.fr/profiles/moodle/events_result#module-passed), 
     [failed](http://doc.xapi.fr/profiles/moodle/events_result#module-failed)
@@ -46,18 +46,6 @@ Please, refer to these documentations to understand xAPI data structures and rul
 - `\logstore_trax\event\hvp_quiz_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-question-answered)).
 
 - `\logstore_trax\event\hvp_single_question_answered`: a user answered a H5P single question activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#single-question-answered)).
-
-
-## Risky events
-
-Some of the above events should be considered as risky when you want to transfer you **Moodle history**.
-The reason is that these events are based on data that may change after the events occur 
-and before they are processed by the plugin. 
-In this case, some information contained in the Statements may be inaccurate,
-or other Statements may be impossible to build.
-
-- `\core\event\course_module_completion_updated`: the completion status may change.
-- `\core\event\user_graded`: the grade and success status may change.
 
 
 

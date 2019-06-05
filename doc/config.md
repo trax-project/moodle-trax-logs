@@ -32,18 +32,6 @@ Events are read from the Moodle standard logstore and sent by CRON jobs. This is
 
 5. This mode is **future-proof**. Events that are not currently supported by the plugin stay in the Moodle standard logstore. They may be supported and processed in the future.
 
-However, there is also a drawback to this mode. As the transfer is asynchronous, 
-there is a **risky period** after an event is triggered and before it is processed by the plugin.
-During this period, some data may change or disappear from the Moodle database. 
-This may lead to inacurrate information in the generated Statements, 
-or the impossibility to generate some Statements.
-
-The solution is to keep the period as short as possible.
-By default, the plugin runs the CRON job every minute, which should be fine.
-
-However, there is a higher risk when you want to transfer the Moodle history
-from the standard log store. [Risky events](events.md) are listed on the events page.
-
 
 ## Data privacy
 
