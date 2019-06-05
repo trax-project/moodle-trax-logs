@@ -147,6 +147,9 @@ abstract class base_statement {
             'contextActivities' => [
                 'category' => $categories,
             ],
+            'extensions' => [
+                'http://vocab.xapi.fr/extensions/platform-event' => $this->event->eventname
+            ]
         ];
 
         // System grouping.
