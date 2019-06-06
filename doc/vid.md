@@ -8,7 +8,7 @@ defines a set of rules and statements to track video events such as:
 
 - Video started, paused, resumed, seeked, stopped.
 - Interactions with the video player like audio (un)mute or resolution change.
-- Video completion, spent time and viewed sections.
+- Video completion, time spent and viewed sections.
 
 
 ## xAPI VideoJS
