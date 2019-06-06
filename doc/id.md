@@ -149,6 +149,7 @@ Note that `system` ID is always `0`.
 * [Configuration](config.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
+* [xAPI videos integration](vid.md)
 * [H5P integration](h5p.md)
 * [LTI integration](lti.md)
 * [xAPI Identification Services](id.md)

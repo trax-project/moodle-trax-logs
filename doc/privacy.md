@@ -26,6 +26,7 @@ Currently, Trax Logs plugin does not have the feature to present personal data (
 * [Configuration](config.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
+* [xAPI videos integration](vid.md)
 * [H5P integration](h5p.md)
 * [LTI integration](lti.md)
 * [xAPI Identification Services](id.md)

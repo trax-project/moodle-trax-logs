@@ -5,30 +5,24 @@
 
 ## Why this plugin?
 
-The idea of transforming Moodle logs into xAPI Statements is not new. 
-It has been experimented with [Logstore xAPI](https://moodle.org/plugins/view/logstore_xapi).
+[xAPI](https://adlnet.gov/research/performance-tracking-analysis/experience-api) 
+is the leading open standard to leverage your learning data and build learning analytics.
 
-However, Trax Logs for Moodle aims to bring some key improvements:
-* [Automated transfer of your Moodle history (standard logs)](doc/config.md),
-* [Integration of H5P activities](doc/h5p.md),
-* [Integration of LTI activities](doc/lti.md),
-* [Reinforcement of data privacy](doc/privacy.md),
-* [Simple and extensible architecture](doc/extend.md),
-* [Code quality and unit testing](doc/test.md),
-* [Statements designed with best practices in mind](doc/best-practices.md),
-* [Documented xAPI profile](http://doc.xapi.fr/profiles/moodle),
-* Extensive documentation (here).
+As Moodle is not xAPI-compliant, you need a plugin to transform Moodle data into xAPI data,
+and Trax Logs aims to be the best plugin for this job, bringing some key benefits:
 
-
-## Currently supported events
-
-The current version of this plugin supports [a limited number of events](doc/events.md):
-* Login and logout,
-* Course access, course module access, course category access,
-* Course completion,
-* A few H5P events.
-
-The number of supported events will increase during the next months.
+* Synchronous (real-time) & asynchronous (CRON),
+* Automated history transfer from Moodle logs,
+* Supports the main Moodle events,
+* Integration with xAPI video activities,
+* Integration with H5P activities,
+* Integration with LTI activities,
+* Statements designed with best practices in mind,
+* Reinforcement of data privacy,
+* Simple and extensible architecture,
+* Code quality and unit testing,
+* Extensive plugin documentation,
+* Extensive xAPI documentation ([here](http://doc.xapi.fr/profiles/moodle)).
 
 
 ## Plugin maturity
@@ -47,6 +41,7 @@ However, you are encouraged to [install](doc/install.md) the plugin, to test it,
 * [Configuration](doc/config.md)
 * [Supported events](doc/events.md)
 * [Supporting new events](doc/extend.md)
+* [xAPI videos integration](doc/vid.md)
 * [H5P integration](doc/h5p.md)
 * [LTI integration](doc/lti.md)
 * [xAPI Identification Services](doc/id.md)
