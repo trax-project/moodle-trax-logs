@@ -32,7 +32,7 @@ $controller = new \logstore_trax\src\controller();
 // Get data.
 $input = file_get_contents('php://input');
 $data = json_decode($input);
-if (!$data) {
+if (!$data || empty($data)) {
     http_response_code(400);
     die;
 }
@@ -40,10 +40,10 @@ if (!$data) {
 // Get profile.
 $statement = is_array($data) ? $data[0] : $data;
 $mbox = substr($statement->actor->mbox, 7);
-$profile = explode('@', $mbox)[0];
+$module = explode('@', $mbox)[0];
 
 // Transform statements.
-$data = $controller->proxy($profile)->get($data);
+$data = $controller->proxy($module)->get($data);
 
 // Get the statements.
 $response = $controller->client()->statements()->post($data);

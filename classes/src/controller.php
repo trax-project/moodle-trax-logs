@@ -125,11 +125,11 @@ class controller {
     /**
      * Return an LRS proxy.
      *
-     * @param string $profile Profile name
+     * @param string $module Module name
      * @return \logstore_trax\src\proxy\profile
      */
-    public function proxy(string $profile) {
-        $class = '\\logstore_trax\\src\\proxy\\' . $profile;
+    public function proxy(string $module) {
+        $class = '\\' . $module . '\\src\\proxy\\profile';
         return new $class($this->actors, $this->activities);
     }
 

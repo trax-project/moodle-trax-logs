@@ -52,6 +52,20 @@ abstract class profile {
      */
     protected $activities;
 
+    /**
+     * The module record.
+     *
+     * @var \stdClass $module
+     */
+    protected $module;
+
+    /**
+     * The course record.
+     *
+     * @var \stdClass $course
+     */
+    protected $course;
+
 
     /**
      * Construct.
@@ -70,6 +84,19 @@ abstract class profile {
      * @return array
      */
     public function get($data) {
+        global $DB;
+
+        // Get module and course records.
+        $first = is_array($data) ? $data[0] : $data;
+        $moduleiri = explode('/items/', $first->object->id)[0];
+        $parts = explode('/', $moduleiri);
+        $uuid = array_pop($parts);
+        $moduletype = array_pop($parts);
+        $moduleid = $this->activities->get_db_entry_by_uuid_or_fail($uuid)->mid;
+        $this->module = $DB->get_record($moduletype, ['id' => $moduleid], '*', MUST_EXIST);
+        $this->course = $DB->get_record('course', ['id' => $this->module->course], '*', MUST_EXIST);
+
+        // Transform data.
         if (is_array($data)) {
             foreach ($data as &$statement) {
                 $this->_transform($statement);
@@ -77,6 +104,7 @@ abstract class profile {
         } else {
             $this->_transform($data);
         }
+
         return json_decode(json_encode($data), true);
     }
 

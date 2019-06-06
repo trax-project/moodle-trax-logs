@@ -169,6 +169,7 @@ class activities extends index {
         // Add level.
         $res[] = [
             'id' => $this->types->$vocabtype->level,
+            'objectType' => 'Activity',
             'definition' => ['type' => 'http://vocab.xapi.fr/activities/granularity-level'],
         ];
 

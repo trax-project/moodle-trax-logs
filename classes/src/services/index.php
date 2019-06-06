@@ -71,7 +71,7 @@ abstract class index {
      * @param string $type Type of item
      * @return stdClass
      */
-    protected function get_or_create_db_entry(int $mid, string $type) {
+    public function get_or_create_db_entry(int $mid, string $type) {
         global $DB;
         $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
@@ -92,7 +92,7 @@ abstract class index {
      * @param string $type Type of item
      * @return stdClass
      */
-    protected function get_db_entry_or_fail(int $mid, string $type) {
+    public function get_db_entry_or_fail(int $mid, string $type) {
         $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
             throw new \moodle_exception('entry_not_found', 'logstore_trax');
@@ -106,7 +106,7 @@ abstract class index {
      * @param string $uuid UUID of actor
      * @return stdClass
      */
-    protected function get_db_entry_by_uuid_or_fail(string $uuid) {
+    public function get_db_entry_by_uuid_or_fail(string $uuid) {
         $entry = $this->get_db_entry_by_uuid($uuid);
         if (!$entry) {
             throw new \moodle_exception('entry_not_found', 'logstore_trax');
@@ -121,7 +121,7 @@ abstract class index {
      * @param string $type Type of item
      * @return stdClass
      */
-    protected function get_db_entry(int $mid, string $type) {
+    public function get_db_entry(int $mid, string $type) {
         global $DB;
         return $DB->get_record($this->table, [
             'mid' => $mid,
@@ -135,7 +135,7 @@ abstract class index {
      * @param string $uuid UUID of actor
      * @return stdClass
      */
-    protected function get_db_entry_by_uuid(string $uuid) {
+    public function get_db_entry_by_uuid(string $uuid) {
         global $DB;
         return $DB->get_record($this->table, [
             'uuid' => $uuid,
@@ -147,7 +147,7 @@ abstract class index {
      *
      * @return string
      */
-    protected function platform_iri() {
+    public function platform_iri() {
         $platformiri = get_config('logstore_trax', 'platform_iri');
         if (substr($platformiri, -1) == '/') {
             $platformiri = substr($platformiri, 0, -1);
