@@ -33,7 +33,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_event extends \core\event\base {
+abstract class hvp_event extends \core\event\base {
 
     /**
      * Supported H5P types.
@@ -53,6 +53,10 @@ class hvp_event extends \core\event\base {
         // Quiz.
         'H5P.SingleChoiceSet',
         'H5P.QuestionSet',
+
+        // Interactive Video.
+        'H5P.InteractiveVideo',
+        'H5P.Summary',
     ];
 
 
@@ -66,7 +70,7 @@ class hvp_event extends \core\event\base {
         global $DB;
 
         // Check if the event is supported.
-        $h5ptype = self::hvp_type($statement);
+        self::check_hvp_type($statement);
 
         // Get the course module ID.
         $parts = explode('mod/hvp/view.php?id=', self::get_module_iri($statement));
@@ -79,7 +83,7 @@ class hvp_event extends \core\event\base {
         $data = array(
             'objectid' => $cm->instance,
             'context' => \context_module::instance($cmid),
-            'other' => ['statement' => json_encode($statement), 'hvptype' => $h5ptype]
+            'other' => ['statement' => json_encode($statement)]
         );
 
         // Create Moodle event.
@@ -115,11 +119,10 @@ class hvp_event extends \core\event\base {
      * @param \stdClass $statement
      * @return string
      */
-    protected static function hvp_type(\stdClass $statement) {
+    protected static function check_hvp_type(\stdClass $statement) {
         if (!isset($statement->context->contextActivities->category)) {
 
-            // H5P.SingleChoiceSet has currently no context category and seems to be the only one.
-            return 'H5P.SingleChoiceSet';
+            return;
 
         } else {
 
@@ -127,7 +130,7 @@ class hvp_event extends \core\event\base {
             $category = $statement->context->contextActivities->category[0]->id;
             foreach (self::$supported as $type) {
                 if (strpos($category, $type) !== false) {
-                    return $type;
+                    return;
                 }
             }
         }

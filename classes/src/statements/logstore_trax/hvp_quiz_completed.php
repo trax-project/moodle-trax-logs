@@ -49,7 +49,6 @@ class hvp_quiz_completed extends base_statement {
 
         // Get the H5P statement.
         $statement = json_decode($this->eventother->statement);
-        $hvptype = $this->eventother->hvptype;
 
         // Determine the activity type.
         $vocabtype = 'hvp-quiz';

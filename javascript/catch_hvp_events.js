@@ -11,7 +11,7 @@ window.onload = function () {
             H5P.externalDispatcher.on('xAPI', function (event) {
 
                 // Debug.
-                console.log(event.data.statement);
+                console.log(event);
 
                 // We keep only some types of events.
                 var supportedVerbs = [
@@ -25,7 +25,7 @@ window.onload = function () {
                 // We keep only some library types.
                 if (event.data.statement.context.contextActivities.category === undefined) {
 
-                    // H5P.SingleChoiceSet has currently no context category and seems to be the only one.
+                    // Accept statements with no category defined.
                     libraryType = 'H5P.SingleChoiceSet';
 
                 } else {
@@ -42,6 +42,7 @@ window.onload = function () {
                         'H5P.MultiChoice',
                         'H5P.SingleChoiceSet',
                         'H5P.QuestionSet',
+                        'H5P.Summary',
                     ];
                     for (var index in supportedTypes) {
                         if (category.indexOf(supportedTypes[index]) === -1) {

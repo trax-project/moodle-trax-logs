@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * H5P xAPI event: module completed.
+ * H5P xAPI event: quiz completed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,7 +27,7 @@ namespace logstore_trax\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * H5P xAPI event.
+ * H5P xAPI event: quiz completed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -41,7 +41,7 @@ class hvp_quiz_completed extends hvp_event {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_hvp_module_completed', 'logstore_trax');
+        return get_string('event_hvp_quiz_completed', 'logstore_trax');
     }
 
     /**
@@ -50,7 +50,8 @@ class hvp_quiz_completed extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' completed the H5P activity with id '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' completed 
+            the H5P quiz with id '$this->contextinstanceid'.";
     }
 
 }
