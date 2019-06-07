@@ -48,6 +48,7 @@ class profile extends activity
      */
     public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype) {
         return [
+            'objectType' => 'Activity',
             'id' => 'http://vocab.xapi.fr/categories/vle-profile',
             'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
         ];

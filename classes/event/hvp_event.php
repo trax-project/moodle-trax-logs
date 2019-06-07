@@ -36,31 +36,6 @@ defined('MOODLE_INTERNAL') || die();
 abstract class hvp_event extends \core\event\base {
 
     /**
-     * Supported H5P types.
-     *
-     * @var array
-     */
-    protected static $supported = [
-
-        // Questions.
-        'H5P.DragQuestion',
-        'H5P.Blanks',
-        'H5P.MarkTheWords',
-        'H5P.DragText',
-        'H5P.TrueFalse',
-        'H5P.MultiChoice',
-
-        // Quiz.
-        'H5P.SingleChoiceSet',
-        'H5P.QuestionSet',
-
-        // Interactive Video.
-        'H5P.InteractiveVideo',
-        'H5P.Summary',
-    ];
-
-
-    /**
      * Create instance of event.
      *
      * @param \stdClass $statement
@@ -68,9 +43,6 @@ abstract class hvp_event extends \core\event\base {
      */
     public static function create_statement(\stdClass $statement) {
         global $DB;
-
-        // Check if the event is supported.
-        self::check_hvp_type($statement);
 
         // Get the course module ID.
         $parts = explode('mod/hvp/view.php?id=', self::get_module_iri($statement));
@@ -114,37 +86,34 @@ abstract class hvp_event extends \core\event\base {
     }
 
     /**
-     * Check if the H5P library type is supported and return it.
-     *
-     * @param \stdClass $statement
-     * @return string
-     */
-    protected static function check_hvp_type(\stdClass $statement) {
-        if (!isset($statement->context->contextActivities->category)) {
-
-            return;
-
-        } else {
-
-            // Check category.
-            $category = $statement->context->contextActivities->category[0]->id;
-            foreach (self::$supported as $type) {
-                if (strpos($category, $type) !== false) {
-                    return;
-                }
-            }
-        }
-        print_error('event_hvp_xapi_error_unsupported', 'logstore_trax');
-    }
-
-    /**
      * Get the H5P module IRI from the Statement.
      *
      * @param \stdClass $statement
      * @return string
      */
     protected static function get_module_iri(\stdClass $statement) {
-        return $statement->object->id;
+
+        if (isset($statement->context->contextActivities->parent) && !empty($statement->context->contextActivities->parent)) {
+            
+            // There is a parent.
+            $parentid = $statement->context->contextActivities->parent[0]->id;
+            $parts = explode('subContentId=', $parentid);
+            if (count($parts) == 1) {
+
+                // The parent is the module. Return it.
+                return $parts[0];
+
+            } else {
+
+                // The parent is a sub-content. Remove the & or ? char.
+                return substr($parts[0], 0, -1);
+            }
+
+        } else {
+
+            // No parent. Return the object ID.
+            return $statement->object->id;
+        }
     }
 
 }

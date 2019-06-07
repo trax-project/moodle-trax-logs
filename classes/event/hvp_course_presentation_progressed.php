@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * H5P xAPI event: interactive video question answered.
+ * H5P xAPI event: course presentation progressed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,13 +27,13 @@ namespace logstore_trax\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * H5P xAPI event: interactive video question answered.
+ * H5P xAPI event: course presentation progressed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_video_question_answered extends hvp_event {
+class hvp_course_presentation_progressed extends hvp_event {
 
     /**
      * Return localised event name.
@@ -41,7 +41,7 @@ class hvp_video_question_answered extends hvp_event {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_hvp_video_question_answered', 'logstore_trax');
+        return get_string('event_hvp_course_presentation_progressed', 'logstore_trax');
     }
 
     /**
@@ -50,18 +50,8 @@ class hvp_video_question_answered extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' answered one of the questions
-            of the H5P interactive video with id '$this->contextinstanceid'.";
-    }
-
-    /**
-     * Get the H5P module IRI from the Statement.
-     *
-     * @param \stdClass $statement
-     * @return string
-     */
-    protected static function get_module_iri(\stdClass $statement) {
-        return $statement->context->contextActivities->parent[0]->id;
+        return "The user with id '$this->userid' progressed in a course presentation
+            of the H5P activity with id '$this->contextinstanceid'.";
     }
 
 }

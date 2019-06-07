@@ -55,7 +55,7 @@ class course_module_completion_updated extends core_course_module_completion_upd
         list($verb, $result) = $this->get_verb_result($completion);
 
         // Get the vocab type.
-        $vocabtype = $this->vocab_type($object);
+        $vocabtype = $this->module_vocab_type($object);
 
         // Build the statement.
         return array_replace($this->base('hvp', true, $vocabtype), [

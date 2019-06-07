@@ -17,6 +17,7 @@ window.onload = function () {
                 var supportedVerbs = [
                     'http://adlnet.gov/expapi/verbs/answered',
                     'http://adlnet.gov/expapi/verbs/completed',
+                    'http://adlnet.gov/expapi/verbs/progressed',
                 ];
                 if (supportedVerbs.indexOf(event.data.statement.verb.id) === -1) {
                     return;
@@ -26,7 +27,7 @@ window.onload = function () {
                 if (event.data.statement.context.contextActivities.category === undefined) {
 
                     // Accept statements with no category defined.
-                    libraryType = 'H5P.SingleChoiceSet';
+                    libraryType = 'Unknown';
 
                 } else {
 
@@ -34,15 +35,28 @@ window.onload = function () {
                     var category = event.data.statement.context.contextActivities.category[0].id;
                     var libraryType;
                     var supportedTypes = [
+
+                        // Questions.
                         'H5P.DragQuestion',
                         'H5P.Blanks',
                         'H5P.MarkTheWords',
                         'H5P.DragText',
                         'H5P.TrueFalse',
                         'H5P.MultiChoice',
+
+                        // Quiz.
                         'H5P.SingleChoiceSet',
                         'H5P.QuestionSet',
+
+                        // Interactive Video.
+                        'H5P.InteractiveVideo',
+
+                        // Summary.
                         'H5P.Summary',
+
+                        // Course Presentation.
+                        'H5P.CoursePresentation',
+
                     ];
                     for (var index in supportedTypes) {
                         if (category.indexOf(supportedTypes[index]) === -1) {

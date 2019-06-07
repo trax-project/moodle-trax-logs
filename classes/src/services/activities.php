@@ -58,6 +58,16 @@ class activities extends index {
     }
 
     /**
+     * Get an activity type info.
+     *
+     * @param string $vocabtype Type of activity
+     * @return \stdClass
+     */
+    public function typeinfo(string $vocabtype) {
+        return $this->types->$vocabtype;
+    }
+
+    /**
      * Get an activity, given a Moodle ID and an activity type.
      *
      * @param string $type Type of activity

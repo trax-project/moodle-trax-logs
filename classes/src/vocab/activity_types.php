@@ -164,7 +164,7 @@ trait activity_types {
 
         // H5P modules.
 
-        'hvp-poll' => [
+        'hvp-single-question' => [
             'type' => 'http://vocab.xapi.fr/activities/poll',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'feedback',
@@ -173,6 +173,26 @@ trait activity_types {
             'type' => 'http://vocab.xapi.fr/activities/quiz',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'assessment',
+        ],
+        'hvp-summary' => [
+            'type' => 'http://vocab.xapi.fr/activities/quiz',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'assessment',
+        ],
+        'hvp-interactive-video' => [
+            'type' => 'http://vocab.xapi.fr/activities/interactive-video',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'resource',
+        ],
+        'hvp-course-presentation' => [
+            'type' => 'http://vocab.xapi.fr/activities/web-content',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'resource',
+        ],
+        'hvp-column' => [
+            'type' => 'http://vocab.xapi.fr/activities/web-content',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'resource',
         ],
 
         // Trax Video.

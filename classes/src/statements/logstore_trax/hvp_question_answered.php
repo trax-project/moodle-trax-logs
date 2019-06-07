@@ -27,7 +27,7 @@ namespace logstore_trax\src\statements\logstore_trax;
 defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\statements\base_statement;
-use logstore_trax\src\utils\module_context;
+use logstore_trax\src\utils\inside_module_context;
 use logstore_trax\src\statements\mod_hvp\hvp_utils;
 
 /**
@@ -37,9 +37,9 @@ use logstore_trax\src\statements\mod_hvp\hvp_utils;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_quiz_completed extends base_statement {
+class hvp_question_answered extends base_statement {
 
-    use module_context, hvp_utils;
+    use inside_module_context, hvp_utils;
 
     /**
      * Build the Statement.
@@ -52,16 +52,57 @@ class hvp_quiz_completed extends base_statement {
         $statement = json_decode($this->eventother->statement);
 
         // Set statement base and object.
-        list($base, $object) = $this->statement_base_object($statement, 'hvp-quiz');
+        list($base, $object) = $this->statement_base_object($statement, 'hvp-single-question');
         
         // Build the statement.
         return array_replace($base, [
             'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $this->statement_verb($statement),
+            'verb' => $this->verbs->get('answered'),
             'object' => $object,
             'result' => $statement->result
         ]);
 
     }
+
+    /**
+     * Get the Statement base and object.
+     *
+     * @param \stdClass $statement Statement
+     * @param string $vocabtype Vocab type
+     * @return array
+     */
+    protected function statement_base_object($statement, $vocabtype) {
+        global $DB;
+
+        // Get some data.
+        list($level, $objectuuid, $parentuuid) = $this->statement_level($statement);
+        $module = $DB->get_record('hvp', array('id' => $this->event->objectid), '*', MUST_EXIST);
+        $moduletype = $this->module_vocab_type($module);
+        $base = $this->base('hvp', true, $moduletype);
+
+        // Top object.
+        $module = $this->activities->get('hvp', $this->event->objectid, false, 'module', $moduletype);
+        
+        // Object.
+        $object = $statement->object;
+        $objectuuid = $objectuuid ? $objectuuid : 'single';
+        $object->id = $module['id'] . '/item/' . $objectuuid;
+        unset($object->definition->extensions);
+
+        if ($level == 3) {
+
+            // Move module from parent to grouping.
+            $base['context']['contextActivities']['grouping'][] = $base['context']['contextActivities']['parent'][0];
+
+            // Add parent.
+            $base['context']['contextActivities']['parent'][0] = (object)[
+                'objectType' => 'Activity',
+                'id' => $module['id'] . '/item/' . $parentuuid
+            ];
+        } 
+
+        return [$base, $object];
+    }
+
 
 }

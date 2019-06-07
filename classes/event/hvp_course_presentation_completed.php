@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * H5P xAPI event: single question answered.
+ * H5P xAPI event: course presentation completed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,13 +27,13 @@ namespace logstore_trax\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * H5P xAPI event: single question answered.
+ * H5P xAPI event: course presentation completed.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_single_question_answered extends hvp_event {
+class hvp_course_presentation_completed extends hvp_event {
 
     /**
      * Return localised event name.
@@ -41,7 +41,7 @@ class hvp_single_question_answered extends hvp_event {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_hvp_single_question_answered', 'logstore_trax');
+        return get_string('event_hvp_course_presentation_completed', 'logstore_trax');
     }
 
     /**
@@ -50,8 +50,8 @@ class hvp_single_question_answered extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' answered the question
-            of the H5P single question with id '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' completed a course presentation
+            of the H5P activity with id '$this->contextinstanceid'.";
     }
 
 }

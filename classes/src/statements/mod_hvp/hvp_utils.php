@@ -38,22 +38,194 @@ trait hvp_utils {
     /**
      * Return the H5P module vocab type.
      *
+     * @param string $hvptype HVP type
+     * @return string
+     */
+    protected function vocab_type(string $hvptype) {
+        switch ($hvptype) {
+
+            // Questions.
+            case 'H5P.DragQuestion':
+            case 'H5P.Blanks':
+            case 'H5P.MarkTheWords':
+            case 'H5P.DragText':
+            case 'H5P.TrueFalse':
+            case 'H5P.MultiChoice':
+                return 'hvp-single-question';
+
+            // Quiz.
+            case 'H5P.SingleChoiceSet':
+            case 'H5P.QuestionSet':
+                return 'hvp-quiz';
+
+            // Summary.
+            case 'H5P.Summary':
+                return 'hvp-summary';
+
+            // Interactive Video.
+            case 'H5P.InteractiveVideo':
+                return 'hvp-interactive-video';
+
+            // Course Presentation.
+            case 'H5P.CoursePresentation':
+                return 'hvp-course-presentation';
+
+            // Column.
+            case 'H5P.Column':
+                return 'hvp-column';
+        }
+    }
+
+    /**
+     * Return the H5P module vocab type.
+     *
      * @param \stdClass $hvp HVP module record
      * @return string
      */
-    public function vocab_type(\stdClass $hvp) {
+    protected function module_vocab_type(\stdClass $hvp) {
+        global $DB;
+        $library = $DB->get_record('hvp_libraries', array('id' => $hvp->main_library_id), '*', MUST_EXIST);
+        return $this->vocab_type($library->machine_name);
+    }
+
+    /**
+     * Get the Statement level, and the parent UUID if level 3.
+     * 1 - H5P module
+     * 2 - H5P module direct child
+     * 3 - H5P module deep child
+     *
+     * @param \stdClass $statement Statement
+     * @return array
+     */
+    protected function statement_level($statement) {
+
+        $hasparent = isset($statement->context->contextActivities->parent) && !empty($statement->context->contextActivities->parent);
+
+        // Level 1.
+        if (!$hasparent) {
+            return [1, null, null];
+        }
+
+        // Object UUID.
+        $objectuuid = explode('subContentId=', $statement->object->id)[1];
+
+        // Parent data.
+        $parentid = $statement->context->contextActivities->parent[0]->id;
+        $contextparts = explode('subContentId=', $parentid);
+
+        // Level 2.
+        if (count($contextparts) == 1) {
+            return [2, $objectuuid, null];
+        }
+
+        // Level 3.
+        return [3, $objectuuid, $contextparts[1]];
+    }
+
+    /**
+     * Get the Statement verb, by priority:
+     * - passed or failed if result.success is defined.
+     * - scored if a score is defined.
+     * - completed if $completed param is true
+     * - the original verb
+     *
+     * @param \stdClass $statement Statement
+     * @return string
+     */
+    protected function statement_verb($statement) {
+
+        // Default verb.
+        $verb = $statement->verb;
+        unset($statement->verb->display);
+
+        // Result.
+        if (isset($statement->result)) {
+            if (isset($statement->result->success)) {
+
+                // Success.
+                if ($statement->result->success) {
+                    $verb = $this->verbs->get('passed');
+                } else {
+                    $verb = $this->verbs->get('failed');
+                }
+
+            } else if (isset($statement->result->score)) {
+
+                // Simple score.
+                $verb = $this->verbs->get('scored');
+
+            } else if (isset($statement->result->completion) && $statement->result->completion) {
+
+                // Completion.
+                $verb = $this->verbs->get('completed');
+            }
+        }
+        return $verb;
+    }
+
+    /**
+     * Get the Statement base and object.
+     *
+     * @param \stdClass $statement Statement
+     * @param string $vocabtype Vocab type
+     * @return array
+     */
+    protected function statement_base_object($statement, $vocabtype) {
         global $DB;
 
-        // Get the H5P type.
-        $library = $DB->get_record('hvp_libraries', array('id' => $hvp->main_library_id), '*', MUST_EXIST);
-        $hvptype = $library->machine_name;
+        // Get some data.
+        list($level, $objectuuid, $parentuuid) = $this->statement_level($statement);
+        $module = $DB->get_record('hvp', array('id' => $this->event->objectid), '*', MUST_EXIST);
+        $moduletype = $this->module_vocab_type($module);
+        $base = $this->base('hvp', true, $vocabtype);
 
-        // Get the vocab type.
-        $vocabtype = 'hvp-poll';
-        if (in_array($hvptype, ['H5P.SingleChoiceSet', 'H5P.QuestionSet'])) {
-            $vocabtype = 'hvp-quiz';
+        // Define the object and context.
+        if ($level == 1) {
+
+            // Object.
+            $object = $this->activities->get('hvp', $this->event->objectid, true, 'module', $vocabtype);
+
+        } else {
+
+            // Top object.
+            $module = $this->activities->get('hvp', $this->event->objectid, false, 'module', $moduletype);
+            
+            // Object.
+            $objecttype = $this->activities->typeinfo($vocabtype);
+            $object = $statement->object;
+            $object->id = $module['id'] . '/item/' . $objectuuid;
+            $object->definition->type = $objecttype->type;
+            unset($object->definition->extensions);
+
+            // Set granularity level to 'inside-learning-unit'.
+            foreach ($base['context']['contextActivities']['category'] as &$category) {
+                if ($category['definition']['type'] == 'http://vocab.xapi.fr/activities/granularity-level') {
+                    $category['id'] = 'http://vocab.xapi.fr/categories/inside-learning-unit';
+                }
+            }
+
+            // Move course from parent to grouping.
+            $base['context']['contextActivities']['grouping'][] = $base['context']['contextActivities']['parent'][0];
+
+            if ($level == 2) {
+
+                // Add module to parent.
+                $base['context']['contextActivities']['parent'][0] = $module;
+
+            } else {
+
+                // Add module to grouping.
+                $base['context']['contextActivities']['grouping'][] = $module;
+
+                // Add parent.
+                $base['context']['contextActivities']['parent'][0] = (object)[
+                    'objectType' => 'Activity',
+                    'id' => $module['id'] . '/item/' . $parentuuid
+                ];
+            }
         }
-        return $vocabtype;
+        return [$base, $object];
     }
+
 
 }

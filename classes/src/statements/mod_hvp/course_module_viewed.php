@@ -53,7 +53,7 @@ class course_module_viewed extends base_statement {
         $object = $DB->get_record('hvp', array('id' => $this->event->objectid), '*', MUST_EXIST);
 
         // Get the vocab type.
-        $vocabtype = $this->vocab_type($object);
+        $vocabtype = $this->module_vocab_type($object);
 
         // Build the statement.
         return array_replace($this->base('hvp', true, $vocabtype), [

@@ -56,7 +56,7 @@ class user_graded extends core_user_graded {
         list($verb, $result) = $this->get_verb_result($grade, $gradeitem);
 
         // Get the vocab type.
-        $vocabtype = $this->vocab_type($object);
+        $vocabtype = $this->module_vocab_type($object);
 
         // Build the statement.
         return array_replace($this->base('hvp', true, $vocabtype), [

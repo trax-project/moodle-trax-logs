@@ -50,8 +50,8 @@ class hvp_quiz_completed extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' completed 
-            the H5P quiz with id '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' completed a quiz
+            of the H5P activity with id '$this->contextinstanceid'.";
     }
 
 }

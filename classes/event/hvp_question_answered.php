@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * H5P xAPI event: interactive video summary question answered.
+ * H5P xAPI event: question answered.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,13 +27,13 @@ namespace logstore_trax\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * H5P xAPI event: interactive video summary question answered.
+ * H5P xAPI event: question answered.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_video_summary_question_answered extends hvp_event {
+class hvp_question_answered extends hvp_event {
 
     /**
      * Return localised event name.
@@ -41,7 +41,7 @@ class hvp_video_summary_question_answered extends hvp_event {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_hvp_video_summary_question_answered', 'logstore_trax');
+        return get_string('event_hvp_question_answered', 'logstore_trax');
     }
 
     /**
@@ -50,22 +50,8 @@ class hvp_video_summary_question_answered extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' answered one of the summary questions
-            of the H5P interactive video with id '$this->contextinstanceid'.";
-    }
-
-    /**
-     * Get the H5P module IRI from the Statement.
-     *
-     * @param \stdClass $statement
-     * @return string
-     */
-    protected static function get_module_iri(\stdClass $statement) {
-        $parentid = $statement->context->contextActivities->parent[0]->id;
-        $parts = explode('subContentId=', $parentid);
-        $moduleiri = $parts[0];
-        $moduleiri = substr($moduleiri, 0, -1);   // Remove the & or ? char.
-        return $moduleiri;
+        return "The user with id '$this->userid' answered a question
+            of the H5P activity with id '$this->contextinstanceid'.";
     }
 
 }
