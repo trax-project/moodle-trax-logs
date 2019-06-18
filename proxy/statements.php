@@ -24,10 +24,10 @@
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        require_once(__DIR__ . './statements_get.php');
+        require_once(__DIR__ . '/statements_get.php');
         break;
     case 'POST':
-        require_once(__DIR__ . './statements_post.php');
+        require_once(__DIR__ . '/statements_post.php');
         break;
     default:
         print_error('blockdoesnotexist', 'error');

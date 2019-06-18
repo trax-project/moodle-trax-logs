@@ -1,2 +1,2 @@
 RewriteEngine On
-RewriteRule "^/statements$" "/statements.php" [PT]
+RewriteRule "^statements" "statements.php" [PT]
