@@ -150,28 +150,48 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         // Actors mid-type index.
         $table = new xmldb_table('logstore_trax_actors');
         $index = new xmldb_index('mid-type', XMLDB_INDEX_UNIQUE, array('mid', 'type'));
-        $dbman->add_index($table, $index);	
+        $dbman->add_index($table, $index);
 
         // Actors uuid index (unique).
         $index = new xmldb_index('uuid', XMLDB_INDEX_UNIQUE, array('uuid'));
-        $dbman->add_index($table, $index);	
+        $dbman->add_index($table, $index);
 
         // Activities mid-type index.
         $table = new xmldb_table('logstore_trax_activities');
         $index = new xmldb_index('mid-type', XMLDB_INDEX_UNIQUE, array('mid', 'type'));
-        $dbman->add_index($table, $index);	
+        $dbman->add_index($table, $index);
 
         // Activities uuid index (not unique).
         $index = new xmldb_index('uuid', XMLDB_INDEX_NOTUNIQUE, array('uuid'));
-        $dbman->add_index($table, $index);	
+        $dbman->add_index($table, $index);
 
         // Logs mid index.
         $table = new xmldb_table('logstore_trax_logs');
         $index = new xmldb_index('mid', XMLDB_INDEX_UNIQUE, array('mid'));
-        $dbman->add_index($table, $index);	            
+        $dbman->add_index($table, $index);
 
         // Savepoint.
         upgrade_plugin_savepoint(true, 2018050806, 'logstore', 'trax');
+    }
+
+    // Add some indexes.
+    if ($oldversion < 2018050810) {
+        $table = new xmldb_table('logstore_trax_logs');
+
+        // Error index (not unique).
+        $index = new xmldb_index('error', XMLDB_INDEX_NOTUNIQUE, array('error'));
+        $dbman->add_index($table, $index);
+
+        // Attempts index (not unique).
+        $index = new xmldb_index('attempts', XMLDB_INDEX_NOTUNIQUE, array('attempts'));
+        $dbman->add_index($table, $index);
+
+        // Newattempt index (not unique).
+        $index = new xmldb_index('newattempt', XMLDB_INDEX_NOTUNIQUE, array('newattempt'));
+        $dbman->add_index($table, $index);
+
+        // Savepoint.
+        upgrade_plugin_savepoint(true, 2018050810, 'logstore', 'trax');
     }
 
     return true;

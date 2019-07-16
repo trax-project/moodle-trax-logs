@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests: plugin settings.
+ * Unit tests: filtering test.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -29,7 +29,7 @@ use \logstore_trax\src\config;
 require_once(__DIR__ . '/utils/base.php');
 
 /**
- * Unit tests: plugin settings.
+ * Unit tests: filtering test.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -55,7 +55,10 @@ class filters_test extends base {
         $traxlogs = $this->process();
 
         // Check logs.
-        $this->assertTrue(count($traxlogs) == 0);
+        $this->assertTrue(count($traxlogs) == count($events));
+        foreach ($traxlogs as $log) {
+            $this->assertTrue($log->error == 4);
+        }
     }
 
     /**
@@ -76,7 +79,10 @@ class filters_test extends base {
         $traxlogs = $this->process();
 
         // Check logs.
-        $this->assertTrue(count($traxlogs) == 0);
+        $this->assertTrue(count($traxlogs) == count($events));
+        foreach ($traxlogs as $log) {
+            $this->assertTrue($log->error == 4);
+        }
     }
 
 }

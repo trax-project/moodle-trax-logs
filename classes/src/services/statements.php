@@ -26,6 +26,8 @@ namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
+use logstore_trax\src\config;
+
 /**
  * Statements service.
  *
@@ -103,7 +105,14 @@ class statements {
         $plugin = $parts[1];
         $name = end($parts);
 
-        // First, search in the plugin folder.
+        // First, check if this event is selected.
+        $selectedEvents = config::selected_events(get_config('logstore_trax'));
+        if (!in_array($event->eventname, $selectedEvents)) {
+            $this->logs->log_unselected($event);
+            return;
+        }
+
+        // Next, search in the plugin folder.
         $class = '\\'.$plugin.'\\xapi\\statements\\'.$name;
 
         // Then, search in Trax Logs, plugin subfolder.
@@ -129,7 +138,7 @@ class statements {
             $this->logs->log_unsupported($event);
             return;
         }
-
+        
         try {
 
             // Get the statement and return the result object.

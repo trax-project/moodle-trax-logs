@@ -95,10 +95,11 @@ class controller {
     /**
      * Process events from Moodle logstore.
      *
+     * @param bool $debug debug
      * @return void
      */
-    public function process_logstore() {
-        $events = $this->logs->get_events_to_process();
+    public function process_logstore($debug = false) {
+        $events = $this->logs->get_events_to_process($debug);
         $this->process_events($events);
     }
 

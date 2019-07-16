@@ -119,7 +119,9 @@ class base extends advanced_testcase {
         set_config('xis_anonymization', $value, 'logstore_trax');
 
         // First logs to sync.
-        $value = isset($config['firstlogs']) ? $config['firstlogs'] : date('d/m/Y');
+        // Time 00:00:00 of yesterday will be the begining of today.
+        $yesterday = new DateTime('yesterday'); 
+        $value = isset($config['firstlogs']) ? $config['firstlogs'] : $yesterday->format('d/m/Y');
         set_config('firstlogs', $value, 'logstore_trax');
 
         // Core events.
@@ -174,11 +176,12 @@ class base extends advanced_testcase {
     /**
      * Process events from the Moodle logstore.
      * 
+     * @param bool $debug debug
      * @return array
      */
-    protected function process()
+    protected function process($debug = false)
     {
-        $this->controller->process_logstore();
+        $this->controller->process_logstore($debug);
         return $this->controller->logs->get_trax_logs();
     }
 
@@ -189,7 +192,18 @@ class base extends advanced_testcase {
      * @return mixed
      */
     protected function trigger_simple_event($process = true) {
-        $event = $this->events->user_loggedin();
+        return $this->trigger_event('user_loggedin', $process);
+    }
+
+    /**
+     * Trigger a named event.
+     * 
+     * @param string $name Name of the events.
+     * @param bool $process Process the events.
+     * @return mixed
+     */
+    protected function trigger_event($name, $process = true) {
+        $event = $this->events->$name();
         $this->trigger($event);
         if ($process) {
             return $this->process();

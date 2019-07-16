@@ -50,6 +50,9 @@
         </KEYS>
         <INDEXES>
             <INDEX NAME="mid" UNIQUE="true" FIELDS="mid" COMMENT="The standard logstore record ID."/>
+            <INDEX NAME="error" UNIQUE="false" FIELDS="error"/>
+            <INDEX NAME="attempts" UNIQUE="false" FIELDS="attempts"/>
+            <INDEX NAME="newattempt" UNIQUE="false" FIELDS="newattempt"/>
         </INDEXES>
     </TABLE>
 

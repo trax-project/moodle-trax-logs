@@ -26,8 +26,6 @@ namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\config;
-
 /**
  * Logs service.
  *
@@ -37,47 +35,43 @@ use logstore_trax\src\config;
  */
 class logs {
 
+    use logs_requests;
+
+
+    /**
+     * @var stdClass $config
+     */
+    protected $config;
+
+    
+    /**
+     * Constructor.
+     */
+    public function __construct() {
+        $this->config = get_config('logstore_trax');
+    }
+
     /**
      * Get the new events to process.
      *
+     * @param bool $debug debug
      * @return array
      */
-    public function get_events_to_process() {
-        global $DB;
-        $config = get_config('logstore_trax');
-        $where = [];
-        $params = [];
+    public function get_events_to_process($debug = false) {
 
-        // First logs.
-        if (!empty($config->firstlogs)) {
-            $where[] = 'timecreated >= ?';
-            $params[] = strtotime(str_replace('/', '-', $config->firstlogs));
-        }
+        // Clean the logs.
+        // $this->clean();
 
-        // Log status.
-        $whereStatus = [
-            'error IS NULL',
-            '(error = 1 AND attempts < ?)',
-            'newattempt = 1',
-        ];
-        $where[] = '(' . implode(' OR ', $whereStatus) . ')';
-        $params[] = $config->attempts;
+        // Reset config (needed for tests).
+        $this->config = get_config('logstore_trax');
 
-        // Selected events.
-        $param = $this->sql_array(config::selected_events($config));
-        $where[] = "eventname IN " . $param;
-
-        // Final request.
-        $where = implode(' AND ', $where);
-        $sql = "
-            SELECT {logstore_standard_log}.*, error, attempts, newattempt, {logstore_trax_logs}.id AS xid
-            FROM {logstore_standard_log}
-            LEFT JOIN {logstore_trax_logs} ON {logstore_standard_log}.id = {logstore_trax_logs}.mid
-            WHERE " . $where . "
-            ORDER BY timecreated
-        ";
-        
-        return $DB->get_records_sql($sql, $params, 0, $config->db_batch_size);
+        // Get batch.
+        $batch = [];
+        $this->get_retry_events($batch);
+        $this->get_new_events($batch);
+        $this->get_past_events($batch);
+        $this->get_newly_selected_events($batch);
+        return $batch;
     }
 
     /**
@@ -161,46 +155,13 @@ class logs {
     }
 
     /**
-     * Log an event.
+     * Log an unselected event.
      *
      * @param stdClass $event event
-     * @error int $error error code
      * @return void
      */
-    protected function log_event(\stdClass $event, int $error) {
-
-        // Never log in sync mode, except for unit tests.
-        if (config::sync() && !PHPUNIT_TEST) {
-            return;
-        }
-
-        global $DB;
-        if (isset($event->xid) && $event->xid) {
-
-            // Existing log.
-            $DB->update_record('logstore_trax_logs', (object)[
-                'id' => $event->xid,
-                'mid' => $event->id,
-                'error' => $error,
-                'attempts' => $event->attempts + 1,
-                'newattempt' => 0
-            ]);
-
-        } else if (isset($event->id) && $event->id) {
-
-            // New log with a Moodle event.
-            $DB->insert_record('logstore_trax_logs', (object)[
-                'mid' => $event->id,
-                'error' => $error,
-            ]);
-
-        } else {
-
-            // Sync mode.
-            $DB->insert_record('logstore_trax_logs', (object)[
-                'error' => $error,
-            ]);
-        }
+    public function log_unselected(\stdClass $event) {
+        $this->log_event($event, 4);
     }
 
     /**
@@ -211,25 +172,10 @@ class logs {
     public function clean() {
         global $DB;
 
-        // Remove sync logs.
+        // Remove synchronous logs (created during testing).
         $select = 'mid IS NULL';
         $DB->delete_records_select('logstore_trax_logs', $select);
     }
-
-    /**
-     * Convert array to SQL array.
-     *
-     * @param array $array array
-     * @return string
-     */
-    protected function sql_array(array $array) {
-        $array = array_map(function ($item) {
-            $item = str_replace('\\', '\\\\', $item);
-            return "'" . $item . "'";
-        }, $array);
-        return '(' . implode(', ', $array) . ')';
-    }
-
 
 
 }

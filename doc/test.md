@@ -41,6 +41,7 @@ To run all the tests: `vendor/bin/phpunit --testsuite logstore_trax_testsuite`.
 To run a specific test: `vendor/bin/phpunit admin/tool/log/store/trax/tests/xxx_test.php`, where `xxx` can be:
 
 - **store**: send a simple Statement to the LRS both with sync and async modes.
+- **async**: test the asynchronous synchronization process.
 - **events**: generate and send all supported events, except H5P.
 - **settings**: test some of the plugin settings.
 - **filters**: test the capability of the plugin to filter logs.

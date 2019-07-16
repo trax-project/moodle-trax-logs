@@ -66,12 +66,12 @@ $string['xis_anonymization_help'] = "Anonymize actors in the xAPI Identification
     except when Statements anonymization is deactivated.";
 
 $string['logged_events'] = 'Logged events';
-$string['logged_events_help'] = 'In this section, you can choose the events you want to send to the LRS.
-    The sync mode must be set to "asynchronous". When set to "synchronous", all known events are sent.';
+$string['logged_events_help'] = 'In this section, you can choose the events you want to send to the LRS.';
 
 $string['firstlogs'] = 'First logs';
-$string['firstlogs_help'] = "Format: DD/MM/YYYY. 
-    This is the date of the first logs to sync from the Moodle standard logstore.";
+$string['firstlogs_help'] = 'Format: DD/MM/YYYY. 
+    This is the date of the first logs to sync from the Moodle standard logstore
+    when the sync mode is set to "asynchronous".';
 
 $string['core_events'] = 'Moodle core events';
 $string['core_events_help'] = 'Select event families you want to track.';

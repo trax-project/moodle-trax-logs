@@ -55,7 +55,7 @@ class events_test extends base {
 
         // Process logs.
         $traxlogs = $this->process();
-
+        
         // Check logs.
         $this->assertTrue(count($traxlogs) == count($events));
         foreach ($traxlogs as $log) {
