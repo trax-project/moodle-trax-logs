@@ -59,9 +59,6 @@ class logs {
      */
     public function get_events_to_process($debug = false) {
 
-        // Clean the logs.
-        // $this->clean();
-
         // Reset config (needed for tests).
         $this->config = get_config('logstore_trax');
 
