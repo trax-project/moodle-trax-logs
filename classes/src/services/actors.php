@@ -53,6 +53,15 @@ class actors extends index {
 
 
     /**
+     * Constructor.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->types = json_decode(json_encode($this->types));
+    }
+
+    /**
      * Get an actor, given a Moodle ID and an actor type.
      *
      * @param string $type Type of actor (user, cohort...)

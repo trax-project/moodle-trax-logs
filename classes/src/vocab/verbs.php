@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the supported verbs.
+ * Verbs vocab.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,20 +27,27 @@ namespace logstore_trax\src\vocab;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Defines the supported verbs.
+ * Verbs vocab.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-trait verbs {
+class verbs extends vocab {
 
     /**
-     * Verbs.
+     * Vocab class.
      *
-     * @var array $verbs
+     * @var string $class
      */
-    protected $verbs = [
+    protected $class = 'verbs';
+
+    /**
+     * Vocab items.
+     *
+     * @var array $items
+     */
+    protected $items = [
         'logged-in' => [
             'iri' => 'https://w3id.org/xapi/adl/verbs/logged-in',
         ],
@@ -64,6 +71,15 @@ trait verbs {
         ],
         'answered' => [
             'iri' => 'http://adlnet.gov/expapi/verbs/answered',
+        ],
+        'launched' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/launched',
+        ],
+        'initialized' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/initialized',
+        ],
+        'terminated' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/terminated',
         ],
     ];
 

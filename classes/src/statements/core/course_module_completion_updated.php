@@ -41,6 +41,7 @@ use logstore_trax\src\utils\module_context;
 class course_module_completion_updated extends base_statement {
 
     use module_context;
+    
 
     /**
      * Build the Statement.
@@ -55,10 +56,10 @@ class course_module_completion_updated extends base_statement {
         list($verb, $result) = $this->get_verb_result($completion);
 
         // Build the statement.
-        return array_replace($this->base($module->name), [
+        return array_replace($this->base($module->name, true, $this->activitytype, $this->plugin), [
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $verb,
-            'object' => $this->activities->get($module->name, $object->id, true, 'module'),
+            'object' => $this->activities->get($module->name, $object->id, true, 'module', $this->activitytype, $this->plugin),
             'result' => $result
         ]);
     }

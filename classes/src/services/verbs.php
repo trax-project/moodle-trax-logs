@@ -37,18 +37,33 @@ use logstore_trax\src\vocab\verbs as verbs_vocab;
  */
 class verbs {
 
-    use verbs_vocab;
+    /**
+     * Vocab: verbs.
+     *
+     * @var verbs_vocab $verbs
+     */
+    protected $verbs;
 
+
+    /**
+     * Constructor.
+     *
+     * @return void
+     */
+    public function __construct() {
+        $this->verbs = new verbs_vocab();
+    }
 
     /**
      * Get a verb, given its code.
      *
      * @param string $code Code of the verb
+     * @param string $plugin Plugin where the vocab is located (ex. mod_forum)
      * @return array
      */
-    public function get(string $code) {
+    public function get(string $code, string $plugin = null) {
         return [
-            'id' => $this->verbs[$code]['iri'],
+            'id' => $this->verbs->iri($code, $plugin),
         ];
     }
 

@@ -37,7 +37,12 @@ use logstore_trax\src\vocab\activity_types;
  */
 class activity {
 
-    use activity_types;
+    /**
+     * Vocab: types of activity.
+     *
+     * @var activity_types $types
+     */
+    protected $types;
 
     /**
      * Config.
@@ -55,7 +60,7 @@ class activity {
      */
     public function __construct($config) {
         $this->config = $config;
-        $this->types = json_decode(json_encode($this->types));
+        $this->types = new activity_types();
     }
 
     /**
@@ -66,10 +71,11 @@ class activity {
      * @param string $uuid UUID of the activity
      * @param bool $full Give the full definition of the activity?
      * @param string $vocabtype Type to be used in vocab index
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype) {
-        return $this->base_activity($type, $uuid, $vocabtype);
+    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype, string $plugin = null) {
+        return $this->base_activity($type, $uuid, $vocabtype, $plugin);
     }
 
     /**
@@ -78,14 +84,15 @@ class activity {
      * @param string $type Type of activity
      * @param string $uuid UUID of the activity
      * @param string $vocabtype Type to be used in vocab index
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    protected function base_activity(string $type, string $uuid, string $vocabtype) {
+    protected function base_activity(string $type, string $uuid, string $vocabtype, string $plugin = null) {
         return [
             'objectType' => 'Activity',
             'id' => $this->base_activity_id($type, $uuid),
             'definition' => [
-                'type' => $this->types->$vocabtype->type,
+                'type' => $this->types->type($vocabtype, $plugin),
             ],
         ];
     }

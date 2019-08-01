@@ -44,9 +44,10 @@ class profile extends activity
      * @param string $uuid UUID of the activity
      * @param bool $full Give the full definition of the activity?
      * @param string $vocabtype Type to be used in vocab index
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype) {
+    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype, string $plugin = null) {
         return [
             'objectType' => 'Activity',
             'id' => 'http://vocab.xapi.fr/categories/vle-profile',

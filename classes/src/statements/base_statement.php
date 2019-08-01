@@ -75,6 +75,20 @@ abstract class base_statement {
      */
     protected $eventother;
 
+    /**
+     * Plugin.
+     *
+     * @var string $plugin
+     */
+    protected $plugin;
+
+    /**
+     * Activity type.
+     *
+     * @var string $activitytype
+     */
+    protected $activitytype;
+
 
     /**
      * Constructor.
@@ -115,14 +129,15 @@ abstract class base_statement {
      * @param string $activitytype Type of activity
      * @param bool $withsystem Include the system activity in the context?
      * @param string $vocabtype Type of activity
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    protected function base($activitytype, $withsystem = true, $vocabtype = null) {
+    protected function base($activitytype, $withsystem = true, $vocabtype = null, $plugin = null) {
         if (!isset($vocabtype)) {
             $vocabtype = $activitytype;
         }
         return [
-            'context' => $this->base_context($activitytype, $withsystem, $vocabtype),
+            'context' => $this->base_context($activitytype, $withsystem, $vocabtype, $plugin),
             'timestamp' => date('c', $this->event->timecreated),
         ];
     }
@@ -133,12 +148,13 @@ abstract class base_statement {
      * @param string $activitytype Type of activity
      * @param bool $withsystem Include the system activity in the context?
      * @param string $vocabtype Type of activity
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    protected function base_context($activitytype, $withsystem, $vocabtype) {
+    protected function base_context($activitytype, $withsystem, $vocabtype, $plugin = null) {
 
         // Categories.
-        $categories = $this->activities->get_categories($vocabtype);
+        $categories = $this->activities->get_categories($vocabtype, $plugin);
         $categories[] = $this->activities->get('profile');
 
         // Base context.

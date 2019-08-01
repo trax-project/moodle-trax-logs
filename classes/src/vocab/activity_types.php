@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines the supported activity types.
+ * Activity types vocab.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,20 +27,28 @@ namespace logstore_trax\src\vocab;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Defines the supported activity types.
+ * Activity types vocab.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-trait activity_types {
+class activity_types extends vocab {
 
     /**
-     * Types of activity.
+     * Vocab class.
      *
-     * @var array $types
+     * @var string $class
      */
-    protected $types = [
+    protected $class = 'activity_types';
+
+    
+    /**
+     * Vocab items.
+     *
+     * @var array $items
+     */
+    protected $items = [
         'profile' => [
             'type' => 'http://adlnet.gov/expapi/activities/profile',
         ],
@@ -160,6 +168,14 @@ trait activity_types {
             'type' => 'http://vocab.xapi.fr/activities/workshop',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'production',
+        ],
+
+        // SCORM items.
+
+        'sco' => [
+            'type' => 'http://adlnet.gov/expapi/activities/lesson',
+            'level' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
+            'standard' => 'scorm',
         ],
 
         // H5P modules.

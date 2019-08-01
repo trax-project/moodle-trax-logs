@@ -41,10 +41,11 @@ trait module_context {
      * @param string $activitytype Type of activity
      * @param bool $withsystem Include the system activity in the context?
      * @param string $vocabtype Type of activity
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    protected function base_context($activitytype, $withsystem, $vocabtype) {
-        $context = parent::base_context($activitytype, $withsystem, $vocabtype);
+    protected function base_context($activitytype, $withsystem, $vocabtype, $plugin = null) {
+        $context = parent::base_context($activitytype, $withsystem, $vocabtype, $plugin);
         $course = $this->activities->get('course', $this->event->courseid, false);
         $context['contextActivities']['parent'] = array($course);
         return $context;

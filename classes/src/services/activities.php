@@ -37,7 +37,12 @@ use logstore_trax\src\vocab\activity_types;
  */
 class activities extends index {
 
-    use activity_types;
+    /**
+     * Vocab: types of activity.
+     *
+     * @var activity_types $types
+     */
+    public $types;
 
     /**
      * DB table.
@@ -48,23 +53,12 @@ class activities extends index {
 
 
     /**
-     * Check if an activity type is supported.
+     * Constructor.
      *
-     * @param string $vocabtype Type of activity
-     * @return bool
+     * @return void
      */
-    public function supported(string $vocabtype) {
-        return isset($this->types->$vocabtype);
-    }
-
-    /**
-     * Get an activity type info.
-     *
-     * @param string $vocabtype Type of activity
-     * @return \stdClass
-     */
-    public function typeinfo(string $vocabtype) {
-        return $this->types->$vocabtype;
+    public function __construct() {
+        $this->types = new activity_types();
     }
 
     /**
@@ -93,8 +87,7 @@ class activities extends index {
         }
 
         // Check if it is a known module.
-        if (isset($this->types->$vocabtype) && isset($this->types->$vocabtype->level)
-            && $this->types->$vocabtype->level == 'http://vocab.xapi.fr/categories/learning-unit') {
+        if ($this->types->level($vocabtype, $plugin) == 'http://vocab.xapi.fr/categories/learning-unit') {
             $model = 'module';
         }
 
@@ -115,7 +108,7 @@ class activities extends index {
 
         $config = get_config('logstore_trax');
         $config->platform_iri = $this->platform_iri();
-        return (new $class($config))->get($type, $mid, $entry->uuid, $full, $vocabtype);
+        return (new $class($config))->get($type, $mid, $entry->uuid, $full, $vocabtype, $plugin);
     }
 
     /**
@@ -166,24 +159,23 @@ class activities extends index {
      * Get category context activities, given an activity vocab type.
      *
      * @param string $vocabtype Type of activity
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function get_categories(string $vocabtype) {
+    public function get_categories(string $vocabtype, string $plugin = null) {
 
-        // Empty categories.
+        // No category.
         $res = [];
-        if (!isset($this->types->$vocabtype) || !isset($this->types->$vocabtype->level)) {
-            return $res;
+        if (!$level = $this->types->level($vocabtype, $plugin)) {
+            return [];
         }
 
-        // Add level.
-        $res[] = [
-            'id' => $this->types->$vocabtype->level,
+        // Level category.
+        return [[
+            'id' => $level,
             'objectType' => 'Activity',
             'definition' => ['type' => 'http://vocab.xapi.fr/activities/granularity-level'],
-        ];
-
-        return $res;
+        ]];
     }
 
 }

@@ -215,5 +215,16 @@ class config {
         );
     }
 
+    /**
+     * Are other events selected?
+     *
+     * @param stdClass $config Config
+     * @return bool
+     */
+    public static function other_events(\stdClass $config) {
+        $components = explode(',', $config->additional_components);
+        return in_array('other', $components);
+    }
+    
 
 }

@@ -107,7 +107,11 @@ class statements {
 
         // First, check if this event is selected.
         $selectedEvents = config::selected_events(get_config('logstore_trax'));
-        if (!in_array($event->eventname, $selectedEvents)) {
+        $otherEvents = config::other_events(get_config('logstore_trax'));
+        $continue = in_array($event->eventname, $selectedEvents) 
+            || ($event->contextlevel == CONTEXT_MODULE && $otherEvents);
+
+        if (!$continue) {
             $this->logs->log_unselected($event);
             return;
         }
@@ -138,7 +142,7 @@ class statements {
             $this->logs->log_unsupported($event);
             return;
         }
-        
+
         try {
 
             // Get the statement and return the result object.
@@ -178,7 +182,15 @@ class statements {
             return false;
         }
         $plugin = $record->itemtype . '_' . $record->itemmodule;
-        return '\\logstore_trax\\src\\statements\\' . $plugin . '\\user_graded';
+
+        // First, search in the plugin folder.
+        $class = '\\' . $plugin . '\\xapi\\statements\\user_graded';
+
+        // Then, search in Trax Logs, plugin subfolder.
+        if (!class_exists($class)) {
+            $class = '\\logstore_trax\\src\\statements\\' . $plugin . '\\user_graded';
+        }
+        return $class;
     }
 
     /**
@@ -201,7 +213,17 @@ class statements {
         if (!$record) {
             return false;
         }
-        return '\\logstore_trax\\src\\statements\\mod_' . $record->name . '\\course_module_completion_updated';
+        $plugin = 'mod_' . $record->name;
+
+        // First, search in the plugin folder.
+        $class = '\\' . $plugin . '\\xapi\\statements\\course_module_completion_updated';
+
+        // Then, search in Trax Logs, plugin subfolder.
+        if (!class_exists($class)) {
+            $class = '\\logstore_trax\\src\\statements\\' . $plugin . '\\course_module_completion_updated';
+        }
+        return $class;
+
     }
 
 

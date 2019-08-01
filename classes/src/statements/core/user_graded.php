@@ -42,6 +42,7 @@ class user_graded extends base_statement {
 
     use module_context;
 
+
     /**
      * Build the Statement.
      *
@@ -55,10 +56,10 @@ class user_graded extends base_statement {
         list($verb, $result) = $this->get_verb_result($grade, $gradeitem);
 
         // Build the statement.
-        return array_replace($this->base($gradeitem->itemmodule), [
+        return array_replace($this->base($gradeitem->itemmodule, true, $this->activitytype, $this->plugin), [
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $verb,
-            'object' => $this->activities->get($gradeitem->itemmodule, $gradeitem->iteminstance, true, 'module'),
+            'object' => $this->activities->get($gradeitem->itemmodule, $gradeitem->iteminstance, true, 'module', $this->activitytype, $this->plugin),
             'result' => $result
         ]);
     }

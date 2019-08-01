@@ -40,6 +40,7 @@ class course_module_viewed extends base_statement {
 
     use module_context;
 
+
     /**
      * Build the Statement.
      *
@@ -48,15 +49,15 @@ class course_module_viewed extends base_statement {
     protected function statement() {
 
         // Check that the activity is supported.
-        if (!$this->activities->supported($this->event->objecttable)) {
+        if (!$this->activities->types->supported($this->event->objecttable, $this->plugin)) {
             return false;
         }
 
         // Build the statement.
-        return array_replace($this->base($this->event->objecttable), [
+        return array_replace($this->base($this->event->objecttable, true, $this->activitytype, $this->plugin), [
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $this->verbs->get('navigated-in'),
-            'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module'),
+            'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module', $this->activitytype, $this->plugin),
         ]);
     }
 

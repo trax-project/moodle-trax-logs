@@ -26,7 +26,6 @@ namespace logstore_trax\src\statements\mod_hvp;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\statements\base_statement;
 use logstore_trax\src\statements\mod_hvp\hvp_utils;
 use logstore_trax\src\utils\module_context;
 use logstore_trax\src\statements\core\user_graded as core_user_graded;

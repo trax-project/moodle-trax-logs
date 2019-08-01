@@ -46,10 +46,11 @@ class module extends activity
      * @param string $uuid UUID of the activity
      * @param bool $full Give the full definition of the activity?
      * @param string $vocabtype Type to be used in vocab index
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype) {
-        $activity = $this->base_activity($type, $uuid, $vocabtype);
+    public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype, string $plugin = null) {
+        $activity = $this->base_activity($type, $uuid, $vocabtype, $plugin);
         if ($full) {
 
             // Name & description.
@@ -64,13 +65,13 @@ class module extends activity
             // Extensions.
             $activity['definition']['extensions'] = [];
             $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/platform-concept'] = $vocabtype;
-            if (isset($this->types->$vocabtype->family)) {
-                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/concept-family']
-                    = $this->types->$vocabtype->family;
+            $family = $this->types->family($vocabtype, $plugin);
+            if ($family) {
+                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/concept-family'] = $family;
             }
-            if (isset($this->types->$vocabtype->standard)) {
-                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/standard']
-                    = $this->types->$vocabtype->standard;
+            $standard = $this->types->standard($vocabtype, $plugin);
+            if ($standard) {
+                $activity['definition']['extensions']['http://vocab.xapi.fr/extensions/standard'] = $standard;
             }
         }
         return $activity;

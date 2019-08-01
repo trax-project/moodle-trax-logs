@@ -46,15 +46,6 @@ abstract class index {
 
 
     /**
-     * Constructor.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->types = json_decode(json_encode($this->types));
-    }
-
-    /**
      * Get an activity, given a Moodle ID and an activity type.
      *
      * @param string $type Type of activity

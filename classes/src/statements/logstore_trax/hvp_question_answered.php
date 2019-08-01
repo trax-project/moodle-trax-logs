@@ -69,9 +69,10 @@ class hvp_question_answered extends base_statement {
      *
      * @param \stdClass $statement Statement
      * @param string $vocabtype Vocab type
+     * @param string $plugin Plugin where the implementation is located (ex. mod_forum)
      * @return array
      */
-    protected function statement_base_object($statement, $vocabtype) {
+    protected function statement_base_object($statement, $vocabtype, $plugin = null) {
         global $DB;
 
         // Get some data.

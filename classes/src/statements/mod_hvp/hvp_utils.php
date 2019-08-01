@@ -191,7 +191,7 @@ trait hvp_utils {
             $module = $this->activities->get('hvp', $this->event->objectid, false, 'module', $moduletype);
             
             // Object.
-            $objecttype = $this->activities->typeinfo($vocabtype);
+            $objecttype = $this->activities->types->get($vocabtype);
             $object = $statement->object;
             $object->id = $module['id'] . '/item/' . $objectuuid;
             $object->definition->type = $objecttype->type;
