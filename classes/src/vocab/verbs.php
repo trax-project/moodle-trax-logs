@@ -69,6 +69,9 @@ class verbs extends vocab {
         'scored' => [
             'iri' => 'http://adlnet.gov/expapi/verbs/scored',
         ],
+        'graded' => [
+            'iri' => 'http://vocab.xapi.fr/verbs/graded',
+        ],
         'answered' => [
             'iri' => 'http://adlnet.gov/expapi/verbs/answered',
         ],
@@ -80,6 +83,9 @@ class verbs extends vocab {
         ],
         'terminated' => [
             'iri' => 'http://adlnet.gov/expapi/verbs/terminated',
+        ],
+        'reset' => [
+            'iri' => 'http://vocab.xapi.fr/verbs/reset',
         ],
     ];
 

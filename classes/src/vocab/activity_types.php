@@ -173,7 +173,7 @@ class activity_types extends vocab {
         // SCORM items.
 
         'sco' => [
-            'type' => 'http://adlnet.gov/expapi/activities/lesson',
+            'type' => 'http://vocab.xapi.fr/activities/content-object',
             'level' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
             'standard' => 'scorm',
         ],
