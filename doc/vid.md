@@ -34,6 +34,12 @@ when videos are playing:
 - It modifies statements in order to insert complementary contextual data.
 
 
+## Additional xAPI Rules
+
+In addition to the xAPI video profile, a few rules are needed to ensure the consistancy
+with the Moodle / VLE profile: [go further](http://doc.xapi.fr/profiles/moodle/events_vid).
+
+
 ## Contents
 
 * [Overview](../README.md)

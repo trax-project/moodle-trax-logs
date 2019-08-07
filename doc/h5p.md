@@ -55,22 +55,26 @@ Then, save the config file and purge all the Moodle caches. You should have a li
 
 5. Trax Logs gets the event from the default logstore.
 
-6. Trax Logs transforms the statement in order to conform with the [xAPI VLE profile](http://doc.xapi.fr/profiles/vle) an the [xAPI Moodle profile](http://doc.xapi.fr/profiles/moodle).
+6. Trax Logs transforms the statement in order to conform with the [xAPI Moodle / VLE profile](http://doc.xapi.fr/profiles/moodle).
 
 7. Trax Logs send the statement to the LRS. This request is done from the back-end, so it should be secured.
 
 
 ## Which events are currently supported?
 
-Here is the list of the H5P events which are currently (triggered and) handled by Trax Logs:
+- `\logstore_trax\event\hvp_question_answered`: a user answered a question of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#question-answered)).
 
-- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#course-module-viewed)).
+- `\logstore_trax\event\hvp_summary_answered`: a user answered a summary of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#summary-answered)).
 
-- `\logstore_trax\event\hvp_quiz_completed`: a user completed an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-completed)).
+- `\logstore_trax\event\hvp_quiz_completed`: a user completed a quiz of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-completed)).
 
-- `\logstore_trax\event\hvp_quiz_question_answered`: a user answered a question of an H5P quiz or question set ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-question-answered)).
+- `\logstore_trax\event\hvp_course_presentation_completed`: a user completed a course presentation 
+of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#pres-completed)).
 
-- `\logstore_trax\event\hvp_single_question_answered`: a user answered a H5P single question activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#single-question-answered)).
+- `\logstore_trax\event\hvp_course_presentation_progressed`: a user navigated in a course presentation 
+of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#nav-in-pres)).
+
+- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#nav-in-module)).
 
 
 

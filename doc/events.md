@@ -1,6 +1,6 @@
 # Supported events
 
-Trax Logs for Moodle implements both the [xAPI VLE Profile](http://doc.xapi.fr/profiles/vle) and the [xAPI Moodle Profile](http://doc.xapi.fr/profiles/moodle). 
+Trax Logs for Moodle implements both the [xAPI Moodle / VLE Profile](http://doc.xapi.fr/profiles/moodle). 
 
 Please, refer to these documentations to understand xAPI data structures and rules.
 
@@ -25,11 +25,7 @@ Please, refer to these documentations to understand xAPI data structures and rul
 - `\core\event\course_module_completion_updated`: the completion status of a course module changed. A Statement is sent only when the status is *completed* and when the completion is determined automatically (
     [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#module-completed)).
 
-- `\core\event\user_graded`: a user got a grade in the Moodle gradebook. A Statement is sent only when the type of grade is *value* or *scale* and when the grade is associated with a *course module*. The resulting Statement depends on the success status (
-    [scored](http://doc.xapi.fr/profiles/moodle/events_result#module-scored),
-    [passed](http://doc.xapi.fr/profiles/moodle/events_result#module-passed), 
-    [failed](http://doc.xapi.fr/profiles/moodle/events_result#module-failed)
-    JSON examples).
+- `\core\event\user_graded`: a user got a grade in the Moodle gradebook. A Statement is sent only when the type of grade is *value* or *scale* and when the grade is associated with a *course module* ([JSON example](http://doc.xapi.fr/profiles/moodle/events_result#module-graded)).
 
 
 ## Common module events
@@ -37,22 +33,13 @@ Please, refer to these documentations to understand xAPI data structures and rul
 - `\mod_xxx\event\course_module_viewed`: a user navigated in a Moodle course module, `xxx` being the type of the module ([JSON example](http://doc.xapi.fr/profiles/moodle/events_nav#nav-in-module)).
 
 
-## H5P events
+## Third-party events
 
-- `\logstore_trax\event\hvp_question_answered`: a user answered a question of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#question-answered)).
-
-- `\logstore_trax\event\hvp_summary_answered`: a user answered a summary of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#summary-answered)).
-
-- `\logstore_trax\event\hvp_quiz_completed`: a user completed a quiz of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#quiz-completed)).
-
-- `\logstore_trax\event\hvp_course_presentation_completed`: a user completed a course presentation 
-of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#pres-completed)).
-
-- `\logstore_trax\event\hvp_course_presentation_progressed`: a user navigated in a course presentation 
-of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#nav-in-pres)).
-
-- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#nav-in-module)).
-
+- [xAPI video profile](vid.md)
+- [H5P xAPI events](h5p.md)
+- [SCORM Lite](http://doc.xapi.fr/profiles/moodle/events_scormlite)
+- [Assessment Path](http://doc.xapi.fr/profiles/moodle/events_assessmentpath)
+- [Training Path](http://doc.xapi.fr/profiles/moodle/events_trainingpath)
 
 
 

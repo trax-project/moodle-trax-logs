@@ -6,9 +6,7 @@
 A statement should always conform with an xAPI profile to ensure interoperability. 
 However, there is currently no official xAPI profile regarding Moodle, or even a larger LMS/VLE profile.
 
-So we defined both:
-- A VLE (Virtual Learning Environment) profile which defines common rules: http://doc.xapi.fr/profiles/vle.
-- A Moodle profile which is a specialization of the VLE profile: http://doc.xapi.fr/profiles/moodle.
+So we defined a Moodle / VLE (Virtual Learning Environment) profile which defines some xAPI rules: http://doc.xapi.fr/profiles/moodle.
 
 We hope this project will contribute to define an officially recognized xAPI profile for the LMS/VLE purpose.
 
@@ -89,7 +87,7 @@ Trax Logs defines for all the Statements whose object is an internal concept of 
 * A `parent` activity which identifies the course module in which the event occurs.
 * A `grouping` activity which identifies the Moodle course in which the event occurs.
 
-Please, refer to the [xAPI VLE profile](http://xapidoc.test/profiles/vle/statements) and the [xAPI Moodle profile](http://xapidoc.test/profiles/moodle/statements) for further details.
+Please, refer to the [xAPI VLE profile](http://doc.xapi.fr/profiles/moodle/statements) and the [xAPI Moodle profile](http://doc.xapi.fr/profiles/moodle/statements) for further details.
 
 
 ## Descriptive elements
