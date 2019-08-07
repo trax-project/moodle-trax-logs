@@ -153,6 +153,12 @@ class statements {
                 $this->logs->log_unsupported($event);
                 return;
             }
+
+            // We got it, but we want to be sure to have a log for this event,
+            // so we log an internal error by default.
+            $this->logs->log_internal_error($event);
+
+            // And we return the result.
             return (object)['statement' => $statement, 'event' => $event];
 
         } catch (\moodle_exception $e) {

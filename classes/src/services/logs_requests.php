@@ -245,7 +245,7 @@ trait logs_requests {
         global $DB;
         if (isset($event->xid) && $event->xid) {
 
-            // Existing log.
+            // Update existing log.
             $DB->update_record('logstore_trax_logs', (object)[
                 'id' => $event->xid,
                 'mid' => $event->id,
@@ -256,11 +256,22 @@ trait logs_requests {
 
         } else if (isset($event->id) && $event->id) {
 
-            // New log with a Moodle event.
-            $DB->insert_record('logstore_trax_logs', (object)[
-                'mid' => $event->id,
-                'error' => $error,
-            ]);
+            // New log from a Moodle log store.
+
+            // May already exist (already recorded for security reason).
+            $log = $DB->get_record('logstore_trax_logs', ['mid' => $event->id]);
+            if ($log) {
+                $log->error = $error;
+                $DB->update_record('logstore_trax_logs', $log);
+
+            } else {
+
+                // Recording for the first time.
+                $DB->insert_record('logstore_trax_logs', (object)[
+                    'mid' => $event->id,
+                    'error' => $error,
+                ]);
+            }
 
         } else {
 
