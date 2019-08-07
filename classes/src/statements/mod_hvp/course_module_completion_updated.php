@@ -27,7 +27,6 @@ namespace logstore_trax\src\statements\mod_hvp;
 defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\statements\mod_hvp\hvp_utils;
-use logstore_trax\src\utils\module_context;
 use logstore_trax\src\statements\core\course_module_completion_updated as core_course_module_completion_updated;
 
 /**
@@ -39,30 +38,16 @@ use logstore_trax\src\statements\core\course_module_completion_updated as core_c
  */
 class course_module_completion_updated extends core_course_module_completion_updated {
 
-    use module_context, hvp_utils;
+    use hvp_utils;
 
     /**
-     * Build the Statement.
+     * Init.
      *
-     * @return array
+     * @param \stdClass $object object
+     * @return void
      */
-    protected function statement() {
-
-        // Get data.
-        list($completion, $module, $object) = $this->get_completion_data();
-        if (!$completion) return false;
-        list($verb, $result) = $this->get_verb_result($completion);
-
-        // Get the vocab type.
-        $vocabtype = $this->module_vocab_type($object);
-
-        // Build the statement.
-        return array_replace($this->base('hvp', true, $vocabtype), [
-            'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $verb,
-            'object' => $this->activities->get('hvp', $object->id, true, 'module', $vocabtype),
-            'result' => $result
-        ]);
+    protected function init(\stdClass $object) {
+        $this->activitytype = $this->module_vocab_type($object);
     }
 
 }

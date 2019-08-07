@@ -42,6 +42,20 @@ class user_graded extends base_statement {
 
     use module_context;
 
+    /**
+     * Plugin.
+     *
+     * @var string $plugin
+     */
+    protected $plugin;
+
+    /**
+     * Activity type.
+     *
+     * @var string $activitytype
+     */
+    protected $activitytype;
+
 
     /**
      * Build the Statement.
@@ -53,15 +67,26 @@ class user_graded extends base_statement {
         // Get data.
         list($grade, $gradeitem, $object) = $this->get_grade_data();
         if (!$grade) return false;
-        list($verb, $result) = $this->get_verb_result($grade, $gradeitem);
+
+        // Init.
+        $this->init($object);
 
         // Build the statement.
         return array_replace($this->base($gradeitem->itemmodule, true, $this->activitytype, $this->plugin), [
             'actor' => $this->actors->get('user', $this->event->userid),
-            'verb' => $verb,
+            'verb' => $this->verbs->get('graded'),
             'object' => $this->activities->get($gradeitem->itemmodule, $gradeitem->iteminstance, true, 'module', $this->activitytype, $this->plugin),
-            'result' => $result
+            'result' => $this->get_result($grade, $gradeitem)
         ]);
+    }
+
+    /**
+     * Init.
+     *
+     * @param \stdClass $object object
+     * @return void
+     */
+    protected function init(\stdClass $object) {
     }
 
     /**
@@ -111,25 +136,17 @@ class user_graded extends base_statement {
      * @param \stdClass $gradeitem Grade item
      * @return array
      */
-    protected function get_verb_result(\stdClass $grade, \stdClass $gradeitem) {
+    protected function get_result(\stdClass $grade, \stdClass $gradeitem) {
 
         // Define scoring values.
         $raw = floatval($grade->rawgrade);
         $min = floatval($gradeitem->grademin);
         $max = floatval($gradeitem->grademax);
 
-        // Define the verb.
+        // Define the success.
         $passed = null;
         if (isset($gradeitem->gradepass) && floatval($gradeitem->gradepass) > 0) {
-            if ($raw >= floatval($gradeitem->gradepass)) {
-                $verb = $this->verbs->get('passed');
-                $passed = true;
-            } else {
-                $verb = $this->verbs->get('failed');
-                $passed = false;
-            }
-        } else {
-            $verb = $this->verbs->get('scored');
+            $passed = $raw >= floatval($gradeitem->gradepass);
         }
 
         // Define the result.
@@ -146,8 +163,7 @@ class user_graded extends base_statement {
             $result['success'] = $passed;
         }
 
-        // Result.
-        return [$verb, $result];
+        return $result;
     }
 
 

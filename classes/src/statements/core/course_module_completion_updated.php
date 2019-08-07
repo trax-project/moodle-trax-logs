@@ -41,8 +41,22 @@ use logstore_trax\src\utils\module_context;
 class course_module_completion_updated extends base_statement {
 
     use module_context;
-    
 
+    /**
+     * Plugin.
+     *
+     * @var string $plugin
+     */
+    protected $plugin;
+
+    /**
+     * Activity type.
+     *
+     * @var string $activitytype
+     */
+    protected $activitytype;
+
+    
     /**
      * Build the Statement.
      *
@@ -55,6 +69,9 @@ class course_module_completion_updated extends base_statement {
         if (!$completion) return false;
         list($verb, $result) = $this->get_verb_result($completion);
 
+        // Init.
+        $this->init($object);
+
         // Build the statement.
         return array_replace($this->base($module->name, true, $this->activitytype, $this->plugin), [
             'actor' => $this->actors->get('user', $this->event->userid),
@@ -62,6 +79,15 @@ class course_module_completion_updated extends base_statement {
             'object' => $this->activities->get($module->name, $object->id, true, 'module', $this->activitytype, $this->plugin),
             'result' => $result
         ]);
+    }
+
+    /**
+     * Init.
+     *
+     * @param \stdClass $object object
+     * @return void
+     */
+    protected function init(\stdClass $object) {
     }
 
     /**

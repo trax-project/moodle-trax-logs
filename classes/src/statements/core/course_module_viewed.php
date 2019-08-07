@@ -40,6 +40,20 @@ class course_module_viewed extends base_statement {
 
     use module_context;
 
+    /**
+     * Plugin.
+     *
+     * @var string $plugin
+     */
+    protected $plugin;
+
+    /**
+     * Activity type.
+     *
+     * @var string $activitytype
+     */
+    protected $activitytype;
+
 
     /**
      * Build the Statement.
@@ -47,9 +61,15 @@ class course_module_viewed extends base_statement {
      * @return array
      */
     protected function statement() {
+        global $DB;
+
+        // Init.
+        $object = $DB->get_record($this->event->objecttable, array('id' => $this->event->objectid), '*', MUST_EXIST);
+        $this->init($object);
 
         // Check that the activity is supported.
-        if (!$this->activities->types->supported($this->event->objecttable, $this->plugin)) {
+        $vocabtype = isset($this->activitytype) ? $this->activitytype : $this->event->objecttable;
+        if (!$this->activities->types->supported($vocabtype, $this->plugin)) {
             return false;
         }
 
@@ -59,6 +79,15 @@ class course_module_viewed extends base_statement {
             'verb' => $this->verbs->get('navigated-in'),
             'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module', $this->activitytype, $this->plugin),
         ]);
+    }
+
+    /**
+     * Init.
+     *
+     * @param \stdClass $object object
+     * @return void
+     */
+    protected function init(\stdClass $object) {
     }
 
 }
