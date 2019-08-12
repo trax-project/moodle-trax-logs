@@ -97,5 +97,29 @@ class utils {
         return [$lang => $text];
     }
 
+    /**
+     * Convert second to ISO duration.
+     * 
+     * @param int $seconds duration in seconds
+     */
+    public static function iso8601_duration($seconds) {
+        $intervals = array('D' => 60 * 60 * 24, 'H' => 60 * 60, 'M' => 60, 'S' => 1);
+
+        $pt = 'PT';
+        $result = '';
+        foreach ($intervals as $tag => $divisor) {
+            $qty = floor($seconds / $divisor);
+            if (!$qty && $result == '') {
+                continue;
+            }
+
+            $seconds -= $qty * $divisor;
+            $result  .= "$qty$tag";
+        }
+        if ($result == '')
+            $result = '0S';
+        return "$pt$result";
+    }
+
 
 }
