@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * H5P xAPI event: course presentation progressed.
+ * Proxy event: POST.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -27,13 +27,23 @@ namespace logstore_trax\event;
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * H5P xAPI event: course presentation progressed.
+ * Proxy event: POST.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class hvp_course_presentation_progressed extends hvp_event {
+class proxy_statements_post extends \core\event\base {
+
+    /**
+     * Init method.
+     *
+     * @return void
+     */
+    protected function init() {
+        $this->data['crud'] = 'r';
+        $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
+    }
 
     /**
      * Return localised event name.
@@ -41,7 +51,7 @@ class hvp_course_presentation_progressed extends hvp_event {
      * @return string
      */
     public static function get_name() {
-        return get_string('event_hvp_course_presentation_progressed', 'logstore_trax');
+        return get_string('event_proxy_statements_post', 'logstore_trax');
     }
 
     /**
@@ -50,8 +60,12 @@ class hvp_course_presentation_progressed extends hvp_event {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' progressed in a course presentation
-            of the H5P activity with course module id '$this->contextinstanceid'.";
+        global $DB;
+        $cm = $DB->get_record('course_modules', ['id' => $this->contextinstanceid]);
+        $module = $DB->get_record('modules', ['id' => $cm->module]);
+
+        return "The user with id '$this->userid' posted statements
+            from the '$module->name' activity with course module id '$this->contextinstanceid'.";
     }
 
 }

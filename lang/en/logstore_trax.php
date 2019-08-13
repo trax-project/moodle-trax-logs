@@ -88,6 +88,10 @@ $string['additional_components_help'] = 'Select additional components you want t
 $string['mod_hvp'] = 'H5P';
 $string['other_components'] = 'Other components';
 
+$string['resend_livelogs_until'] = 'Resend live logs until';
+$string['resend_livelogs_until_help'] = 'Format: DD/MM/YYYY. 
+    Live logs which were sent until this date will be resent.';
+
 $string['data_transfert_settings'] = 'Data Transfer Settings';
 $string['data_transfert_settings_help'] = 'This section defines how this plugin will transfer
     data to the LRS. Please, take the time to make tests and define the right settings 
@@ -134,6 +138,8 @@ $string['event_hvp_quiz_question_answered'] = 'H5P quiz question answered';
 $string['event_hvp_video_question_answered'] = 'H5P interactive video question answered';
 $string['event_hvp_video_summary_question_answered'] = 'H5P interactive video summary question answered';
 $string['event_hvp_video_summary_answered'] = 'H5P interactive video summary answered';
+
+$string['event_proxy_statements_post'] = 'xAPI proxy statement(s) posted';
 
 // Errors.
 $string['event_hvp_xapi_error_json'] = 'H5P xAPI event: invalid JSON string!';

@@ -101,23 +101,48 @@ class statements {
      * @return mixed
      */
     public function get_from_event(\stdClass $event) {
+        $class = null;
         $parts = explode('\\', $event->eventname);
         $plugin = $parts[1];
         $name = end($parts);
 
-        // First, check if this event is selected.
-        $selectedEvents = config::selected_events(get_config('logstore_trax'));
-        $otherEvents = config::other_events(get_config('logstore_trax'));
-        $continue = in_array($event->eventname, $selectedEvents) 
-            || ($event->contextlevel == CONTEXT_MODULE && $otherEvents);
+        // Special case for LRS proxy.
+        if ($plugin == 'logstore_trax' && $name == 'proxy_statements_post') {
 
-        if (!$continue) {
-            $this->logs->log_unselected($event);
-            return;
+            // Check if the statement must be resent.
+            $dateobj = \DateTime::createFromFormat('d/m/Y', get_config('logstore_trax', 'resend_livelogs_until'));
+            $resenduntil = strtotime($dateobj->format('d-m-Y'));
+
+            // Don't send the statement, just log it.
+            if ($event->timecreated > $resenduntil + (60 * 60 * 24)) {
+                $eventother = (object)unserialize($event->other);
+                if ($eventother->error) {
+                    $this->logs->log_lrs_error($event);
+                } else {
+                    $this->logs->log_success($event);
+                }
+                return;
+            }
+    
+            // Resend the statement.
+            $class = '\\logstore_trax\\src\\statements\\proxy\\statements_post';
         }
 
-        // Next, search in the plugin folder.
-        $class = '\\'.$plugin.'\\xapi\\statements\\'.$name;
+        // Check if this event is selected.
+        if (!$class || !class_exists($class)) {
+            $selectedEvents = config::selected_events(get_config('logstore_trax'));
+            $otherEvents = config::other_events(get_config('logstore_trax'));
+            $continue = in_array($event->eventname, $selectedEvents) 
+                || ($event->contextlevel == CONTEXT_MODULE && $otherEvents);
+
+            if (!$continue) {
+                $this->logs->log_unselected($event);
+                return;
+            }
+
+            // Next, search in the plugin folder.
+            $class = '\\'.$plugin.'\\xapi\\statements\\'.$name;
+        }
 
         // Then, search in Trax Logs, plugin subfolder.
         if (!class_exists($class) && $plugin != 'core') {

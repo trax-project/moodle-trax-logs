@@ -51,7 +51,7 @@ class hvp_question_answered extends hvp_event {
      */
     public function get_description() {
         return "The user with id '$this->userid' answered a question
-            of the H5P activity with id '$this->contextinstanceid'.";
+            of the H5P activity with course module id '$this->contextinstanceid'.";
     }
 
 }

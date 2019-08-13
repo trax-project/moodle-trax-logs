@@ -143,6 +143,16 @@ if ($hassiteconfig) {
         config::loggable_additional_components()
     ));
 
+    // Live logs (proxy).
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/resend_livelogs_until',
+        get_string('resend_livelogs_until', 'logstore_trax'),
+        get_string('resend_livelogs_until_help', 'logstore_trax'),
+        date('d/m/Y') - (60 * 60 * 24),
+        "/^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/",
+        10
+    ));
+
 
      // -------------------- Data transportation settings --------------------.
 

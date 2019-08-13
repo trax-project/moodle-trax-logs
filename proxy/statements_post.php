@@ -26,8 +26,9 @@ require_once('../../../../../../config.php');
 require_login();
 
 use \logstore_trax\src\controller as trax_controller;
+use \logstore_trax\event\proxy_statements_post;
 
-$controller = new \logstore_trax\src\controller();
+$controller = new trax_controller();
 
 // Get data.
 $input = file_get_contents('php://input');
@@ -40,26 +41,69 @@ if (!$data || empty($data)) {
 // Get profile.
 $statement = is_array($data) ? $data[0] : $data;
 $mbox = substr($statement->actor->mbox, 7);
-$module = explode('@', $mbox)[0];
+list($objectid, $rest) = explode('@', $mbox);
+list($objecttable, $objecttype) = explode('.', $rest);
+
+// Only modules.
+if ($objecttype != 'mod') {
+    http_response_code(400);
+    die;
+}
+$module = 'mod_' . $objecttable;
 
 // Transform statements.
 $data = $controller->proxy($module)->get($data);
 
-// Get the statements.
+// POST the statements.
 $response = $controller->client()->statements()->post($data);
 
 // Return error.
 if ($response->code != 200) {
+
+    // Log it.
+    trigger_event($objecttable, $objectid, $data, true);
+
+    // Response.
     http_response_code($response->code);
     die;
 }
 
-// Return JSON.
+// Log it.
+trigger_event($objecttable, $objectid, $data);
+
+// JSON response.
 header('Content-Type: application/json');
 header('X-Experience-API-Version: ' . $response->headers->xapi_version);
 echo json_encode($response->content);
 
 
+/**
+ * Trigger the event.
+ *
+ * @param string $objecttable
+ * @param int $objectid
+ * @param array $statement
+ * @param bool $error
+ * @return void.
+ */
+function trigger_event($objecttable, $objectid, $statement, $error = false) {
+    global $DB;
+    $activity = $DB->get_record($objecttable, ['id' => $objectid]);
+    $module = $DB->get_record('modules', ['name' => $objecttable]);
+    $cm = $DB->get_record('course_modules', ['instance' => $objectid, 'module' => $module->id]);
+    $contextmodule = context_module::instance($cm->id);
+
+    $event = proxy_statements_post::create([
+        'context' => $contextmodule,
+        'other' => [
+            'statement' => $statement,
+            'error' => $error
+        ]
+    ]);
+    $event->add_record_snapshot('course_modules', $cm);
+    $event->add_record_snapshot($objecttable, $activity);
+    $event->trigger();    
+}
 
 
 
