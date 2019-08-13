@@ -29,9 +29,11 @@ using the xAPI VideoJS player in order to support the xAPI Video Profile.
 Trax Logs is required to run Trax Video because it performs some tasks
 when videos are playing:
 
-- It provides an LRS proxy that Trax Video uses to communicate with the LRS,
-- It performs some tasks to secure the communication with the LRS,
+- It provides an LRS proxy used by Trax Video to communicate with the LRS.
+- It performs some tasks to secure the communication with the LRS.
 - It modifies statements in order to insert complementary contextual data.
+- It triggers a Moodle event for each LRS post.
+- It allows resending the statements to the LMS in the context of a resynchronization.
 
 
 ## Additional xAPI Rules
