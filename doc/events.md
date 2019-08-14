@@ -33,6 +33,11 @@ Please, refer to these documentations to understand xAPI data structures and rul
 - `\mod_xxx\event\course_module_viewed`: a user navigated in a Moodle course module, `xxx` being the type of the module ([JSON example](http://doc.xapi.fr/profiles/moodle/events_nav#nav-in-module)).
 
 
+## SCORM Package
+
+- `\mod_scorm\event\sco_launched`: a user launched a SCO of the SCORM package ([JSON example](http://doc.xapi.fr/profiles/moodle/events_scorm#launched-sco)).
+
+
 ## Third-party events
 
 - [xAPI video profile](vid.md)
