@@ -1,8 +1,8 @@
 # Supported events
 
-Trax Logs for Moodle implements both the [xAPI Moodle / VLE Profile](http://doc.xapi.fr/profiles/moodle). 
+Trax Logs for Moodle implements the [xAPI Moodle / VLE Profile](http://doc.xapi.fr/profiles/moodle). 
 
-Please, refer to these documentations to understand xAPI data structures and rules.
+Please, refer to this documentation to understand xAPI data structures and rules.
 
 
 ## Moodle core events
