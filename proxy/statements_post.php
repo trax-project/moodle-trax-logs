@@ -22,8 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once('../../../../../../config.php');
-require_login();
+// Protect and get $userid.
+require_once(__DIR__ . '/protect.php');
 
 use \logstore_trax\src\controller as trax_controller;
 use \logstore_trax\event\proxy_statements_post;
@@ -49,10 +49,16 @@ if ($objecttype != 'mod') {
     http_response_code(400);
     die;
 }
-$module = 'mod_' . $objecttable;
+
+// Get data records.
+$activity = $DB->get_record($objecttable, ['id' => $objectid], '*', MUST_EXIST);
+$module = $DB->get_record('modules', ['name' => $objecttable], '*', MUST_EXIST);
+$cm = $DB->get_record('course_modules', ['instance' => $objectid, 'module' => $module->id], '*', MUST_EXIST);
+$course = $DB->get_record('course', ['id' => $cm->course], '*', MUST_EXIST);
+$contextmodule = context_module::instance($cm->id);
 
 // Transform statements.
-$data = $controller->proxy($module)->get($data);
+$data = $controller->proxy($objecttable)->get($data, $userid, $course, $cm, $activity, $contextmodule);
 
 // POST the statements.
 $response = $controller->client()->statements()->post($data);
@@ -61,7 +67,7 @@ $response = $controller->client()->statements()->post($data);
 if ($response->code != 200) {
 
     // Log it.
-    trigger_event($objecttable, $objectid, $data, true);
+    trigger_event($objecttable, $data, $course, $cm, $activity, $contextmodule, true);
 
     // Response.
     http_response_code($response->code);
@@ -69,7 +75,7 @@ if ($response->code != 200) {
 }
 
 // Log it.
-trigger_event($objecttable, $objectid, $data);
+trigger_event($objecttable, $data, $course, $cm, $activity, $contextmodule);
 
 // JSON response.
 header('Content-Type: application/json');
@@ -81,25 +87,24 @@ echo json_encode($response->content);
  * Trigger the event.
  *
  * @param string $objecttable
- * @param int $objectid
  * @param array $statement
+ * @param stdClass $course
+ * @param stdClass $cm
+ * @param stdClass $activity
+ * @param context_module $context
  * @param bool $error
  * @return void.
  */
-function trigger_event($objecttable, $objectid, $statement, $error = false) {
-    global $DB;
-    $activity = $DB->get_record($objecttable, ['id' => $objectid]);
-    $module = $DB->get_record('modules', ['name' => $objecttable]);
-    $cm = $DB->get_record('course_modules', ['instance' => $objectid, 'module' => $module->id]);
-    $contextmodule = context_module::instance($cm->id);
+function trigger_event($objecttable, $statement, $course, $cm, $activity, $context, $error = false) {
 
     $event = proxy_statements_post::create([
-        'context' => $contextmodule,
+        'context' => $context,
         'other' => [
             'statement' => $statement,
             'error' => $error
         ]
     ]);
+    $event->add_record_snapshot('course', $course);
     $event->add_record_snapshot('course_modules', $cm);
     $event->add_record_snapshot($objecttable, $activity);
     $event->trigger();    

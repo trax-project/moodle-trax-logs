@@ -27,16 +27,25 @@ require_once(__DIR__ . '/protect.php');
 
 use \logstore_trax\src\controller as trax_controller;
 
-$params = $_GET;
 $controller = new trax_controller();
 
-// Force the agent and related_agents for security reasons.
-$params['agent'] = json_encode($controller->actors->get('user', $userid));
-$params['related_agents'] = 0;
-unset($params['token']);
+// Get params (there is no $_PUT var).
+$params = [
+    'activityId' => required_param('activityId', PARAM_RAW),
+    'stateId' => required_param('stateId', PARAM_RAW),
+    'agent' => json_encode($controller->actors->get('user', $userid)),
+];
+$registration = optional_param('registration', '', PARAM_RAW); 
+if (!empty($registration)) {
+    $params['registration'] = $registration;
+}
 
-// Get the statements.
-$response = $controller->client()->statements()->get($params);
+// Get data.
+$input = file_get_contents('php://input');
+$data = json_decode($input, true);
+
+// PUT the state.
+$response = $controller->client()->states()->put($data, $params);  // Not necessarily JSON !!!!!!!!!!!!!!!!!!!.
 
 // Return error.
 if ($response->code != 200) {
@@ -44,13 +53,7 @@ if ($response->code != 200) {
     die;
 }
 
-// Return JSON.
-header('Content-Type: application/json');
+// JSON response.
+header('Content-Type: application/json');  // Not necessarily JSON !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.
 header('X-Experience-API-Version: ' . $response->headers->xapi_version);
-header('X-Experience-API-Consistent-Through: ' . $response->headers->xapi_consistent_through);
 echo json_encode($response->content);
-
-
-
-
-

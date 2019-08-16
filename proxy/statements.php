@@ -30,7 +30,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         require_once(__DIR__ . '/statements_post.php');
         break;
     default:
-        print_error('blockdoesnotexist', 'error');
+        http_response_code(403);
+        die;
 }
 
 

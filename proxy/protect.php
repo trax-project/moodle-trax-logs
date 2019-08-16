@@ -22,35 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Protect and get $userid.
-require_once(__DIR__ . '/protect.php');
-
-use \logstore_trax\src\controller as trax_controller;
-
-$params = $_GET;
-$controller = new trax_controller();
-
-// Force the agent and related_agents for security reasons.
-$params['agent'] = json_encode($controller->actors->get('user', $userid));
-$params['related_agents'] = 0;
-unset($params['token']);
-
-// Get the statements.
-$response = $controller->client()->statements()->get($params);
-
-// Return error.
-if ($response->code != 200) {
-    http_response_code($response->code);
-    die;
+// Check authentication when there is no token.
+if (!isset($TOKEN_USERID)) {
+    require_once('../../../../../../config.php');
+    require_login();
+    $userid = $USER->id;
+} else {
+    $userid = $TOKEN_USERID;
 }
-
-// Return JSON.
-header('Content-Type: application/json');
-header('X-Experience-API-Version: ' . $response->headers->xapi_version);
-header('X-Experience-API-Consistent-Through: ' . $response->headers->xapi_consistent_through);
-echo json_encode($response->content);
-
-
-
-
-

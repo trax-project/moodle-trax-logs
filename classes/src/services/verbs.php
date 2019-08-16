@@ -67,4 +67,15 @@ class verbs {
         ];
     }
 
+    /**
+     * Get a verb IRI, given its code.
+     *
+     * @param string $code Code of the verb
+     * @param string $plugin Plugin where the vocab is located (ex. mod_forum)
+     * @return array
+     */
+    public function iri(string $code, string $plugin = null) {
+        return $this->verbs->iri($code, $plugin);
+    }
+
 }

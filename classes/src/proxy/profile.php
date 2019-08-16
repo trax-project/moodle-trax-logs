@@ -25,6 +25,7 @@
 namespace logstore_trax\src\proxy;
 
 use logstore_trax\src\services\actors;
+use logstore_trax\src\services\verbs;
 use logstore_trax\src\services\activities;
 
 defined('MOODLE_INTERNAL') || die();
@@ -46,6 +47,13 @@ abstract class profile {
     protected $actors;
 
     /**
+     * Verbs service.
+     *
+     * @var verbs $verbs
+     */
+    protected $verbs;
+
+    /**
      * Activities service.
      *
      * @var activities $activities
@@ -53,48 +61,80 @@ abstract class profile {
     protected $activities;
 
     /**
-     * The module record.
+     * The activity type.
      *
-     * @var \stdClass $module
+     * @var string $activitytype
      */
-    protected $module;
+    protected $activitytype;
 
     /**
-     * The course record.
+     * The activity.
      *
-     * @var \stdClass $course
+     * @var stdClass $activity
+     */
+    protected $activity;
+
+    /**
+     * The course module.
+     *
+     * @var stdClass $cm
+     */
+    protected $cm;
+
+    /**
+     * The course.
+     *
+     * @var stdClass $course
      */
     protected $course;
+
+    /**
+     * The module context.
+     *
+     * @var context_module $context
+     */
+    protected $context;
+
+    /**
+     * The user id.
+     *
+     * @var int $userid
+     */
+    protected $userid;
 
 
     /**
      * Construct.
      *
+     * @param string $activitytype Module type
      * @param actors $actors Actors service
+     * @param verbs $verbs Verbs service
      * @param activities $activities Activities service
      */
-    public function __construct(actors $actors, activities $activities) {
+    public function __construct(string $activitytype, actors $actors, verbs $verbs, activities $activities) {
+        $this->activitytype = $activitytype;
         $this->actors = $actors;
+        $this->verbs = $verbs;
         $this->activities = $activities;
     }
 
     /**
      * Get transformed statements.
      *
+     * @param stdClass|array $data Input data
+     * @param int $userid User ID
+     * @param stdClass $course
+     * @param stdClass $cm
+     * @param stdClass $activity
+     * @param context_module $contextmodule
      * @return array
      */
-    public function get($data) {
-        global $DB;
-
-        // Get module and course records.
-        $first = is_array($data) ? $data[0] : $data;
-        $moduleiri = explode('/items/', $first->object->id)[0];
-        $parts = explode('/', $moduleiri);
-        $uuid = array_pop($parts);
-        $moduletype = array_pop($parts);
-        $moduleid = $this->activities->get_db_entry_by_uuid_or_fail($uuid)->mid;
-        $this->module = $DB->get_record($moduletype, ['id' => $moduleid], '*', MUST_EXIST);
-        $this->course = $DB->get_record('course', ['id' => $this->module->course], '*', MUST_EXIST);
+    public function get($data, $userid, $course, $cm, $activity, $context) {
+        $this->userid = $userid;
+        $this->activity = $activity;
+        $this->cm = $cm;
+        $this->course = $course;
+        $this->context = $context;
 
         // Transform data.
         if (is_array($data)) {
@@ -115,10 +155,9 @@ abstract class profile {
      * @return void
      */
     private function _transform(&$statement) {
-        global $USER;
 
         // Force the actor.
-        $statement->actor = $this->actors->get('user', $USER->id);
+        $statement->actor = $this->actors->get('user', $this->userid);
 
         // Remove verb display.
         if (isset($statement->verb->display)) {
@@ -127,7 +166,28 @@ abstract class profile {
 
         // Set context->platform.
         $statement->context->platform = 'Moodle';
+
+        // Add grouping activities.
+        $statement->context->contextActivities->grouping = [
+            $this->activities->get('system', 0, false),
+            $this->activities->get('course', $this->course->id, false),
+        ];
         
+        // Add VLE profile.
+        $statement->context->contextActivities->category[] = [
+            'id' => 'http://vocab.xapi.fr/categories/vle-profile',
+            'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
+        ];
+        
+        // Add granularity level category.
+        $statement->context->contextActivities->category[] = [
+            'id' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
+            'definition' => ['type' => 'http://vocab.xapi.fr/activities/granularity-level'],
+        ];
+        
+        // Keep the object format.
+        $statement = json_decode(json_encode($statement));
+
         // Transform hook.
         $this->transform($statement);
     }

@@ -89,6 +89,16 @@ class client {
     }
 
     /**
+     * Get the activities state API.
+     *
+     * @return $this
+     */
+    public function states() {
+        $this->endpoint = $this->config->endpoint.'activities/state';
+        return $this;
+    }
+
+    /**
      * GET xAPI data.
      */
     public function get($query = []) {
@@ -107,13 +117,34 @@ class client {
      * POST xAPI data.
      *
      * @param array $data xAPI data to be posted
+     * @param array $query query string
      * @return stdClass
      */
-    public function post(array $data) {
+    public function post(array $data, array $query = []) {
         try {
             $response = $this->guzzle->post($this->endpoint, [
                 'headers' => $this->headers(),
-                'query' => [],
+                'query' => $query,
+                'json' => $data,
+            ]);
+        } catch (GuzzleException $e) {
+            $response = $e->getResponse();
+        }
+        return $this->response($response);
+    }
+
+    /**
+     * PUT xAPI data.
+     *
+     * @param array $data xAPI data to be posted
+     * @param array $query query string
+     * @return stdClass
+     */
+    public function put(array $data, array $query = []) {
+        try {
+            $response = $this->guzzle->put($this->endpoint, [
+                'headers' => $this->headers(),
+                'query' => $query,
                 'json' => $data,
             ]);
         } catch (GuzzleException $e) {

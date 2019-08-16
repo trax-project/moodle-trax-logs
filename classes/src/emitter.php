@@ -71,9 +71,11 @@ class emitter {
             if (empty($batch)) break;
 
             // Get the batch statements
-            $statements = array_values(array_map(function ($item) {
-                return $item->statement;
-            }, $batch));
+            $statements = array_map(function ($item) {
+                return $item->statements;
+            }, $batch);
+            $statements = call_user_func_array('array_merge', $statements);
+            $statements = array_values($statements);
             
             // Get the batch events
             $events = array_map(function ($item) {

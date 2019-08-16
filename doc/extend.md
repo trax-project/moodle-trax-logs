@@ -48,7 +48,7 @@ The namespace of the statement class must be consistent with its location.
 For instance:
 * If the class is located in `TRAX_PLUGIN/classes/src/statements/core/`, the namespace must be `logstore_trax\src\statements\core`.
 * If the class is located in `TRAX_PLUGIN/classes/src/statements/mod_forum/`, the namespace must be `logstore_trax\src\statements\mod_forum`.
-* If the class is located in `PLUGIN_TIERS/classes/xapi/statements/`,the namespace must be `THIRD_PARTY_PLUGIN\xapi\statements`.
+* If the class is located in `THIRD_PARTY_PLUGIN/classes/xapi/statements/`,the namespace must be `THIRD_PARTY_PLUGIN\xapi\statements`.
 
 
 ## Implementing a custom activity class

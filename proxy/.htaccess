@@ -1,2 +1,3 @@
 RewriteEngine On
-RewriteRule "^statements" "statements.php" [PT]
+RewriteRule "^statements" "statements.php" [PT,QSA]
+RewriteRule "^activities/state" "states.php" [PT,QSA]

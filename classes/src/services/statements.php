@@ -183,8 +183,9 @@ class statements {
             // so we log an internal error by default.
             $this->logs->log_internal_error($event);
 
-            // And we return the result.
-            return (object)['statement' => $statement, 'event' => $event];
+            // Always return an array of statements.
+            $statements = isset($statement['actor']) ? [$statement] : $statement;
+            return (object)['statements' => $statements, 'event' => $event];
 
         } catch (\moodle_exception $e) {
 

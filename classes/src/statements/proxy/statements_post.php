@@ -43,7 +43,6 @@ class statements_post extends base_statement {
      * @return array
      */
     protected function statement() {
-
         return json_decode(json_encode($this->eventother->statement), true);
     }
 
