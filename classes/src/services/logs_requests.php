@@ -78,13 +78,17 @@ trait logs_requests {
 
         // Get last processed log.
         $log = $this->get_last_processed_log();
+        
         if ($log) {
-            $where = "timecreated > ? OR (timecreated = ? AND {logstore_standard_log}.id > ?)";
-            $params = [$log->timecreated, $log->timecreated, $log->id];
+            $where = "{logstore_standard_log}.id > ? ";
+            $params = [$log->id];
+            mtrace("New events from: ". date( "d/m/Y H:i:s", $log->timecreated). " (id = ".$log->id.")");
         } else {
             $where = "timecreated >= ?";
             $fromDate = $this->firslogs_to_time();
             $params = [$fromDate];
+            mtrace("New events from: ".$fromDate);
+            
         }
         
         // Get logs.
@@ -94,7 +98,7 @@ trait logs_requests {
             FROM {logstore_standard_log}
             LEFT JOIN {logstore_trax_logs} ON {logstore_standard_log}.id = {logstore_trax_logs}.mid
             WHERE " . $where . "
-            ORDER BY timecreated, {logstore_standard_log}.id
+            ORDER BY {logstore_standard_log}.id
         ";
         $logs = $DB->get_records_sql($sql, $params, 0, $batchsize);
         $batch = array_merge($batch, $logs);
@@ -116,7 +120,7 @@ trait logs_requests {
         $log = $this->get_first_processed_log();
         if (!$log) return;
         $fromDate = $this->firslogs_to_time();
-        $params = [$fromDate, $log->timecreated, $log->timecreated, $log->id];
+        $params = [$fromDate, $log->timecreated, $log->id];
 
         // Get logs.
         global $DB;
@@ -125,8 +129,8 @@ trait logs_requests {
             FROM {logstore_standard_log}
             LEFT JOIN {logstore_trax_logs} ON {logstore_standard_log}.id = {logstore_trax_logs}.mid
             WHERE timecreated >= ? 
-            AND (timecreated < ? OR (timecreated = ? AND {logstore_standard_log}.id < ?))
-            ORDER BY timecreated DESC, {logstore_standard_log}.id DESC
+            AND {logstore_standard_log}.id < ?
+            ORDER BY {logstore_standard_log}.id DESC
         ";
         $logs = $DB->get_records_sql($sql, $params, 0, $batchsize);
         $batch = array_merge($batch, $logs);
@@ -189,7 +193,7 @@ trait logs_requests {
             SELECT {logstore_standard_log}.*, error, attempts, newattempt, {logstore_trax_logs}.id AS xid
             FROM {logstore_trax_logs}
             JOIN {logstore_standard_log} ON {logstore_standard_log}.id = {logstore_trax_logs}.mid
-            ORDER BY mid DESC
+            ORDER BY mid desc
         ";
         $lasts = $DB->get_records_sql($sql, [], 0, 1);
         if (count($lasts) == 0) return false;
