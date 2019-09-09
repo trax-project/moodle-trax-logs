@@ -60,17 +60,18 @@ abstract class index {
      *
      * @param int $mid Moodle ID of the item
      * @param string $type Type of item
+     * @param array $data More data
      * @return stdClass
      */
-    public function get_or_create_db_entry(int $mid, string $type) {
+    public function get_or_create_db_entry(int $mid, string $type, array $data = []) {
         global $DB;
         $entry = $this->get_db_entry($mid, $type);
         if (!$entry) {
-            $entry = (object)[
+            $entry = (object)array_merge([
                 'mid' => $mid,
                 'type' => $type,
                 'uuid' => utils::uuid(),
-            ];
+            ], $data);
             $entry->id = $DB->insert_record($this->table, $entry);
         }
         return $entry;

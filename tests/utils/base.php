@@ -110,9 +110,9 @@ class base extends advanced_testcase {
         $value = isset($config['platform_iri']) ? $config['platform_iri'] : $this->platformiri;
         set_config('platform_iri', $value, 'logstore_trax');
 
-        // Anonymization.
-        $value = isset($config['anonymization']) ? $config['anonymization'] : 1;
-        set_config('anonymization', $value, 'logstore_trax');
+        // actors_identification.
+        $value = isset($config['actors_identification']) ? $config['actors_identification'] : 0;
+        set_config('actors_identification', $value, 'logstore_trax');
 
         // xis_anonymization.
         $value = isset($config['xis_anonymization']) ? $config['xis_anonymization'] : 1;

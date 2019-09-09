@@ -45,6 +45,21 @@ class config {
      */
     const ASYNC = 1;
 
+    /**
+     * Actors identification: anonymous mode.
+     */
+    const ID_ANONYMOUS = 0;
+
+    /**
+     * Actors identification: account with username.
+     */
+    const ID_ACCOUNT_USERNAME = 1;
+
+    /**
+     * Actors identification: mbox.
+     */
+    const ID_MBOX = 2;
+
     
     /**
      * Get the sync modes.
@@ -65,6 +80,37 @@ class config {
      */
     public static function sync() {
         return get_config('logstore_trax', 'sync_mode') == self::SYNC;
+    }
+
+    /**
+     * Get the identification modes.
+     *
+     * @return array
+     */
+    public static function actors_identification_modes() {
+        return [
+            self::ID_ANONYMOUS => get_string('anonymous', 'logstore_trax'),
+            self::ID_ACCOUNT_USERNAME => get_string('account_username', 'logstore_trax'),
+            self::ID_MBOX => get_string('mbox', 'logstore_trax'),
+        ];
+    }
+
+    /**
+     * Is identification anonymous?
+     *
+     * @return bool
+     */
+    public static function anonymous() {
+        return get_config('logstore_trax', 'actors_identification') == self::ID_ANONYMOUS;
+    }
+
+    /**
+     * Is identification based on mbox?
+     *
+     * @return bool
+     */
+    public static function mbox() {
+        return get_config('logstore_trax', 'actors_identification') == self::ID_MBOX;
     }
 
     /**

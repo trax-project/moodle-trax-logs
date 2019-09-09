@@ -37,9 +37,9 @@ Events are read from the Moodle standard logstore and sent by CRON jobs. This is
 
 To conform with our [data privacy philosophy](privacy.md), the plugin provides 2 settings:
 
-- **Anonymization** - It is checked by default. This means that usernames will not appear in the Statements and will be replaced by an UUID.
+- **Actors identification** - Choose the `anonymous` option (default). This means that an UUID will be used to identify the actors.
 
-- **Provide user names when requested** - It is unchecked by default. This means that when a client call the plugin Web Services in order to get actors information, it will never get the their names.
+- **Web services anonymization** - Check is (default). This means that client can't get the real actor real identity (name, username, email) when calling the plugin Web Services.
 
 
 ## Contents

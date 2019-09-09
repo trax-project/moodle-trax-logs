@@ -79,7 +79,7 @@ class settings_test extends base {
         $this->assertTrue($name != $this->events->user->username);
 
         // Disable anonymization.
-        set_config('anonymization', 0, 'logstore_trax');
+        set_config('actors_identification', 1, 'logstore_trax');
 
         // Transform it into a Statement.
         $mixed = $this->controller->statements->get_from_event($mlog);

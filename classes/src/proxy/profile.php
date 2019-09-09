@@ -27,6 +27,7 @@ namespace logstore_trax\src\proxy;
 use logstore_trax\src\services\actors;
 use logstore_trax\src\services\verbs;
 use logstore_trax\src\services\activities;
+use logstore_trax\src\statements\consumer_statement;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -38,6 +39,8 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class profile {
+
+    use consumer_statement;
 
     /**
      * Actors service.
@@ -172,6 +175,11 @@ abstract class profile {
             $this->activities->get('system', 0, false),
             $this->activities->get('course', $this->course->id, false),
         ];
+
+        // LTI client.
+        if ($consumer = $this->consumer($this->userid)) {
+            $statement->context->contextActivities->grouping[] = $consumer;
+        }
         
         // Add VLE profile.
         $statement->context->contextActivities->category[] = [

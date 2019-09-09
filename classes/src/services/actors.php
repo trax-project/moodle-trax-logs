@@ -26,6 +26,8 @@ namespace logstore_trax\src\services;
 
 defined('MOODLE_INTERNAL') || die();
 
+use \logstore_trax\src\config;
+
 /**
  * Actors service.
  *
@@ -71,31 +73,45 @@ class actors extends index {
      * @return array
      */
     public function get(string $type, int $mid = 0, bool $full = false, $entry = null) {
+        global $DB;
         $config = get_config('logstore_trax');
-        $named = !$config->anonymization || ($full && !$config->xis_anonymization);
+        $named = !config::anonymous() || ($full && !$config->xis_anonymization);
 
         // Base.
         $res = [
             'objectType' => $this->types->$type->object_type,
-            'account' => [
-                'homePage' => $this->platform_iri(),
-            ],
         ];
         if (!$named) {
 
             // Anonymized.
             if (!isset($entry)) {
-                $entry = $this->get_or_create_db_entry($mid, $type);
+                $record = $DB->get_record($type, ['id' => $mid], '*', MUST_EXIST);
+                $entry = $this->get_or_create_db_entry($mid, $type, ['email' => $record->email]);
             }
-            $res['account']['name'] = $entry->uuid;
+            $res['account'] = [
+                'name' => $entry->uuid,
+                'homePage' => $this->platform_iri(),
+            ];
 
         } else {
 
             // Not anonymized.
-            global $DB;
             $record = $DB->get_record($type, ['id' => $mid], '*', MUST_EXIST);
-            $res['account']['name'] = $record->username;
             $res['name'] = $record->firstname . ' ' . $record->lastname;
+
+            if (config::mbox()) {
+
+                // Mbox.
+                $res['mbox'] = 'mailto:' . $record->email;
+                
+            } else {
+
+                // Account with username.
+                $res['account'] = [
+                    'name' => $record->username,
+                    'homePage' => $this->platform_iri(),
+                ];
+            }
         }
         return $res;
     }
@@ -123,6 +139,29 @@ class actors extends index {
     public function get_existing_by_uuid(string $uuid, bool $full = false) {
         $entry = $this->get_db_entry_by_uuid_or_fail($uuid);
         return $this->get($entry->type, $entry->mid, $full, $entry);
+    }
+
+    /**
+     * Get actors matching with a given email.
+     *
+     * @param string $email Actor email
+     * @return array
+     */
+    public function get_by_email(string $email) {
+        global $DB;
+        $entries = $DB->get_records('logstore_trax_actors', ['email' => $email]);
+
+        return array_values(array_map(function ($entry) {
+
+            return [
+                'objectType' => 'Agent',
+                'account' => [
+                    'name' => $entry->uuid,
+                    'homePage' => $this->platform_iri(),
+                ],
+            ];
+
+        }, $entries));
     }
 
 

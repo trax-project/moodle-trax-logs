@@ -102,13 +102,17 @@ class logstore_trax_external extends external_api {
      * @return external_function_parameters
      */
     protected static function get_parameters(string $service) {
+        $structure = [
+            'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service, VALUE_OPTIONAL),
+            'id' => new external_value(PARAM_INT, 'Moodle internal ID of the ' . $service, VALUE_OPTIONAL),
+            'uuid' => new external_value(PARAM_ALPHANUMEXT, 'Generated UUID of the ' . $service, VALUE_OPTIONAL),
+        ];
+        if ($service == 'actors') {
+            $structure['email'] = new external_value(PARAM_EMAIL, 'Email of the ' . $service, VALUE_OPTIONAL);
+        }
         return new external_function_parameters([
             'items' => new external_multiple_structure(
-                new external_single_structure([
-                    'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service, VALUE_OPTIONAL),
-                    'id' => new external_value(PARAM_INT, 'Moodle internal ID of the ' . $service, VALUE_OPTIONAL),
-                    'uuid' => new external_value(PARAM_ALPHANUMEXT, 'Generated UUID of the ' . $service, VALUE_OPTIONAL),
-                ])
+                new external_single_structure($structure)
             ),
             'full' => new external_value(
                 PARAM_BOOL, 'Return the xAPI full definition (default is false)', VALUE_DEFAULT, false
@@ -131,6 +135,8 @@ class logstore_trax_external extends external_api {
                 $item['xapi'] = $controller->$service->get_existing_by_uuid($item['uuid'], $full);
             } else if (isset($item['type']) && isset($item['id'])) {
                 $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], $full);
+            } else if (isset($item['email'])) {
+                $item['xapi'] = $controller->$service->get_by_email($item['email']);
             } else {
                 throw new \moodle_exception('invalid_entry_identification', 'logstore_trax');
             }
@@ -152,6 +158,7 @@ class logstore_trax_external extends external_api {
                     'type' => new external_value(PARAM_ALPHA, 'Moodle internal type of the '. $service, VALUE_OPTIONAL),
                     'id' => new external_value(PARAM_INT, 'Moodle internal ID of the ' . $service, VALUE_OPTIONAL),
                     'uuid' => new external_value(PARAM_ALPHANUMEXT, 'Generated UUID of the ' . $service, VALUE_OPTIONAL),
+                    'email' => new external_value(PARAM_EMAIL, 'Email of the ' . $service, VALUE_OPTIONAL),
                     'xapi' => new external_value(PARAM_RAW, 'The xAPI JSON string of the '. $service)
                 )
             )

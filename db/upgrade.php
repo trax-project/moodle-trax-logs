@@ -194,5 +194,34 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018050810, 'logstore', 'trax');
     }
 
+    // Add email column in actors table.
+    if ($oldversion < 2018050812) {
+
+        // Add field.
+        $table = new xmldb_table('logstore_trax_actors');
+        $field = new xmldb_field('email', XMLDB_TYPE_CHAR, '100', null, false, false, null, 'mid');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Add index (unique).
+        $index = new xmldb_index('email', XMLDB_INDEX_NOTUNIQUE, array('email'));
+        if (!$dbman->index_exists($table, $index)) {
+            $dbman->add_index($table, $index);
+        }
+
+        // Update actors records.
+        $records = $DB->get_records('logstore_trax_actors');
+        foreach ($records as $record) {
+            if ($user = $DB->get_record('user', ['id' => $record->mid])) {
+                $record->email = $user->email;
+                $DB->update_record('logstore_trax_actors', $record);
+            }
+        }
+
+        // Savepoint.	
+        upgrade_plugin_savepoint(true, 2018050812, 'logstore', 'trax');
+    }
+
     return true;
 }

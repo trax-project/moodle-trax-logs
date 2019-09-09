@@ -53,17 +53,18 @@ $string['xapi_identification_settings_help'] = "In this section, you can define 
 $string['platform_iri'] = 'Platform IRI';
 $string['platform_iri_help'] = "An IRI that will identify your platform and will never change.";
 
-$string['anonymization'] = 'Statements anonymization';
-$string['anonymization_help'] = "Anonymize actors in Statements. 
-    When selected, usernames are replaced by generated UUIDs
-    and the name of users is not included in the Statements.
-    This option should be selected to conform with the GDPR.";
+$string['actors_identification'] = 'Actors identification';
+$string['actors_identification_help'] = "Identification method for statement actors. 
+    When Anonymous is selected, the account schema is used and the account name is a generated UUIDs.
+    This is the recommended option to conform with the GDPR.";
+$string['anonymous'] = 'Anonymous (account with UUID)';
+$string['account_username'] = 'Account (username)';
+$string['mbox'] = 'Mbox (email)';
 
 $string['xis_anonymization'] = 'Web services anonymization';
 $string['xis_anonymization_help'] = "Anonymize actors in the xAPI Identification Services.
-    When selected, usernames are replaced by generated UUIDs
-    and the name of users is not included in the response,
-    except when Statements anonymization is deactivated.";
+    When selected, actors are identified by a generated UUID
+    and the name of users is not included in the response.";
 
 $string['logged_events'] = 'Logged events';
 $string['logged_events_help'] = 'In this section, you can choose the events you want to send to the LRS.';

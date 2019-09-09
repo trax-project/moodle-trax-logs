@@ -43,13 +43,14 @@ Use this endpoint to **POST** input data as form data.
 
 This is the only required input data. It is a list of items identified with one of the following methods:
 - Moodle ID (**id**) and Moodle type (**type**),
-- Associated UUID (**uuid**).
+- Associated UUID (**uuid**),
+- Associated Email (**email**).
 
 ### full
 
 This is an optional setting. Its default value is *0*. When set to *1*, all known information is added to the xAPI object, like the name of the user, or the full definition of the activity.
 
-Furthermore, when you request a user with this option, the `account.name` property of the xAPI object is the username of the user, and not its UUID.
+This option has no effect on actors requested by their **email**. 
 
 
 ### Activities request example
@@ -90,6 +91,9 @@ Note that `system` ID is always `0`.
         },
         {
             "uuid": "9f3a73fe-ff56-435b-8052-2c361686942d"
+        },
+        {
+            "email": "john@moodle.org"
         }
     ],
     "full": 1
@@ -127,6 +131,9 @@ Note that `system` ID is always `0`.
 
 ### Agents response example
 
+Note that actors requested by their **email** does not return a single actor but a list of actors matching with the provided email.
+Other methods return a single actor.
+
 ```json
 [
     {
@@ -137,6 +144,10 @@ Note that `system` ID is always `0`.
     {
         "uuid": "9f3a73fe-ff56-435b-8052-2c361686942d",
         "xapi": "{\"objectType\":\"Agent\",\"name\":\"Dany\",\"account\":{\"homePage\":\"http:\\\/\\\/xapi.moodle.test\",\"name\":\"564642e-80c5-464a-8472-632264564564\"}}"
+    },
+    {
+        "email": "john@moodle.org",
+        "xapi": "[{\"objectType\":\"Agent\",\"name\":\"Dany\",\"account\":{\"homePage\":\"http:\\\/\\\/xapi.moodle.test\",\"name\":\"564642e-80c5-464a-8472-632247564564\"}}]"
     }
 ]
 ```

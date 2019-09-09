@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL') || die();
 use logstore_trax\src\services\actors;
 use logstore_trax\src\services\verbs;
 use logstore_trax\src\services\activities;
-use logstore_trax\src\utils;
 
 /**
  * Abstract class to implement an xAPI statement.
@@ -39,6 +38,8 @@ use logstore_trax\src\utils;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 abstract class base_statement {
+
+    use consumer_statement;
 
     /**
      * Actors service.
@@ -170,9 +171,21 @@ abstract class base_statement {
 
         // System grouping.
         if ($withsystem) {
+
+            // Moodle instance.
             $res['contextActivities']['grouping'] = [
                 $this->activities->get('system', 0, false)
             ];
+
+        }
+
+        // LTI client.
+        if ($consumer = $this->consumer($this->event->userid)) {
+
+            if (!isset($res['contextActivities']['grouping'])) {
+                $res['contextActivities']['grouping'] = [];
+            }
+            $res['contextActivities']['grouping'][] = $consumer;
         }
 
         return $res;

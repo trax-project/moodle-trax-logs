@@ -81,12 +81,13 @@ if ($hassiteconfig) {
         PARAM_URL
     ));
 
-    // Actors anonymization.
-    $settings->add(new admin_setting_configcheckbox(
-        'logstore_trax/anonymization',
-        get_string('anonymization', 'logstore_trax'),
-        get_string('anonymization_help', 'logstore_trax'),
-        1
+    // Actors identification.
+    $settings->add(new admin_setting_configselect(
+        'logstore_trax/actors_identification', 
+        get_string('actors_identification', 'logstore_trax'), 
+        get_string('actors_identification_help', 'logstore_trax'),
+        config::ID_ANONYMOUS,
+        config::actors_identification_modes()
     ));
 
     // Actors anonymization in XIS.

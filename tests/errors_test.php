@@ -136,7 +136,7 @@ class errors_test extends base {
         // Prepare session.
         $this->prepare_session([
             'attempts' => 2,
-            'anonymization' => false,
+            'actors_identification' => 1,
         ]);
 
         // FIRST ATTEMPT.
