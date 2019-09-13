@@ -130,19 +130,31 @@ class logstore_trax_external extends external_api {
      */
     protected static function get(array $items, bool $full, string $service) {
         $controller = new trax_controller();
-        return array_map(function ($item) use ($controller, $full, $service) {
-            if (isset($item['uuid'])) {
-                $item['xapi'] = $controller->$service->get_existing_by_uuid($item['uuid'], $full);
-            } else if (isset($item['type']) && isset($item['id'])) {
-                $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], $full);
-            } else if (isset($item['email'])) {
-                $item['xapi'] = $controller->$service->get_by_email($item['email']);
-            } else {
+        return array_filter(array_map(function ($item) use ($controller, $full, $service) {
+
+            // Check identification.
+            if (!isset($item['uuid']) && !isset($item['email']) && (!isset($item['type']) || !isset($item['id']))) {
                 throw new \moodle_exception('invalid_entry_identification', 'logstore_trax');
             }
+
+            // Try to get the xAPI definition.
+            try {
+                if (isset($item['uuid'])) {
+                    $item['xapi'] = $controller->$service->get_existing_by_uuid($item['uuid'], $full);
+                } else if (isset($item['type']) && isset($item['id'])) {
+                    $item['xapi'] = $controller->$service->get_existing($item['type'], $item['id'], $full);
+                } else if (isset($item['email'])) {
+                    $item['xapi'] = $controller->$service->get_by_email($item['email']);
+                }
+            } catch (\Exception $e) {
+                return false;
+            }
+
+            // Return the xAPI definition.
             $item['xapi'] = json_encode($item['xapi']);
             return $item;
-        }, $items);
+
+        }, $items));
     }
 
     /**
