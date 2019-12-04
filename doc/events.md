@@ -13,6 +13,9 @@ Please, refer to this documentation to understand xAPI data structures and rules
 - `\core\event\user_loggedout`: a user logged out from Moodle (
     [JSON example](http://doc.xapi.fr/profiles/moodle/events_auth#logged-out)).
 
+- `\core\event\user_enrolment_created`: a user registered to a course (
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_management#user-registered)).
+
 - `\core\event\course_viewed`: a user navigated in a Moodle course (
     [JSON example](http://doc.xapi.fr/profiles/moodle/events_nav#nav-in-course)).
 
@@ -22,8 +25,10 @@ Please, refer to this documentation to understand xAPI data structures and rules
 - `\core\event\course_completed`: a user completed a Moodle course (
     [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#course-completed)).
 
-- `\core\event\course_module_completion_updated`: the completion status of a course module changed. A Statement is sent only when the status is *completed* and when the completion is determined automatically (
-    [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#module-completed)).
+- `\core\event\course_module_completion_updated`: the completion status of a course module changed. A Statement is sent only when the status is *completed* (
+    [auto-completion](http://doc.xapi.fr/profiles/moodle/events_comp#module-completed), 
+    [declarative completion](http://doc.xapi.fr/profiles/moodle/events_comp#module-completion-marked)
+    ).
 
 - `\core\event\user_graded`: a user got a grade in the Moodle gradebook. A Statement is sent only when the type of grade is *value* or *scale* and when the grade is associated with a *course module* ([JSON example](http://doc.xapi.fr/profiles/moodle/events_result#module-graded)).
 
@@ -36,6 +41,18 @@ Please, refer to this documentation to understand xAPI data structures and rules
 ## SCORM Package
 
 - `\mod_scorm\event\sco_launched`: a user launched a SCO of the SCORM package ([JSON example](http://doc.xapi.fr/profiles/moodle/events_scorm#launched-sco)).
+
+
+## CRON-based statements
+
+Some statements are sent on a regular basis by CRON jobs:
+
+- **Course defined:** a course has been created or updated. The statement defines the structure of the course (
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_management#course-defined)).
+
+- **Group defined:** a group has been created or updated. The statement defines the members of the group (
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_management#group-defined)).
+
 
 
 ## Third-party events
