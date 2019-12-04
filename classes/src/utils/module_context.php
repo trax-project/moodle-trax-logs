@@ -46,8 +46,17 @@ trait module_context {
      */
     protected function base_context($activitytype, $withsystem, $vocabtype, $plugin = null) {
         $context = parent::base_context($activitytype, $withsystem, $vocabtype, $plugin);
+
+        // Parent course.
         $course = $this->activities->get('course', $this->event->courseid, false);
         $context['contextActivities']['parent'] = array($course);
+
+        // Moodle module profile.
+        $context['contextActivities']['category'][] = [
+            'id' => 'http://vocab.xapi.fr/categories/moodle/' . $activitytype,
+            'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
+        ];
+
         return $context;
     }
 

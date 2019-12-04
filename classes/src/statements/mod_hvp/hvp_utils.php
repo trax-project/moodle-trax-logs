@@ -219,7 +219,6 @@ trait hvp_utils {
 
                 // Add parent.
                 $base['context']['contextActivities']['parent'][0] = (object)[
-                    'objectType' => 'Activity',
                     'id' => $module['id'] . '/item/' . $parentuuid
                 ];
             }

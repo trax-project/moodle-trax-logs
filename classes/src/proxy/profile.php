@@ -187,6 +187,12 @@ abstract class profile {
             'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
         ];
         
+        // Add Moodle module profile.
+        $statement->context->contextActivities->category[] = [
+            'id' => 'http://vocab.xapi.fr/categories/moodle/' . $this->activitytype,
+            'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
+        ];
+        
         // Add granularity level category.
         $statement->context->contextActivities->category[] = [
             'id' => 'http://vocab.xapi.fr/categories/inside-learning-unit',

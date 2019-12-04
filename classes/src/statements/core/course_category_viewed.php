@@ -43,10 +43,10 @@ class course_category_viewed extends base_statement {
      * @return array
      */
     protected function statement() {
-        return array_replace($this->base('course_category'), [
+        return array_replace($this->base('course_category', true, 'course-category'), [
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $this->verbs->get('navigated-in'),
-            'object' => $this->activities->get('course_category', $this->event->objectid),
+            'object' => $this->activities->get('course_category', $this->event->objectid, true, 'activity', 'course-category'),
         ]);
     }
 

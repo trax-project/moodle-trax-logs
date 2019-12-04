@@ -50,7 +50,7 @@ class course extends activity
      * @return array
      */
     public function get(string $type, int $mid, string $uuid, bool $full, string $vocabtype, string $plugin = null) {
-        $activity = $this->base_activity($type, $uuid, $vocabtype, $plugin);
+        $activity = $this->base_activity($type, $uuid, $full, $vocabtype, $plugin);
         if ($full) {
 
             // Name & description.

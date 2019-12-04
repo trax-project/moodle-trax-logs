@@ -173,7 +173,6 @@ class activities extends index {
         // Level category.
         return [[
             'id' => $level,
-            'objectType' => 'Activity',
             'definition' => ['type' => 'http://vocab.xapi.fr/activities/granularity-level'],
         ]];
     }

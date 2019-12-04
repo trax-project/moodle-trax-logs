@@ -74,10 +74,10 @@ class course_module_viewed extends base_statement {
         }
 
         // Build the statement.
-        return array_replace($this->base($this->event->objecttable, true, $this->activitytype, $this->plugin), [
+        return array_replace($this->base($this->event->objecttable, true, $vocabtype, $this->plugin), [
             'actor' => $this->actors->get('user', $this->event->userid),
             'verb' => $this->verbs->get('navigated-in'),
-            'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module', $this->activitytype, $this->plugin),
+            'object' => $this->activities->get($this->event->objecttable, $this->event->objectid, true, 'module', $vocabtype, $this->plugin),
         ]);
     }
 

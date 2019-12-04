@@ -61,7 +61,7 @@ class activity_types extends vocab {
         'course' => [
             'type' => 'http://vocab.xapi.fr/activities/course',
         ],
-        'course_category' => [
+        'course-category' => [
             'type' => 'http://vocab.xapi.fr/activities/course-category',
         ],
 
@@ -207,14 +207,6 @@ class activity_types extends vocab {
         ],
         'hvp-column' => [
             'type' => 'http://vocab.xapi.fr/activities/web-content',
-            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
-            'family' => 'resource',
-        ],
-
-        // Trax Video.
-
-        'traxvideo' => [
-            'type' => 'http://vocab.xapi.fr/activities/resources',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'resource',
         ],
