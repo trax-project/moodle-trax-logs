@@ -42,6 +42,9 @@ class events {
      */
     public static function core() {
         return [
+            'management' => [
+                '\core\event\user_enrolment_created',
+            ],
             'authentication' => [
                 '\core\event\user_loggedin',
                 '\core\event\user_loggedout',

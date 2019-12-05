@@ -120,6 +120,7 @@ class config {
      */
     public static function loggable_core_events() {
         return [
+            'management' => get_string('management', 'logstore_trax'),
             'authentication' => get_string('authentication', 'logstore_trax'),
             'navigation' => get_string('navigation', 'logstore_trax'),
             'completion' => get_string('completion', 'logstore_trax'),

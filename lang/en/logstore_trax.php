@@ -76,6 +76,7 @@ $string['firstlogs_help'] = 'Format: DD/MM/YYYY.
 
 $string['core_events'] = 'Moodle core events';
 $string['core_events_help'] = 'Select event families you want to track.';
+$string['management'] = 'Management';
 $string['authentication'] = 'Authentication';
 $string['navigation'] = 'Navigation';
 $string['completion'] = 'Completion';

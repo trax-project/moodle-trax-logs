@@ -90,6 +90,9 @@ class verbs extends vocab {
         'marked-completion' => [
             'iri' => 'http://vocab.xapi.fr/verbs/marked-completion',
         ],
+        'registered' => [
+            'iri' => 'http://adlnet.gov/expapi/verbs/registered',
+        ],
     ];
 
 }

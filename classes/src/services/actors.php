@@ -38,30 +38,12 @@ use \logstore_trax\src\config;
 class actors extends index {
 
     /**
-     * Types of actors.
-     *
-     * @var array $types
-     */
-    protected $types = [
-        'user' => ['object_type' => 'Agent'],
-    ];
-
-    /**
      * DB table.
      *
      * @var string $table
      */
     protected $table = 'logstore_trax_actors';
 
-
-    /**
-     * Constructor.
-     *
-     * @return void
-     */
-    public function __construct() {
-        $this->types = json_decode(json_encode($this->types));
-    }
 
     /**
      * Get an actor, given a Moodle ID and an actor type.
@@ -73,47 +55,95 @@ class actors extends index {
      * @return array
      */
     public function get(string $type, int $mid = 0, bool $full = false, $entry = null) {
-        global $DB;
         $config = get_config('logstore_trax');
         $named = !config::anonymous() || ($full && !$config->xis_anonymization);
+        if (!$named && $type == 'user') {
 
-        // Base.
-        $res = [
-            'objectType' => $this->types->$type->object_type,
-        ];
-        if (!$named) {
-
-            // Anonymized.
-            if (!isset($entry)) {
-                $record = $DB->get_record($type, ['id' => $mid], '*', MUST_EXIST);
-                $entry = $this->get_or_create_db_entry($mid, $type, ['email' => $record->email]);
-            }
-            $res['account'] = [
-                'name' => $entry->uuid,
-                'homePage' => $this->platform_iri(),
-            ];
+            // Anonymized user.
+            return $this->get_anonymized_user($mid, $entry);
 
         } else {
 
             // Not anonymized.
-            $record = $DB->get_record($type, ['id' => $mid], '*', MUST_EXIST);
-            $res['name'] = $record->firstname . ' ' . $record->lastname;
-
-            if (config::mbox()) {
-
-                // Mbox.
-                $res['mbox'] = 'mailto:' . $record->email;
-                
-            } else {
-
-                // Account with username.
-                $res['account'] = [
-                    'name' => $record->username,
-                    'homePage' => $this->platform_iri(),
-                ];
-            }
+            $method = 'get_' . $type;
+            return $this->$method($mid);
         }
-        return $res;
+    }
+
+    /**
+     * Get an anonymized user, given a Moodle ID.
+     *
+     * @param int $mid Moodle ID of the cohort
+     * @param stdClass $entry DB entry
+     * @return array
+     */
+    public function get_anonymized_user(int $mid = 0, $entry = null) {
+        global $DB;
+        if (!isset($entry)) {
+            $user = $DB->get_record('user', ['id' => $mid], '*', MUST_EXIST);
+            $entry = $this->get_or_create_db_entry($mid, 'user', ['email' => $user->email]);
+        }
+        return [
+            'objectType' => 'Agent',
+            'account' => [
+                'name' => $entry->uuid,
+                'homePage' => $this->platform_iri(),
+            ]
+        ];
+    }
+
+    /**
+     * Get a user, given a Moodle ID.
+     *
+     * @param int $mid Moodle ID of the cohort
+     * @return array
+     */
+    public function get_user(int $mid = 0) {
+        global $DB;
+        $user = $DB->get_record('user', ['id' => $mid], '*', MUST_EXIST);
+        $name = $user->firstname . ' ' . $user->lastname;
+        if (config::mbox()) {
+
+            // Mbox.
+            return [
+                'objectType' => 'Agent',
+                'name' => $name,
+                'mbox' => 'mailto:' . $user->email,
+            ];
+
+        } else {
+
+            // Account with username.
+            return [
+                'objectType' => 'Agent',
+                'name' => $name,
+                'account' => [
+                    'name' => $user->username,
+                    'homePage' => $this->platform_iri(),
+                ]
+            ];
+        }
+    }
+
+    /**
+     * Get a cohort, given a Moodle ID.
+     *
+     * @param int $mid Moodle ID of the cohort
+     * @return array
+     */
+    public function get_cohort(int $mid = 0) {
+        global $DB;
+        $cohort = $DB->get_record('cohort', ['id' => $mid], '*', MUST_EXIST);
+        $entry = $this->get_or_create_db_entry($mid, 'cohort');
+
+        return [
+            'objectType' => 'Group',
+            'name' => $cohort->name,
+            'account' => [
+                'name' => $entry->uuid,
+                'homePage' => $this->platform_iri(),
+            ]
+        ];
     }
 
     /**
