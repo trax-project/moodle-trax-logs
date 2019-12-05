@@ -25,10 +25,8 @@ Please, refer to this documentation to understand xAPI data structures and rules
 - `\core\event\course_completed`: a user completed a Moodle course (
     [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#course-completed)).
 
-- `\core\event\course_module_completion_updated`: the completion status of a course module changed. A Statement is sent only when the status is *completed* (
-    [auto-completion](http://doc.xapi.fr/profiles/moodle/events_comp#module-completed), 
-    [declarative completion](http://doc.xapi.fr/profiles/moodle/events_comp#module-completion-marked)
-    ).
+- `\core\event\course_module_completion_updated`: the completion status of a course module changed. Regarding auto-completion, a statement is sent only when the status is *completed* (
+    [JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#module-completed)). Regarding declarative completion, a statement is sent when the status is *completed* or *incomplete* ([JSON example](http://doc.xapi.fr/profiles/moodle/events_comp#module-completion-marked)).
 
 - `\core\event\user_graded`: a user got a grade in the Moodle gradebook. A Statement is sent only when the type of grade is *value* or *scale* and when the grade is associated with a *course module* ([JSON example](http://doc.xapi.fr/profiles/moodle/events_result#module-graded)).
 
