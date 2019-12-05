@@ -87,6 +87,9 @@ class verbs extends vocab {
         'reset' => [
             'iri' => 'http://vocab.xapi.fr/verbs/reset',
         ],
+        'marked-completion' => [
+            'iri' => 'http://vocab.xapi.fr/verbs/marked-completion',
+        ],
     ];
 
 }

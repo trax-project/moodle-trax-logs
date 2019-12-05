@@ -65,9 +65,10 @@ class course_module_completion_updated extends base_statement {
     protected function statement() {
 
         // Get data.
-        list($completion, $module, $object) = $this->get_completion_data();
-        if (!$completion) return false;
-        list($verb, $result) = $this->get_verb_result($completion);
+        list($type, $module, $object) = $this->get_completion_data();
+        if (!$type) return false;
+
+        list($verb, $result) = $this->get_verb_result($type);
 
         // Init.
         $this->init($object);
@@ -104,33 +105,42 @@ class course_module_completion_updated extends base_statement {
         $module = $DB->get_record('modules', ['id' => $cm->module], '*', MUST_EXIST);
         $object = $DB->get_record($module->name, ['id' => $cm->instance], '*', MUST_EXIST);
 
-        // Check that the completion is automated.
-        if ($cm->completion != COMPLETION_TRACKING_AUTOMATIC) {
-            return [false, false, false];
+        // Automatic completion.
+        if ($cm->completion == COMPLETION_TRACKING_AUTOMATIC 
+            && in_array($this->eventother->completionstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL])
+            ) {
+                return [$cm->completion, $module, $object];
         }
 
-        // Check the completion status.
-        if (!in_array($this->eventother->completionstate, [COMPLETION_COMPLETE, COMPLETION_COMPLETE_PASS, COMPLETION_COMPLETE_FAIL])) {
-            return [false, false, false];
+        // Manual completion.
+        if ($cm->completion == COMPLETION_TRACKING_MANUAL 
+            && in_array($this->eventother->completionstate, [COMPLETION_INCOMPLETE, COMPLETION_COMPLETE])
+            ) {
+                return [$cm->completion, $module, $object];
         }
 
-        return [$completion, $module, $object];
+        // Other.
+        return [false, false, false];
     }
 
     /**
      * Get verb and result.
      *
-     * @param \stdClass $completion Completion
-     * @return array
+     * @param int $type Type
+*     * @return array
      */
-    protected function get_verb_result(\stdClass $completion) {
+    protected function get_verb_result(int $type) {
 
         // Define the verb.
-        $verb = $this->verbs->get('completed');
+        if ($type == COMPLETION_TRACKING_AUTOMATIC) {
+            $verb = $this->verbs->get('completed');
+        } else {
+            $verb = $this->verbs->get('marked-completion');
+        }
 
         // Define the success.
         $passed = null;
-        switch ($completion->completionstate) {
+        switch ($this->eventother->completionstate) {
             case COMPLETION_COMPLETE_PASS:
                 $passed = true;
                 break;
@@ -139,9 +149,12 @@ class course_module_completion_updated extends base_statement {
                 break;
         }
 
+        // Define the completion.
+        $completion = $this->eventother->completionstate !== COMPLETION_INCOMPLETE;
+
         // Define the result.
         $result = [
-            'completion' => true
+            'completion' => $completion
         ];
         if (!is_null($passed)) {
             $result['success'] = $passed;
