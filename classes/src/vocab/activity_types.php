@@ -64,6 +64,9 @@ class activity_types extends vocab {
         'course-category' => [
             'type' => 'http://vocab.xapi.fr/activities/course-category',
         ],
+        'course-section' => [
+            'type' => 'http://vocab.xapi.fr/activities/course-section',
+        ],
 
         // Modules.
 

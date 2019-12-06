@@ -129,18 +129,44 @@ class actors extends index {
      * Get a cohort, given a Moodle ID.
      *
      * @param int $mid Moodle ID of the cohort
+     * @param bool $with_members Include members?
      * @return array
      */
-    public function get_cohort(int $mid = 0) {
+    public function get_cohort(int $mid = 0, bool $with_members = false) {
         global $DB;
-        $cohort = $DB->get_record('cohort', ['id' => $mid], '*', MUST_EXIST);
-        $entry = $this->get_or_create_db_entry($mid, 'cohort');
 
-        return [
+        // Group base.
+        $cohort = $DB->get_record('cohort', ['id' => $mid], 'name', MUST_EXIST);
+        $entry = $this->get_or_create_db_entry($mid, 'cohort');
+        $group = [
             'objectType' => 'Group',
             'name' => $cohort->name,
             'account' => [
                 'name' => $entry->uuid,
+                'homePage' => $this->platform_iri(),
+            ]
+        ];
+
+        // Group members.
+        if ($with_members) {
+            $members = $DB->get_records('cohort_members', ['cohortid' => $mid], 'userid');
+            $group['member'] = array_values(array_map(function ($member) {
+                return $this->get('user', $member->userid);
+            }, $members));
+        }
+        return $group;
+    }
+
+    /**
+     * Get a system actor.
+     *
+     * @return array
+     */
+    public function get_system() {
+        return [
+            'objectType' => 'Agent',
+            'account' => [
+                'name' => 'system',
                 'homePage' => $this->platform_iri(),
             ]
         ];

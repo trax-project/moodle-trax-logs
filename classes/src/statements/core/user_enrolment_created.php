@@ -97,34 +97,48 @@ class user_enrolment_created extends base_statement {
      * @return string|false
      */
     protected function cohort() {
-        global $DB;
-
-        if ($this->eventother->enrol == 'cohort') {
-            $user_enrolment = $DB->get_record('user_enrolments', ['id' => $this->event->objectid], '*', MUST_EXIST);
-            $enrol = $DB->get_record('enrol', ['id' => $user_enrolment->enrolid], '*', MUST_EXIST);
-            return $this->actors->get_cohort($enrol->customint1);
-        } 
-        
-        if ($this->eventother->enrol == 'meta') {
-
-            // Check meta links.
-            $enrols = $DB->get_records('enrol', ['enrol' => 'meta', 'courseid' => $this->event->courseid], 'customint1');
-            foreach ($enrols as $enrol) {
-
-                // Check cohorts on the meta course.
-                $meta_enrols = $DB->get_records('enrol', ['enrol' => 'cohort', 'courseid' => $enrol->customint1], 'id');
-                foreach ($meta_enrols as $meta_enrol) {
-
-                    // Check cohort registration.
-                    $user_enrolment = $DB->get_record('user_enrolments', ['enrolid' => $meta_enrol->id, 'userid' => $this->event->relateduserid]);
-                    if ($user_enrolment) {
-                        return $this->actors->get_cohort($meta_enrol->customint1);
-                    }
-                }
-            }
+        switch ($this->eventother->enrol) {
+            case 'cohort':
+                return $this->cohort_cohort_enrol();
+            case 'meta':
+                return $this->cohort_meta_enrol();
+            default:
+                return false;
         }
+    }
 
-        return false;
+    /**
+     * Get the user cohort.
+     *
+     * @return string|false
+     */
+    protected function cohort_cohort_enrol() {
+        global $DB;
+        $user_enrolment = $DB->get_record('user_enrolments', ['id' => $this->event->objectid], '*', MUST_EXIST);
+        $enrol = $DB->get_record('enrol', ['id' => $user_enrolment->enrolid], '*', MUST_EXIST);
+        return $this->actors->get_cohort($enrol->customint1);
+    }
+
+    /**
+     * Get the user cohort.
+     *
+     * @return string|false
+     */
+    protected function cohort_meta_enrol() {
+        global $DB;
+        $sql = "
+            SELECT meta_enrol.customint1
+            FROM {enrol} AS course_enrol
+            INNER JOIN {enrol} AS meta_enrol ON meta_enrol.courseid = course_enrol.customint1
+            INNER JOIN {user_enrolments} ON {user_enrolments}.enrolid = meta_enrol.id
+            WHERE course_enrol.enrol = 'meta' AND meta_enrol.enrol = 'cohort' AND course_enrol.courseid = ? AND {user_enrolments}.userid = ?
+        ";
+        $params = [$this->event->courseid, $this->event->relateduserid];
+        $record = $DB->get_record_sql($sql, $params);
+        if (!$record) {
+            return false;
+        }
+        return $this->actors->get_cohort($record->customint1);
     }
 
 }

@@ -15,18 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Define courses task.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace logstore_trax\src\virtual_events;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018050815;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
+/**
+ * Define courses task.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class course_defined extends event_provider {
 
-$plugin->release = 'v0.15';
-$plugin->maturity = MATURITY_ALPHA;
+    /**
+     * Get events to process.
+     *
+     * @return array
+     */
+    public function get_events() {
+        global $DB;
+        $records = $DB->get_records('course');
+        return $this->events('course_defined', $records);
+    }
+
+}

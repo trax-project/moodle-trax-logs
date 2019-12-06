@@ -115,6 +115,18 @@ class controller {
     }
 
     /**
+     * Process scheduled statements.
+     *
+     * @param string $event_name
+     * @return void
+     */
+    public function process_virtual_events(string $event_name) {
+        $provider_class = '\logstore_trax\src\virtual_events\\' . $event_name;
+        $events = (new $provider_class)->get_events();
+        $this->process_events($events);
+    }
+
+    /**
      * Return an HTTP client to communicate with the LRS.
      *
      * @return \logstore_trax\src\client

@@ -90,6 +90,12 @@ $string['additional_components_help'] = 'Select additional components you want t
 $string['mod_hvp'] = 'H5P';
 $string['other_components'] = 'Other components';
 
+$string['scheduled_statements'] = 'Scheduled statements (CRON)';
+$string['scheduled_statements_help'] = 'Select the statements you want to send on a regular basis.';
+
+$string['define_groups'] = 'Define groups';
+$string['define_courses'] = 'Define courses';
+
 $string['resend_livelogs_until'] = 'Resend live logs until';
 $string['resend_livelogs_until_help'] = 'Format: DD/MM/YYYY. 
     Live logs which were sent until this date will be resent.';
@@ -149,7 +155,9 @@ $string['event_hvp_xapi_error_iri'] = 'H5P xAPI event: unknown object IRI!';
 $string['event_hvp_xapi_error_unsupported'] = 'H5P xAPI event: unsupported event!';
 
 // Tasks.
-$string['sync_task'] = 'Trax Logs synchronization';
+$string['sync_task'] = 'Trax Logs: push logs';
+$string['define_groups_task'] = 'Trax Logs: define groups';
+$string['define_courses_task'] = 'Trax Logs: define courses';
 
 
 

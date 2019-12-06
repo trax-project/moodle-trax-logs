@@ -144,6 +144,15 @@ if ($hassiteconfig) {
         config::loggable_additional_components()
     ));
 
+    // CRON-based statements.
+    $settings->add(new admin_setting_configmulticheckbox(
+        'logstore_trax/scheduled_statements',
+        get_string('scheduled_statements', 'logstore_trax'),
+        get_string('scheduled_statements_help', 'logstore_trax'),
+        config::default_scheduled_statements(),
+        config::loggable_scheduled_statements()
+    ));
+
     // Live logs (proxy).
     $settings->add(new admin_setting_configtext(
         'logstore_trax/resend_livelogs_until',

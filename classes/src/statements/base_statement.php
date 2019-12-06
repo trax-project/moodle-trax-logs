@@ -63,6 +63,13 @@ abstract class base_statement {
     protected $activities;
 
     /**
+     * Platform.
+     *
+     * @var string $platform
+     */
+    protected $platform = 'Moodle';
+
+    /**
      * Moodle event data.
      *
      * @var array $event
@@ -72,7 +79,7 @@ abstract class base_statement {
     /**
      * Moodle event other data.
      *
-     * @var array $eventother
+     * @var \stdClass $eventother
      */
     protected $eventother;
 
@@ -160,7 +167,6 @@ abstract class base_statement {
 
         // Base context.
         $res = [
-            'platform' => 'Moodle',
             'contextActivities' => [
                 'category' => $categories,
             ],
@@ -168,6 +174,9 @@ abstract class base_statement {
                 'http://vocab.xapi.fr/extensions/platform-event' => $this->event->eventname
             ]
         ];
+        if (!empty($this->platform)) {
+            $res['platform'] = $this->platform;
+        }
 
         // System grouping.
         if ($withsystem) {

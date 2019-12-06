@@ -91,10 +91,11 @@ class activity {
     protected function base_activity(string $type, string $uuid, bool $full, string $vocabtype, string $plugin = null) {
         $activity = [
             'id' => $this->base_activity_id($type, $uuid),
-            'definition' => [
-                'type' => $this->types->type($vocabtype, $plugin),
-            ],
+            'definition' => [],
         ];
+        if ($type = $this->types->type($vocabtype, $plugin)) {
+            $activity['definition']['type'] = $type;
+        }
         if ($full) {
             $activity['objectType'] = 'Activity';
         }

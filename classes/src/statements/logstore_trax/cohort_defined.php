@@ -15,18 +15,47 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * xAPI transformation of a TRAX event.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace logstore_trax\src\statements\logstore_trax;
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2018050815;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
+use logstore_trax\src\statements\base_statement;
 
-$plugin->release = 'v0.15';
-$plugin->maturity = MATURITY_ALPHA;
+/**
+ * xAPI transformation of a TRAX event.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class cohort_defined extends base_statement {
+
+    /**
+     * Platform.
+     *
+     * @var string $platform
+     */
+    protected $platform = '';
+
+
+    /**
+     * Build the Statement.
+     *
+     * @return array
+     */
+    protected function statement() {
+        return array_replace($this->base('system'), [
+            'actor' => $this->actors->get_system(), 
+            'verb' => $this->verbs->get('defined'),
+            'object' => $this->actors->get_cohort($this->eventother->id, true),
+        ]);
+    }
+
+}

@@ -15,18 +15,46 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Trax Logs for Moodle.
+ * Define courses task.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+namespace logstore_trax\task;
 
-$plugin->version = 2018050815;
-$plugin->requires = 2018050800;
-$plugin->component = 'logstore_trax';
+use logstore_trax\src\controller as trax_controller;
+use logstore_trax\src\config;
 
-$plugin->release = 'v0.15';
-$plugin->maturity = MATURITY_ALPHA;
+/**
+ * Define courses task.
+ *
+ * @package    logstore_trax
+ * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+class define_courses_task extends \core\task\scheduled_task
+{
+
+    /**
+     * Return the task's name as shown in admin screens.
+     *
+     * @return string
+     */
+    public function get_name()
+    {
+        return get_string('define_courses_task', 'logstore_trax');
+    }
+
+    /**
+     * Execute the task.
+     */
+    public function execute()
+    {
+        if (config::is_scheduled('define_courses')) {
+            (new trax_controller())->process_virtual_events('course_defined'); 
+        }
+    }
+}
+

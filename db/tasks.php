@@ -34,4 +34,22 @@ $tasks = array(
         'dayofweek' => '*',
         'month' => '*'
     ),
+    array(
+        'classname' => '\logstore_trax\task\define_groups_task',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*/1',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
+    array(
+        'classname' => '\logstore_trax\task\define_courses_task',
+        'blocking' => 0,
+        'minute' => '*',
+        'hour' => '*',
+        'day' => '*/1',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
 );

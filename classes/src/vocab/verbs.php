@@ -93,6 +93,9 @@ class verbs extends vocab {
         'registered' => [
             'iri' => 'http://adlnet.gov/expapi/verbs/registered',
         ],
+        'defined' => [
+            'iri' => 'http://id.tincanapi.com/verb/defined',
+        ],
     ];
 
 }

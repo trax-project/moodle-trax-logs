@@ -273,7 +273,7 @@ trait logs_requests {
                 ]);
             }
 
-        } else {
+        } else if (!isset($event->virtual)) {
 
             // Sync mode.
             $DB->insert_record('logstore_trax_logs', (object)[

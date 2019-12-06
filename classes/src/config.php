@@ -249,6 +249,57 @@ class config {
     }
 
     /**
+     * Get the loggable scheduled components.
+     *
+     * @return array
+     */
+    public static function loggable_scheduled_statements() {
+        $components = events::scheduled_statements();
+        $components = array_map(function($key, $comp) {
+            return [$key => get_string($key, 'logstore_trax')];
+        }, array_keys($components), $components);
+        return call_user_func_array("array_merge", $components);
+    }
+
+    /**
+     * Get the scheduled components selected by default.
+     *
+     * @return array
+     */
+    public static function default_scheduled_statements() {
+        $default = array_map(function ($key, $comp) {
+            return [$key => 1];
+        }, array_keys(self::loggable_scheduled_statements()), self::loggable_scheduled_statements());
+        return call_user_func_array("array_merge", $default);
+    }
+
+    /**
+     * Get the selected scheduled components.
+     *
+     * @param stdClass $config Config
+     * @return array
+     */
+    public static function selected_scheduled_events(\stdClass $config) {
+        $components = explode(',', $config->scheduled_statements);
+        $components = array_intersect_key(events::scheduled_statements(), array_flip($components));
+        if (empty($components)) return [];
+        return call_user_func_array("array_merge", $components);
+    }
+
+    /**
+     * Get the selected scheduled statements.
+     *
+     * @param string $statement_name
+     * @return array
+     */
+    public static function is_scheduled(string $statement_name) {
+        $scheduled_statements = get_config('logstore_trax', 'scheduled_statements');
+        $scheduled_statements = explode(',', $scheduled_statements);
+        if (!$scheduled_statements) return false;
+        return in_array($statement_name, $scheduled_statements);
+    }
+
+    /**
      * Get all the selected events.
      *
      * @param stdClass $config Config
@@ -258,7 +309,8 @@ class config {
         return array_merge(
             self::selected_core_events($config),
             self::selected_moodle_events($config),
-            self::selected_additional_events($config)
+            self::selected_additional_events($config),
+            self::selected_scheduled_events($config)
         );
     }
 

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * xAPI transformation of a Moodle course category.
+ * xAPI transformation of a Moodle course section.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
@@ -29,13 +29,13 @@ defined('MOODLE_INTERNAL') || die();
 use logstore_trax\src\utils;
 
 /**
- * xAPI transformation of a Moodle course category.
+ * xAPI transformation of a Moodle course section.
  *
  * @package    logstore_trax
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class course_category extends activity
+class course_section extends activity
 {
 
     /**
@@ -55,10 +55,17 @@ class course_category extends activity
 
             // Name & description.
             global $DB;
-            $category = $DB->get_record('course_categories', array('id' => $mid), '*', MUST_EXIST);
-            $activity['definition']['name'] = utils::lang_string($category->name);
-            if (!empty($category->description)) {
-                $activity['definition']['description'] = utils::lang_string($category->description);
+            $section = $DB->get_record('course_sections', array('id' => $mid), '*', MUST_EXIST);
+            $course = $DB->get_record('course', array('id' => $section->course), '*', MUST_EXIST);
+            if (!empty($section->name)) {
+                $activity['definition']['name'] = utils::lang_string($section->name, $course);
+            } else if ($section->section) {
+                $activity['definition']['name'] = utils::lang_string('Section ' . $section->section, $course);
+            } else {
+                $activity['definition']['name'] = utils::lang_string('Top Section', $course);
+            }
+            if (!empty($section->description)) {
+                $activity['definition']['description'] = utils::lang_string($section->description, $course);
             }
 
             // Extensions.

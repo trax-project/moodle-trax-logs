@@ -148,5 +148,21 @@ class events {
         ];
     }
     
+    /**
+     * Scheduled statements.
+     *
+     * @return array
+     */
+    public static function scheduled_statements() {
+        return [
+            'define_groups' => [
+                '\logstore_trax\event\cohort_defined',
+            ],
+            'define_courses' => [
+                '\logstore_trax\event\course_defined',
+            ],
+        ];
+    }
+    
 
 }
