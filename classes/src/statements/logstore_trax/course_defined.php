@@ -101,7 +101,8 @@ class course_defined extends base_statement {
                 if (!$cminfo->visible) {
                     return false;
                 }
-                return $this->activities->get($cminfo->modname, $cminfo->instance, true, 'module', $cminfo->modname, 'mod_' . $cminfo->modname);
+                $child_activity = $this->activities->get($cminfo->modname, $cminfo->instance, true, 'module', $cminfo->modname, 'mod_' . $cminfo->modname);
+                return ['activity' => $child_activity];
 
             }, $modinfo->sections[$position]));
 
