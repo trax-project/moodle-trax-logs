@@ -61,7 +61,7 @@ abstract class index {
      * @param int $mid Moodle ID of the item
      * @param string $type Type of item
      * @param array $data More data
-     * @return stdClass
+     * @return \stdClass
      */
     public function get_or_create_db_entry(int $mid, string $type, array $data = []) {
         global $DB;
@@ -75,6 +75,17 @@ abstract class index {
             $entry->id = $DB->insert_record($this->table, $entry);
         }
         return $entry;
+    }
+
+    /**
+     * Update a DB entry.
+     *
+     * @param \stdClass $entry
+     * @return void
+     */
+    public function update_db_entry(\stdClass $entry) {
+        global $DB;
+        $DB->update_record($this->table, $entry);
     }
 
     /**

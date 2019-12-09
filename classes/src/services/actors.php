@@ -82,6 +82,10 @@ class actors extends index {
         if (!isset($entry)) {
             $user = $DB->get_record('user', ['id' => $mid], '*', MUST_EXIST);
             $entry = $this->get_or_create_db_entry($mid, 'user', ['email' => $user->email]);
+            if (!isset($entry->email) || $entry->email != $user->email) {
+                $entry->email = $user->email;
+                $this->update_db_entry($entry);
+            }
         }
         return [
             'objectType' => 'Agent',
@@ -206,7 +210,6 @@ class actors extends index {
     public function get_by_email(string $email) {
         global $DB;
         $entries = $DB->get_records('logstore_trax_actors', ['email' => $email]);
-
         return array_values(array_map(function ($entry) {
 
             return [
@@ -216,7 +219,6 @@ class actors extends index {
                     'homePage' => $this->platform_iri(),
                 ],
             ];
-
         }, $entries));
     }
 
