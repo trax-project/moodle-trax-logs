@@ -47,9 +47,6 @@ class course_defined extends base_statement {
 
         // Add the course structure.
         $this->add_course_structure($course, $this->eventother); 
-        if (empty($course['definition']['extensions']['http://vocab.xapi.fr/extensions/course-structure'])) {
-            return false;
-        }
 
         // Build statement only when the course structure is not empty.
         return array_replace($this->base('course'), [
@@ -91,21 +88,26 @@ class course_defined extends base_statement {
                 continue;
             }
 
-            // Section activity.
-            $xapi_section = $this->activities->get('course_section', $sectioninfo->id, true, 'course_section', 'course-section');
-    
             // Children activities.
-            $xapi_activities = array_filter(array_map(function ($cmid) use ($modinfo) {
+            $xapi_activities = array_values(array_filter(array_map(function ($cmid) use ($modinfo) {
 
                 $cminfo = $modinfo->cms[$cmid];
-                if (!$cminfo->visible) {
+                if (!$cminfo->visible || $cminfo->deletioninprogress) {
                     return false;
                 }
                 $child_activity = $this->activities->get($cminfo->modname, $cminfo->instance, true, 'module', $cminfo->modname, 'mod_' . $cminfo->modname);
                 return ['activity' => $child_activity];
 
-            }, $modinfo->sections[$position]));
+            }, $modinfo->sections[$position])));
 
+            // Empty section.
+            if (empty($xapi_activities)) {
+                continue;
+            }
+
+            // Section activity.
+            $xapi_section = $this->activities->get('course_section', $sectioninfo->id, true, 'course_section', 'course-section');
+    
             // Add section.
             $sections[] = [
                 'activity' => $xapi_section,
