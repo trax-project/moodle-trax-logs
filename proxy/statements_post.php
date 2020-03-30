@@ -107,7 +107,7 @@ function trigger_event($objecttable, $statement, $course, $cm, $activity, $conte
     $event->add_record_snapshot('course', $course);
     $event->add_record_snapshot('course_modules', $cm);
     $event->add_record_snapshot($objecttable, $activity);
-    $event->trigger();    
+    $event->trigger();
 }
 
 

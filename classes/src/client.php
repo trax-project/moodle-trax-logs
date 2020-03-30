@@ -99,6 +99,16 @@ class client {
     }
 
     /**
+     * Get the agents profile API.
+     *
+     * @return $this
+     */
+    public function agentProfiles() {
+        $this->endpoint = $this->config->endpoint.'agents/profile';
+        return $this;
+    }
+
+    /**
      * GET xAPI data.
      */
     public function get($query = []) {
