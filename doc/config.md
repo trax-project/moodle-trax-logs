@@ -11,26 +11,26 @@ Events are catched and sent to the LRS in real time. This is usefull when you wa
 
 1. It has consequences on performances and can slow down user interactions. 
 
-2. You can't filter the events you want to track with this mode. All known events are sent to the LRS. 
+2. when a request to the LRS fails, the event is lost and will not be sent anymore. 
 
-3. when a request to the LRS fails, the event is lost and will not be sent anymore. 
-
-For all these reasons, we do not recommend using this mode on your production server.
+For these reasons, we do not recommend using this mode on your production server.
 
 
 ### Asynchronous
 
 Events are read from the Moodle standard logstore and sent by CRON jobs. This is a better choice for production servers.
 
-1. **Performances** can be managed. You can schedule synchronization tasks as you want on `Admin > Server > Scheduled Tasks > Trax Logs synchronization`. Furthermore, you can play with 2 settings to refine the synchronization behaviour: **Database batch size** and **xAPI batch size**.
+1. You can schedule synchronization tasks as you want on `Admin > Server > Scheduled Tasks > Trax Logs: push logs`, `Admin > Server > Scheduled Tasks > Trax Logs: define groups` and `Admin > Server > Scheduled Tasks > Trax Logs: define courses`.
 
-2. You can filter the events you want to track thanks to the **Logged events** settings.
+2. You can play with 2 settings to refine the synchronization behaviour: **Database batch size** and **xAPI batch size**.
 
-3. When a request to the LRS fails, there may be a new attempt during the next CRON job. The number of attempts depends of the **attempts** setting.
+3. You can filter the events you want to track thanks to the **Logged events** settings.
 
-4. You can automatically send your logs history. The **First logs** setting let you define the date of the first log. You can change this setting as you want. Each log will be sent only once.
+4. When a request to the LRS fails, there may be a new attempt during the next CRON job. The number of attempts depends of the **attempts** setting.
 
-5. This mode is **future-proof**. Events that are not currently supported by the plugin stay in the Moodle standard logstore. They may be supported and processed in the future.
+5. You can automatically send your logs history. The **First logs** setting let you define the date of the first log. You can change this setting as you want. Each log will be sent only once.
+
+6. This mode is **future-proof**. Events that are not currently supported by the plugin stay in the Moodle standard logstore. They may be supported and processed in the future.
 
 
 ## Data privacy
