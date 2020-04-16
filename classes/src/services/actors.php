@@ -154,9 +154,13 @@ class actors extends index {
         // Group members.
         if ($with_members) {
             $members = $DB->get_records('cohort_members', ['cohortid' => $mid], 'userid');
-            $group['member'] = array_values(array_map(function ($member) {
-                return $this->get('user', $member->userid);
-            }, $members));
+            $group['member'] = array_values(array_filter(array_map(function ($member) {
+                try {
+                    return $this->get('user', $member->userid);
+                } catch (\moodle_exception $e) {
+                    return;
+                }
+            }, $members)));
         }
         return $group;
     }
