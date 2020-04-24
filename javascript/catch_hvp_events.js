@@ -1,7 +1,12 @@
 
 // We wait until the page is loaded to check that JQuery exists.
 // This is not always the case. But it always exists on H5P pages.
-window.onload = function () {
+
+window.addEventListener("load", function(event) {
+    catchH5PEvents();
+});
+
+catchH5PEvents = function () {
     if (window.$) {
 
         // We try to find the H5P event dispatcher.
@@ -11,7 +16,7 @@ window.onload = function () {
             H5P.externalDispatcher.on('xAPI', function (event) {
 
                 // Debug.
-                console.log(event);
+                // console.log(event);
 
                 // We keep only some types of events.
                 var supportedVerbs = [
