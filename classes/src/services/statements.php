@@ -283,6 +283,4 @@ class statements {
         return $class;
 
     }
-
-
 }

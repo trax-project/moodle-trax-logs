@@ -181,6 +181,17 @@ class activity_types extends vocab {
             'standard' => 'scorm',
         ],
 
+        // Forum items.
+
+        'forum-topic' => [
+            'type' => 'http://id.tincanapi.com/activitytype/forum-topic',
+            'level' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
+        ],
+        'forum-reply' => [
+            'type' => 'http://id.tincanapi.com/activitytype/forum-reply',
+            'level' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
+        ],
+
         // H5P modules.
 
         'hvp-single-question' => [

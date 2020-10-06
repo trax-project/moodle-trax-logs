@@ -92,6 +92,9 @@ class events {
             ],
             'mod_forum' => [
                 '\mod_forum\event\course_module_viewed',
+                '\mod_forum\event\discussion_viewed',
+                '\mod_forum\event\discussion_created',
+                '\mod_forum\event\post_created',
             ],
             'mod_glossary' => [
                 '\mod_glossary\event\course_module_viewed',
@@ -116,6 +119,7 @@ class events {
             ],
             'mod_scorm' => [
                 '\mod_scorm\event\course_module_viewed',
+                '\mod_scorm\event\sco_launched',
             ],
             'mod_survey' => [
                 '\mod_survey\event\course_module_viewed',

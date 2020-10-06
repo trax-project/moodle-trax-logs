@@ -204,6 +204,9 @@ trait eventsets {
     public function forum_events() {
         return [
             $this->course_module_viewed('forum'),
+            $this->forum_discussion_viewed(),
+            $this->forum_discussion_created(),
+            $this->forum_post_created(),
         ];
     }
 

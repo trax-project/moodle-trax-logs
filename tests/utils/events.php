@@ -168,4 +168,60 @@ class events {
         return \core\event\user_graded::create_from_grade($grade);
     }
 
+    /**
+     * Get forum discussion_viewed event.
+     *
+     * @return \mod_forum\event\discussion_viewed
+     */
+    public function forum_discussion_viewed() {
+        $this->set_course();
+        $this->set_module('forum');
+        $discussion = $this->create_forum_discussion();
+
+        return \mod_forum\event\discussion_viewed::create([
+            'context' => context_module::instance($this->module->cmid),
+            'objectid' => $discussion->id,
+        ]);
+    }
+
+    /**
+     * Get forum discussion_created event.
+     *
+     * @return \mod_forum\event\discussion_created
+     */
+    public function forum_discussion_created() {
+        $this->set_course();
+        $this->set_module('forum');
+        $discussion = $this->create_forum_discussion();
+
+        return \mod_forum\event\discussion_created::create([
+            'context' => context_module::instance($this->module->cmid),
+            'objectid' => $discussion->id,
+            'other' => array(
+                'forumid' => $this->module->id,
+            )
+        ]);
+    }
+
+    /**
+     * Get forum post_created event.
+     *
+     * @return \mod_forum\event\post_created
+     */
+    public function forum_post_created() {
+        $this->set_course();
+        $this->set_module('forum');
+        $discussion = $this->create_forum_discussion();
+        $post = $this->create_forum_post($discussion);
+
+        return \mod_forum\event\post_created::create([
+            'context' => context_module::instance($this->module->cmid),
+            'objectid' => $post->id,
+            'other' => array(
+                'discussionid' => $discussion->id,
+                'forumid' => $this->module->id,
+                'forumtype' => $this->module->type,
+            )
+        ]);
+    }
 }

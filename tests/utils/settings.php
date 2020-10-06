@@ -38,7 +38,7 @@ trait settings {
      *
      * @var string $lrsendpoint
      */
-    protected $lrsendpoint = 'http://trax.test/trax/ws/xapi';
+    protected $lrsendpoint = 'http://lrsdev.test/trax/api/047bb8b0-80b5-46bf-b2cb-a6ac5f4358d1/xapi/std';
 
     /**
      * Basic HTTP username.
