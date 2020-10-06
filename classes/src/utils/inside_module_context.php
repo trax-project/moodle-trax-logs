@@ -35,6 +35,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 trait inside_module_context {
 
+    use module_role;
+
     /**
      * Build the context.
      *
@@ -67,6 +69,15 @@ trait inside_module_context {
             'id' => 'http://vocab.xapi.fr/categories/moodle/' . $activitytype,
             'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
         ];
+
+        // Define the user role.
+        if ($role = $this->module_role()) {
+            if (!isset($context['extensions'])) {
+                $context['extensions'] = [];
+            }
+            $context['extensions']['http://vocab.xapi.fr/extensions/user-role'] = $role;
+        }
+
         return $context;
     }
 

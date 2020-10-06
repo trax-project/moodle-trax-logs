@@ -35,6 +35,8 @@ defined('MOODLE_INTERNAL') || die();
  */
 trait module_context {
 
+    use module_role;
+
     /**
      * Build the context.
      *
@@ -57,7 +59,14 @@ trait module_context {
             'definition' => ['type' => 'http://adlnet.gov/expapi/activities/profile'],
         ];
 
+        // Define the user role.
+        if ($role = $this->module_role()) {
+            if (!isset($context['extensions'])) {
+                $context['extensions'] = [];
+            }
+            $context['extensions']['http://vocab.xapi.fr/extensions/user-role'] = $role;
+        }
+
         return $context;
     }
-
 }
