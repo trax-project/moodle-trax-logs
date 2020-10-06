@@ -43,6 +43,7 @@ However, you are encouraged to [install](doc/install.md) the plugin, to test it,
 * [Configuration](doc/config.md)
 * [Supported events](doc/events.md)
 * [Supporting new events](doc/extend.md)
+* [Customizing statements](doc/custom.md)
 * [xAPI videos integration](doc/vid.md)
 * [H5P integration](doc/h5p.md)
 * [LTI integration](doc/lti.md)

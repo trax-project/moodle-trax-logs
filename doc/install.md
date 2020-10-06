@@ -42,6 +42,7 @@ Then, you can start to navigate in your courses and see the Statements recorded 
 * [Configuration](config.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
+* [Customizing statements](custom.md)
 * [xAPI videos integration](vid.md)
 * [H5P integration](h5p.md)
 * [LTI integration](lti.md)
