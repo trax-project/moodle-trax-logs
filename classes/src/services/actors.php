@@ -245,16 +245,24 @@ class actors extends index {
      */
     public function get_by_email(string $email) {
         global $DB;
+        $config = get_config('logstore_trax');
         $entries = $DB->get_records('logstore_trax_actors', ['email' => $email]);
-        return array_values(array_map(function ($entry) {
+        return array_values(array_map(function ($entry) use ($config) {
 
-            return [
-                'objectType' => 'Agent',
-                'account' => [
-                    'name' => $entry->uuid,
-                    'homePage' => $this->platform_iri(),
-                ],
-            ];
+            // Anonymous.
+            if (config::anonymous() || $config->xis_anonymization) {
+                return [
+                    'objectType' => 'Agent',
+                    'account' => [
+                        'name' => $entry->uuid,
+                        'homePage' => $this->platform_iri(),
+                    ],
+                ];
+            }
+
+            // Real.
+            return $this->get_user($entry->mid);
+
         }, $entries));
     }
 
