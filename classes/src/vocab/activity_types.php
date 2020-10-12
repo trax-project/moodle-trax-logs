@@ -121,6 +121,11 @@ class activity_types extends vocab {
             'family' => 'resource',
             'standard' => 'imscp',
         ],
+        'label' => [
+            'type' => 'http://vocab.xapi.fr/activities/annotation',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'resource',
+        ],
         'lesson' => [
             'type' => 'http://vocab.xapi.fr/activities/web-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
