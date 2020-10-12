@@ -57,6 +57,19 @@
         </INDEXES>
     </TABLE>
 
+    <TABLE NAME="logstore_trax_status" COMMENT="Logs status">
+        <FIELDS>
+            <FIELD NAME="id" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="true" SEQUENCE="true"/>
+            <FIELD NAME="event" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
+            <FIELD NAME="objecttable" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false"/>
+            <FIELD NAME="objectid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+            <FIELD NAME="data" TYPE="text" LENGTH="big" NOTNULL="true" SEQUENCE="false"/>
+        </FIELDS>
+        <KEYS>
+            <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        </KEYS>
+    </TABLE>
+
   </TABLES>
   
 </XMLDB>

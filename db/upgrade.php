@@ -223,5 +223,28 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018050812, 'logstore', 'trax');
     }
 
+    // Add status table.
+    if ($oldversion < 2018050818) {
+
+        // Define the table.
+        $table = new xmldb_table('logstore_trax_status');
+
+        // Add fields.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $table->add_field('event', XMLDB_TYPE_CHAR, '50', null, XMLDB_NOTNULL);
+        $table->add_field('objecttable', XMLDB_TYPE_CHAR, '50');
+        $table->add_field('objectid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED);
+        $table->add_field('data', XMLDB_TYPE_TEXT, 'big', null, XMLDB_NOTNULL);
+
+        // Adding keys to table.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Create the table.
+        $dbman->create_table($table);
+
+        // Savepoint.	
+        upgrade_plugin_savepoint(true, 2018050818, 'logstore', 'trax');
+    }
+
     return true;
 }

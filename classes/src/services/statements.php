@@ -177,6 +177,11 @@ class statements {
                 // No error, but refused to process the event. Log as unsupported.
                 $this->logs->log_unsupported($event);
                 return;
+
+            } elseif ($statement == -1) {
+
+                // This event should not be logged.
+                return;
             }
 
             // We got it, but we want to be sure to have a log for this event,
