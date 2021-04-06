@@ -97,6 +97,38 @@ class actors extends index {
     }
 
     /**
+     * Get a reverse user, given an xAPI data.
+     *
+     * @param array $actor
+     * @return object|false
+     */
+    public function get_reverse_user(array $actor) {
+        global $DB;
+        if (config::anonymous()) {
+            $uuid = $actor['account']['name'];
+            $actor = $DB->get_record('logstore_trax_actors', ['uuid' => $uuid]);
+            if (!$actor) {
+                return false;
+            }
+            $user = $DB->get_record('user', ['id' => $actor->mid]);
+        } elseif (config::mbox()) {
+            $email = substr($actor['mbox'], 7);
+            $actor = $DB->get_record('logstore_trax_actors', ['email' => $email]);
+            if (!$actor) {
+                return false;
+            }
+            $user = $DB->get_record('user', ['id' => $actor->mid]);
+        } else {
+            $username = $actor['account']['name'];
+            $user = $DB->get_record('user', ['username' => $username]);
+        }
+        if (!$user) {
+            return false;
+        }
+        return $user;
+    }
+
+    /**
      * Get a user, given a Moodle ID.
      *
      * @param int $mid Moodle ID of the cohort
@@ -213,6 +245,22 @@ class actors extends index {
      */
     public function get_by_email(string $email) {
         global $DB;
+
+        // Not anonymous.
+        // Users are not in the logstore_trax_actors table.
+        // We get them from the users table.
+        if (!config::anonymous()) {
+            $user = $DB->get_record('user', ['email' => $email]);
+            if (!$user) {
+                return [];
+            }
+            return [
+                $this->get_user($user->id)
+            ];
+        }
+
+        // Anonymous.
+        // We get them from the logstore_trax_actors table.
         $entries = $DB->get_records('logstore_trax_actors', ['email' => $email]);
         return array_values(array_map(function ($entry) {
 
@@ -223,6 +271,7 @@ class actors extends index {
                     'homePage' => $this->platform_iri(),
                 ],
             ];
+
         }, $entries));
     }
 

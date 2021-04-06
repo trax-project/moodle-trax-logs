@@ -51,11 +51,42 @@ class cohort_defined extends base_statement {
      * @return array
      */
     protected function statement() {
+        global $DB;
+
+        // Build the xAPI cohort.
+        $cohort = $this->actors->get_cohort($this->eventother->id, true);
+
+        // Check if it has changed.
+        $last = $DB->get_record('logstore_trax_status', [
+            'event' => 'cohort_defined',
+            'objecttable' => 'cohort',
+            'objectid' => $this->eventother->id
+        ]);
+        $encoded = json_encode($cohort);
+        if ($last && $last->data == $encoded) {
+            // Return -1 which is a specific code to say "don't log this!"
+            return -1;
+        }
+
+        // Record the current value.
+        if ($last) {
+            $last->data = $encoded;
+            $DB->update_record('logstore_trax_status', $last);
+        } else {
+            $last = (object)[
+                'event' => 'cohort_defined',
+                'objecttable' => 'cohort',
+                'objectid' => $this->eventother->id,
+                'data' => $encoded
+            ];
+            $DB->insert_record('logstore_trax_status', $last);
+        }
+
+        // Return the statement.
         return array_replace($this->base('system'), [
-            'actor' => $this->actors->get_system(), 
+            'actor' => $this->actors->get_system(),
             'verb' => $this->verbs->get('defined'),
-            'object' => $this->actors->get_cohort($this->eventother->id, true),
+            'object' => $cohort,
         ]);
     }
-
 }

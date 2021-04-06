@@ -185,6 +185,11 @@ class statements {
                 // No error, but refused to process the event. Log as unsupported.
                 $this->logs->log_unsupported($event);
                 return;
+
+            } elseif ($statement == -1) {
+
+                // This event should not be logged.
+                return;
             }
 
             // We got it, but we want to be sure to have a log for this event,
@@ -193,6 +198,10 @@ class statements {
 
             // Always return an array of statements.
             $statements = isset($statement['actor']) ? [$statement] : $statement;
+
+            // Apply custom changes.
+            $statements = $this->customize_statements($statements, $event);
+
             return (object)['statements' => $statements, 'event' => $event];
 
         } catch (\moodle_exception $e) {
@@ -200,6 +209,28 @@ class statements {
             // Log the error.
             $this->logs->log_internal_error($event);
         }
+    }
+
+    /**
+     * Customize statements with the TRAX local plugin when it exists.
+     *
+     * @param array $statements
+     * @param stdClass $event Moodle event data
+     * @return array $statements
+     */
+    protected function customize_statements(array $statements, $event) {
+        global $CFG;
+        $file = $CFG->dirroot.'/local/trax/lib.php';
+        if (file_exists($file)) {
+            $function = 'local_trax_customize_statement';
+            require_once($file);
+            if (function_exists($function)) {
+                return array_map(function ($statement) use ($function, $event) {
+                    return $function($statement, $event);
+                }, $statements);
+            }
+        }
+        return $statements;
     }
 
     /**
@@ -265,6 +296,4 @@ class statements {
         return $class;
 
     }
-
-
 }

@@ -121,6 +121,11 @@ class activity_types extends vocab {
             'family' => 'resource',
             'standard' => 'imscp',
         ],
+        'label' => [
+            'type' => 'http://vocab.xapi.fr/activities/annotation',
+            'level' => 'http://vocab.xapi.fr/categories/learning-unit',
+            'family' => 'resource',
+        ],
         'lesson' => [
             'type' => 'http://vocab.xapi.fr/activities/web-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
@@ -179,6 +184,17 @@ class activity_types extends vocab {
             'type' => 'http://vocab.xapi.fr/activities/content-object',
             'level' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
             'standard' => 'scorm',
+        ],
+
+        // Forum items.
+
+        'forum-topic' => [
+            'type' => 'http://id.tincanapi.com/activitytype/forum-topic',
+            'level' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
+        ],
+        'forum-reply' => [
+            'type' => 'http://id.tincanapi.com/activitytype/forum-reply',
+            'level' => 'http://vocab.xapi.fr/categories/inside-learning-unit',
         ],
 
         // H5P modules.

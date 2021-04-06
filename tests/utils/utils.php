@@ -83,7 +83,7 @@ trait utils {
      * @param stdClass $generator Data generator.
      * @param stdClass $user The user who triggers the events.
      */
-    public function __construct($testcase , $generator, $user) {
+    public function __construct($testcase, $generator, $user) {
         $this->testcase = $testcase;
         $this->generator = $generator;
         $this->user = $user;
@@ -121,6 +121,33 @@ trait utils {
             ['completion' => COMPLETION_TRACKING_AUTOMATIC]
         );
         $sink->close();
+    }
+
+    /**
+     * Create a forum discussion.
+     */
+    protected function create_forum_discussion() {
+        $sink = $this->testcase->redirectEvents();
+        $discussion = $this->generator->get_plugin_generator('mod_forum')->create_discussion([
+            'course' => $this->course->id,
+            'forum' => $this->module->id,
+            'userid' => $this->user->id,
+        ]);
+        $sink->close();
+        return $discussion;
+    }
+
+    /**
+     * Create a forum post.
+     */
+    protected function create_forum_post($discussion) {
+        $sink = $this->testcase->redirectEvents();
+        $post = $this->generator->get_plugin_generator('mod_forum')->create_post([
+            'discussion' => $discussion->id,
+            'userid' => $this->user->id,
+        ]);
+        $sink->close();
+        return $post;
     }
 
     /**

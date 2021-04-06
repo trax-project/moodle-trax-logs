@@ -43,14 +43,41 @@ class course_defined extends base_statement {
      * @return array
      */
     protected function statement() {
-        $course = $this->activities->get('course', $this->eventother->id);
+        global $DB;
 
-        // Add the course structure.
-        $this->add_course_structure($course, $this->eventother); 
+        // Build the xAPI course.
+        $course = $this->activities->get('course', $this->eventother->id);
+        $this->add_course_structure($course, $this->eventother);
+
+        // Check if it has changed.
+        $last = $DB->get_record('logstore_trax_status', [
+            'event' => 'course_defined',
+            'objecttable' => 'course',
+            'objectid' => $this->eventother->id
+        ]);
+        $encoded = json_encode($course);
+        if ($last && $last->data == $encoded) {
+            // Return -1 which is a specific code to say "don't log this!"
+            return -1;
+        }
+
+        // Record the current value.
+        if ($last) {
+            $last->data = $encoded;
+            $DB->update_record('logstore_trax_status', $last);
+        } else {
+            $last = (object)[
+                'event' => 'course_defined',
+                'objecttable' => 'course',
+                'objectid' => $this->eventother->id,
+                'data' => $encoded
+            ];
+            $DB->insert_record('logstore_trax_status', $last);
+        }
 
         // Build statement only when the course structure is not empty.
         return array_replace($this->base('course'), [
-            'actor' => $this->actors->get_system(), 
+            'actor' => $this->actors->get_system(),
             'verb' => $this->verbs->get('defined'),
             'object' => $course,
         ]);

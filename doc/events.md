@@ -36,9 +36,18 @@ Please, refer to this documentation to understand xAPI data structures and rules
 - `\mod_xxx\event\course_module_viewed`: a user navigated in a Moodle course module, `xxx` being the type of the module ([JSON example](http://doc.xapi.fr/profiles/moodle/events_nav#nav-in-module)).
 
 
-## SCORM Package
+## SCORM module
 
 - `\mod_scorm\event\sco_launched`: a user launched a SCO of the SCORM package ([JSON example](http://doc.xapi.fr/profiles/moodle/events_scorm#launched-sco)).
+
+
+## Forum module
+
+- `\mod_forum\event\discussion_viewed`: a user viewed a forum discussion ([JSON example](http://doc.xapi.fr/profiles/moodle/events_forum#viewed-discussion)).
+
+- `\mod_forum\event\discussion_created`: a user created a forum discussion ([JSON example](http://doc.xapi.fr/profiles/moodle/events_forum#created-discussion)).
+
+- `\mod_forum\event\post_created`: a user created a post in a forum discussion ([JSON example](http://doc.xapi.fr/profiles/moodle/events_forum#created-post)).
 
 
 ## CRON-based statements
@@ -70,6 +79,7 @@ Some statements are sent on a regular basis by CRON jobs:
 * [Configuration](config.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
+* [Customizing statements](custom.md)
 * [xAPI videos integration](vid.md)
 * [H5P integration](h5p.md)
 * [LTI integration](lti.md)

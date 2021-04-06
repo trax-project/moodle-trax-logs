@@ -96,6 +96,12 @@ class verbs extends vocab {
         'defined' => [
             'iri' => 'http://id.tincanapi.com/verb/defined',
         ],
+        'viewed' => [
+            'iri' => 'http://id.tincanapi.com/verb/viewed',
+        ],
+        'created' => [
+            'iri' => 'https://w3id.org/xapi/dod-isd/verbs/created',
+        ],
     ];
 
 }

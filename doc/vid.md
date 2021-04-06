@@ -49,6 +49,7 @@ with the Moodle / VLE profile: [go further](http://doc.xapi.fr/profiles/moodle/e
 * [Configuration](config.md)
 * [Supported events](events.md)
 * [Supporting new events](extend.md)
+* [Customizing statements](custom.md)
 * [xAPI videos integration](vid.md)
 * [H5P integration](h5p.md)
 * [LTI integration](lti.md)
