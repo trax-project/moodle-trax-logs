@@ -101,6 +101,7 @@ class statements {
      * @return mixed
      */
     public function get_from_event(\stdClass $event) {
+
         $class = null;
         $parts = explode('\\', $event->eventname);
         $plugin = $parts[1];
@@ -115,7 +116,13 @@ class statements {
 
             // Don't send the statement, just log it.
             if ($event->timecreated > $resenduntil + (60 * 60 * 24)) {
-                $eventother = (object)unserialize($event->other);
+
+                if (get_config('logstore_standard', 'jsonformat')) {
+                    $eventother = json_decode($event->other);
+                } else {
+                    $eventother = (object)unserialize($event->other);
+                }
+        
                 if ($eventother->error) {
                     $this->logs->log_lrs_error($event);
                 } else {
@@ -131,10 +138,11 @@ class statements {
         // Check if this event is selected.
         if (!$class || !class_exists($class)) {
             $selectedEvents = config::selected_events(get_config('logstore_trax'));
+            $knownEvents = config::known_events();
             $otherEvents = config::other_events(get_config('logstore_trax'));
-            $continue = in_array($event->eventname, $selectedEvents) 
-                || ($event->contextlevel == CONTEXT_MODULE && $otherEvents);
+            $otherEvent = $otherEvents && $event->contextlevel == CONTEXT_MODULE && !in_array($event->eventname, $knownEvents);
 
+            $continue = in_array($event->eventname, $selectedEvents) || $otherEvent;
             if (!$continue) {
                 $this->logs->log_unselected($event);
                 return;

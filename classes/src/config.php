@@ -315,6 +315,19 @@ class config {
     }
 
     /**
+     * Get all the known events.
+     *
+     * @return array
+     */
+    public static function known_events() {
+        $coreEvents = call_user_func_array("array_merge", events::core());
+        $moodleEvents = call_user_func_array("array_merge", events::moodle_components());
+        $additionalEvents = call_user_func_array("array_merge", events::additional_components());
+        $scheduledEvents = call_user_func_array("array_merge", events::scheduled_statements());
+        return array_merge($coreEvents, $moodleEvents, $additionalEvents, $scheduledEvents);
+    }
+
+    /**
      * Are other events selected?
      *
      * @param stdClass $config Config
@@ -324,6 +337,4 @@ class config {
         $components = explode(',', $config->additional_components);
         return in_array('other', $components);
     }
-    
-
 }

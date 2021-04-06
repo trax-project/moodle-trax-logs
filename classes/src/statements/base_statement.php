@@ -109,7 +109,13 @@ abstract class base_statement {
      */
     public function __construct($event, actors $actors, verbs $verbs, activities $activities) {
         $this->event = $event;
-        $this->eventother = (object)unserialize($this->event->other);
+
+        if (get_config('logstore_standard', 'jsonformat')) {
+            $this->eventother = json_decode($this->event->other);
+        } else {
+            $this->eventother = (object)unserialize($this->event->other);
+        }
+        
         $this->actors = $actors;
         $this->verbs = $verbs;
         $this->activities = $activities;
