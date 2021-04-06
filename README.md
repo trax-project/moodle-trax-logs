@@ -11,10 +11,10 @@ is the leading open standard to leverage your learning data and build learning a
 As Moodle is not xAPI-compliant, you need a plugin to transform Moodle data into xAPI data,
 and Trax Logs aims to be the best plugin for this job, bringing some key benefits:
 
-* Synchronous (real-time) & asynchronous (CRON),
+* Synchronous & asynchronous communication with the LRS (real-time vs CRON job),
 * Automated history transfer from Moodle logs,
-* Reliability: errors and retry management,
-* Configurable groups of events to support,
+* Reliability: communication errors and retry management,
+* Configurable list of events to be processed by the plugin,
 * Support of the main Moodle events,
 * Support of xAPI video activities,
 * Support of H5P activities,
