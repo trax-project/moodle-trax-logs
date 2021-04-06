@@ -53,10 +53,16 @@ class store_test extends base {
 
         // Check Trax logs.
         $traxlogs = $this->controller->logs->get_trax_logs();
-        $this->assertTrue(count($traxlogs) == 1);
 
-        // Check error.
-        $this->assertTrue(reset($traxlogs)->error == 0);
+        // Search 1 successed operation. Others may fail (e.g. user_created).
+        $found = false;
+        foreach ($traxlogs as $log) {
+            if ($log->error == 0) {
+                $found = true;
+                break;
+            }
+        }
+        $this->assertTrue($found);
 
         // Clean logs (don't keep sync logs).
         $this->controller->logs->clean();

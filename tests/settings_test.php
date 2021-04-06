@@ -73,7 +73,7 @@ class settings_test extends base {
 
         // Transform it into a Statement.
         $mixed = $this->controller->statements->get_from_event($mlog);
-        $name = $mixed->statement['actor']['account']['name'];
+        $name = $mixed->statements[0]['actor']['account']['name'];
         
         // Check anonymization.
         $this->assertTrue($name != $this->events->user->username);
@@ -83,7 +83,7 @@ class settings_test extends base {
 
         // Transform it into a Statement.
         $mixed = $this->controller->statements->get_from_event($mlog);
-        $name = $mixed->statement['actor']['account']['name'];
+        $name = $mixed->statements[0]['actor']['account']['name'];
         
         // Check anonymization.
         $this->assertTrue($name == $this->events->user->username);
