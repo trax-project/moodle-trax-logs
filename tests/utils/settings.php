@@ -38,27 +38,27 @@ trait settings {
      *
      * @var string $lrsendpoint
      */
-    protected $lrsendpoint = 'http://trax.test/trax/ws/xapi';
+    protected $lrsendpoint = 'http://starterdev.test/trax/api/9aed4e7f-e077-46cb-b49f-da3ab3a5d472/xapi/std';
 
     /**
      * Basic HTTP username.
      *
      * @var string $lrsusername
      */
-    protected $lrsusername = 'testsuite';
+    protected $lrsusername = 'moodle';
 
     /**
      * Basic HTTP password.
      *
      * @var string $lrspassword
      */
-    protected $lrspassword = 'password';
+    protected $lrspassword = 'aaaaaaaa';
 
     /**
      * Platform IRI.
      *
      * @var string $platformiri
      */
-    protected $platformiri = 'http://moodle.test';
+    protected $platformiri = 'http://moodle39.test';
 
 }
