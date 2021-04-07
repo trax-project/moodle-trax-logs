@@ -63,11 +63,16 @@ abstract class event_provider {
      * @return array
      */
     protected function event(string $eventname, \stdClass $record) {
+
+        $eventother = get_config('logstore_standard', 'jsonformat')
+            ? json_encode($record)
+            : serialize($record);
+
         return [
             'eventname' => "\\logstore_trax\\event\\$eventname",
             'contextlevel' => CONTEXT_SYSTEM,
             'virtual' => true,
-            'other' => serialize($record),
+            'other' => $eventother,
             'timecreated' => time(),
             'userid' => 0,
         ];
