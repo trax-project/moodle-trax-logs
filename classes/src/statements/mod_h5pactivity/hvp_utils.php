@@ -22,7 +22,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\statements\mod_hvp;
+namespace logstore_trax\src\statements\mod_h5pactivity;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -51,28 +51,28 @@ trait hvp_utils {
             case 'H5P.DragText':
             case 'H5P.TrueFalse':
             case 'H5P.MultiChoice':
-                return 'hvp-single-question';
+                return 'h5pactivity-single-question';
 
             // Quiz.
             case 'H5P.SingleChoiceSet':
             case 'H5P.QuestionSet':
-                return 'hvp-quiz';
+                return 'h5pactivity-quiz';
 
             // Summary.
             case 'H5P.Summary':
-                return 'hvp-summary';
+                return 'h5pactivity-summary';
 
             // Interactive Video.
             case 'H5P.InteractiveVideo':
-                return 'hvp-interactive-video';
+                return 'h5pactivity-interactive-video';
 
             // Course Presentation.
             case 'H5P.CoursePresentation':
-                return 'hvp-course-presentation';
+                return 'h5pactivity-course-presentation';
 
             // Column.
             case 'H5P.Column':
-                return 'hvp-column';
+                return 'h5pactivity-column';
         }
     }
 
@@ -84,8 +84,14 @@ trait hvp_utils {
      */
     protected function module_vocab_type(\stdClass $hvp) {
         global $DB;
-        $library = $DB->get_record('hvp_libraries', array('id' => $hvp->main_library_id), '*', MUST_EXIST);
-        return $this->vocab_type($library->machine_name);
+        $module = $DB->get_record('modules', array('name' => 'h5pactivity'), '*', MUST_EXIST);
+        $cm = $DB->get_record('course_modules', array('module' => $module->id, 'instance' => $hvp->id), '*', MUST_EXIST);
+        $context = $DB->get_record('context', array('contextlevel' => 70, 'instanceid' => $cm->id), '*', MUST_EXIST);
+        $files = $DB->get_records('files', array('contextid' => $context->id));
+        $file = array_shift($files);
+        $h5p = $DB->get_record('h5p', array('pathnamehash' => $file->pathnamehash, 'contenthash' => $file->contenthash), '*', MUST_EXIST);
+        $library = $DB->get_record('h5p_libraries', array('id' => $h5p->mainlibraryid), '*', MUST_EXIST);
+        return $this->vocab_type($library->machinename);
     }
 
     /**
@@ -175,20 +181,20 @@ trait hvp_utils {
 
         // Get some data.
         list($level, $objectuuid, $parentuuid) = $this->statement_level($statement);
-        $module = $DB->get_record('hvp', array('id' => $this->event->objectid), '*', MUST_EXIST);
+        $module = $DB->get_record('h5pactivity', array('id' => $this->event->objectid), '*', MUST_EXIST);
         $moduletype = $this->module_vocab_type($module);
-        $base = $this->base('hvp', true, $vocabtype);
+        $base = $this->base('h5pactivity', true, $vocabtype);
 
         // Define the object and context.
         if ($level == 1) {
 
             // Object.
-            $object = $this->activities->get('hvp', $this->event->objectid, true, 'module', $vocabtype);
+            $object = $this->activities->get('h5pactivity', $this->event->objectid, true, 'module', $vocabtype);
 
         } else {
 
             // Top object.
-            $module = $this->activities->get('hvp', $this->event->objectid, false, 'module', $moduletype);
+            $module = $this->activities->get('h5pactivity', $this->event->objectid, false, 'module', $moduletype);
             
             // Object.
             $objecttype = $this->activities->types->get($vocabtype);

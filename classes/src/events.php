@@ -133,6 +133,14 @@ class events {
             'mod_workshop' => [
                 '\mod_workshop\event\course_module_viewed',
             ],
+            'mod_h5pactivity' => [
+                '\mod_h5pactivity\event\course_module_viewed',
+                '\logstore_trax\event\hvp_question_answered',
+                '\logstore_trax\event\hvp_quiz_completed',
+                '\logstore_trax\event\hvp_summary_answered',
+                '\logstore_trax\event\hvp_course_presentation_completed',
+                '\logstore_trax\event\hvp_course_presentation_progressed',
+            ],
         ];
     }
 
@@ -143,12 +151,6 @@ class events {
      */
     public static function additional_components() {
         return [
-            'mod_hvp' => [
-                '\mod_hvp\event\course_module_viewed',
-                '\logstore_trax\event\hvp_single_question_answered',
-                '\logstore_trax\event\hvp_quiz_completed',
-                '\logstore_trax\event\hvp_quiz_question_answered',
-            ],
         ];
     }
     

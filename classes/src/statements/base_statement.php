@@ -109,13 +109,12 @@ abstract class base_statement {
      */
     public function __construct($event, actors $actors, verbs $verbs, activities $activities) {
         $this->event = $event;
-
-        if (get_config('logstore_standard', 'jsonformat')) {
-            $this->eventother = json_decode($this->event->other);
-        } else {
-            $this->eventother = (object)unserialize($this->event->other);
+        // Some Moodle events have a textual 'null' value on 'other'!
+        if (!is_null($this->event->other) && $this->event->other != 'null') {
+            if (!$this->eventother = json_decode($this->event->other)) {
+                $this->eventother = (object)unserialize($this->event->other);
+            }
         }
-        
         $this->actors = $actors;
         $this->verbs = $verbs;
         $this->activities = $activities;

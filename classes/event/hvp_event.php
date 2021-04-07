@@ -44,17 +44,16 @@ abstract class hvp_event extends \core\event\base {
     public static function create_statement(\stdClass $statement) {
         global $DB;
 
-        // Get the course module ID.
-        $parts = explode('mod/hvp/view.php?id=', self::get_module_iri($statement));
-        if (count($parts) < 2 || !$cmid = intval($parts[1])) {
-            print_error('event_hvp_xapi_error_iri', 'logstore_trax');
-        }
+        // Get the course module.
+        $parts = explode('/', self::get_module_iri($statement));
+        $contextid = intval(end($parts));
+        $context = $DB->get_record('context', array('id' => $contextid), '*', MUST_EXIST);
+        $cm = $DB->get_record('course_modules', array('id' => $context->instanceid), 'id,instance', MUST_EXIST);
 
-        // Prepare data.
-        $cm = $DB->get_record('course_modules', array('id' => $cmid), 'id,instance', MUST_EXIST);
+        // Event data.
         $data = array(
             'objectid' => $cm->instance,
-            'context' => \context_module::instance($cmid),
+            'context' => \context_module::instance($cm->id),
             'other' => ['statement' => json_encode($statement)]
         );
 
@@ -69,7 +68,7 @@ abstract class hvp_event extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/hvp/view.php', array(
+        return new \moodle_url('/mod/h5pactivity/view.php', array(
             'id' => $this->contextinstanceid
         ));
     }
@@ -82,7 +81,7 @@ abstract class hvp_event extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
-        $this->data['objecttable'] = 'hvp';
+        $this->data['objecttable'] = 'h5pactivity';
     }
 
     /**

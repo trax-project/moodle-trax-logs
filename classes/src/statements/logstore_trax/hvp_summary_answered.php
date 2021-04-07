@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\statements\base_statement;
 use logstore_trax\src\utils\module_context;
-use logstore_trax\src\statements\mod_hvp\hvp_utils;
+use logstore_trax\src\statements\mod_h5pactivity\hvp_utils;
 
 /**
  * xAPI transformation of a H5P event.
@@ -52,7 +52,7 @@ class hvp_summary_answered extends base_statement {
         $statement = json_decode($this->eventother->statement);
 
         // Set statement base and object.
-        list($base, $object) = $this->statement_base_object($statement, 'hvp-summary');
+        list($base, $object) = $this->statement_base_object($statement, 'h5pactivity-summary');
         
         // Build the statement.
         return array_replace($base, [

@@ -74,7 +74,7 @@ of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hv
 - `\logstore_trax\event\hvp_course_presentation_progressed`: a user navigated in a course presentation 
 of the H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#nav-in-pres)).
 
-- `\mod_hvp\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#nav-in-module)).
+- `\mod_h5pactivity\event\course_module_viewed`: a user navigated in a H5P activity ([JSON example](http://doc.xapi.fr/profiles/moodle/events_hvp#nav-in-module)).
 
 
 

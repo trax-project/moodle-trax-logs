@@ -116,13 +116,9 @@ class statements {
 
             // Don't send the statement, just log it.
             if ($event->timecreated > $resenduntil + (60 * 60 * 24)) {
-
-                if (get_config('logstore_standard', 'jsonformat')) {
-                    $eventother = json_decode($event->other);
-                } else {
+                if (!$eventother = json_decode($event->other)) {
                     $eventother = (object)unserialize($event->other);
                 }
-        
                 if ($eventother->error) {
                     $this->logs->log_lrs_error($event);
                 } else {
