@@ -34,6 +34,9 @@ use core_privacy\local\request\contextlist;
 use core_privacy\local\request\approved_contextlist;
 use core_privacy\local\metadata\provider as metadata_provider;
 use tool_log\local\privacy\logstore_provider;
+use core_privacy\local\request\core_userlist_provider;
+use core_privacy\local\request\userlist;
+use core_privacy\local\request\approved_userlist;
 
 /**
  * Data privacy implementation.
@@ -42,7 +45,7 @@ use tool_log\local\privacy\logstore_provider;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class provider implements metadata_provider, logstore_provider
+class provider implements metadata_provider, logstore_provider, core_userlist_provider
 {
 
     /**
@@ -116,4 +119,41 @@ class provider implements metadata_provider, logstore_provider
         }
     }
 
+    /**
+     * Get the list of users who have data within a context.
+     *
+     * @param   userlist    $userlist   The userlist containing the list of users who have data in this context/plugin combination.
+     */
+    public static function get_users_in_context(userlist $userlist) {
+        global $DB;
+
+        $context = $userlist->get_context();
+        if (!$context instanceof context_system) {
+            return;
+        }
+
+        $sql = "SELECT DISTINCT actors.mid
+                  FROM {logstore_trax_actors} actors";
+
+        $userlist->add_from_sql('mid', $sql, []);
+    }
+
+    /**
+     * Delete multiple users within a single context.
+     *
+     * @param   approved_userlist       $userlist The approved context and user information to delete information for.
+     */
+    public static function delete_data_for_users(approved_userlist $userlist) {
+        global $DB;
+ 
+        $context = $userlist->get_context();
+        if (!$context instanceof context_system) {
+            return;
+        }
+     
+        list($userinsql, $userinparams) = $DB->get_in_or_equal($userlist->get_userids(), SQL_PARAMS_NAMED);
+        $sql = "mid {$userinsql}";
+     
+        $DB->delete_records_select('logstore_trax_actors', $sql, $userinparams);
+    }
 }
