@@ -12,7 +12,7 @@ When it is done, create a new BasicHTTP client in your LRS. You will be prompted
 
 ## Trax Logs installation
 
-1. [Download the lastest version of the plugin.](https://github.com/trax-project/moodle-trax-logs/releases)
+1. [Download the lastest version of the plugin matching with your Moodle version.](https://github.com/trax-project/moodle-trax-logs/releases)
 
 2. Drag and drop the ZIP file in `http://my-moodle-address.com/admin/tool/installaddon/index.php`.
 For a manual installation, unzip the ZIP file in `my-moodle-install-folder/admin/tool/log/store/`and rename the plugin folder as `trax`. Be sure that all the plugin files are located at the root of the `my-moodle-install-folder/admin/tool/log/store/trax` folder.
