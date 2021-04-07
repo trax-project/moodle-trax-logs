@@ -23,17 +23,18 @@ implementation of the xAPI Video Profile integrated with the VideoJS player.
 is a Moodle plugin that let's you create video activities into your Moodle courses,
 using the xAPI VideoJS player in order to support the xAPI Video Profile. 
 
-
-## Trax Logs for Moodle
-
 Trax Logs is required to run Trax Video because it performs some tasks
 when videos are playing:
 
 - It provides an LRS proxy used by Trax Video to communicate with the LRS.
 - It performs some tasks to secure the communication with the LRS.
 - It modifies statements in order to insert complementary contextual data.
-- It triggers a Moodle event for each LRS post.
-- It allows resending the statements to the LMS in the context of a resynchronization.
+
+Be aware that all video statements are always sent synchronously because the video player
+need to check them in real-time.
+
+However, video events are also triggered and stored in the Moodle standard log store.
+So these events can be used to resend video statements in case of a resynchronization.
 
 
 ## Additional xAPI Rules
