@@ -76,7 +76,7 @@ catchH5PEvents = function () {
                 }
 
                 // We send them to Trax Logs plugin.
-                var endpoint = window.location.href.split('mod/hvp')[0] + 'admin/tool/log/store/trax/ajax/hvp_xapi_event.php';
+                var endpoint = window.location.href.split('h5p/embed')[0] + 'admin/tool/log/store/trax/ajax/hvp_xapi_event.php';
                 var statementString = JSON.stringify(event.data.statement);
                 var jqxhr = $.post(endpoint, { statement: statementString })
                     .fail(function () {

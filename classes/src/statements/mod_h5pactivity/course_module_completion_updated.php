@@ -22,13 +22,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\statements\mod_hvp;
+namespace logstore_trax\src\statements\mod_h5pactivity;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\statements\mod_hvp\hvp_utils;
-use logstore_trax\src\statements\core\user_graded as core_user_graded;
-
+use logstore_trax\src\statements\mod_h5pactivity\hvp_utils;
+use logstore_trax\src\statements\core\course_module_completion_updated as core_course_module_completion_updated;
 
 /**
  * xAPI transformation of a Moodle event.
@@ -37,7 +36,7 @@ use logstore_trax\src\statements\core\user_graded as core_user_graded;
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class user_graded extends core_user_graded {
+class course_module_completion_updated extends core_course_module_completion_updated {
 
     use hvp_utils;
 

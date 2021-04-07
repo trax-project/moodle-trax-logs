@@ -22,11 +22,11 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace logstore_trax\src\statements\mod_hvp;
+namespace logstore_trax\src\statements\mod_h5pactivity;
 
 defined('MOODLE_INTERNAL') || die();
 
-use logstore_trax\src\statements\mod_hvp\hvp_utils;
+use logstore_trax\src\statements\mod_h5pactivity\hvp_utils;
 use logstore_trax\src\statements\core\course_module_viewed as core_course_module_viewed;
 
 /**
@@ -49,5 +49,4 @@ class course_module_viewed extends core_course_module_viewed {
     protected function init(\stdClass $object) {
         $this->activitytype = $this->module_vocab_type($object);
     }
-
 }

@@ -87,7 +87,7 @@ $string['moodle_components_help'] = 'Select Moodle components you want to track.
 
 $string['additional_components'] = 'Additional components';
 $string['additional_components_help'] = 'Select additional components you want to track.';
-$string['mod_hvp'] = 'H5P';
+$string['mod_h5pactivity'] = 'H5P';
 $string['other_components'] = 'Other components';
 
 $string['scheduled_statements'] = 'Scheduled statements (CRON)';

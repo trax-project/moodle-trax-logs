@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\statements\base_statement;
 use logstore_trax\src\utils\inside_module_context;
-use logstore_trax\src\statements\mod_hvp\hvp_utils;
+use logstore_trax\src\statements\mod_h5pactivity\hvp_utils;
 
 /**
  * xAPI transformation of a H5P event.
@@ -52,7 +52,7 @@ class hvp_question_answered extends base_statement {
         $statement = json_decode($this->eventother->statement);
 
         // Set statement base and object.
-        list($base, $object) = $this->statement_base_object($statement, 'hvp-single-question');
+        list($base, $object) = $this->statement_base_object($statement, 'h5pactivity-single-question');
         
         // Build the statement.
         return array_replace($base, [
@@ -61,7 +61,6 @@ class hvp_question_answered extends base_statement {
             'object' => $object,
             'result' => $statement->result
         ]);
-
     }
 
     /**
@@ -77,12 +76,12 @@ class hvp_question_answered extends base_statement {
 
         // Get some data.
         list($level, $objectuuid, $parentuuid) = $this->statement_level($statement);
-        $module = $DB->get_record('hvp', array('id' => $this->event->objectid), '*', MUST_EXIST);
+        $module = $DB->get_record('h5pactivity', array('id' => $this->event->objectid), '*', MUST_EXIST);
         $moduletype = $this->module_vocab_type($module);
-        $base = $this->base('hvp', true, $moduletype);
+        $base = $this->base('h5pactivity', true, $moduletype);
 
         // Top object.
-        $module = $this->activities->get('hvp', $this->event->objectid, false, 'module', $moduletype);
+        $module = $this->activities->get('h5pactivity', $this->event->objectid, false, 'module', $moduletype);
         
         // Object.
         $object = $statement->object;

@@ -199,32 +199,32 @@ class activity_types extends vocab {
 
         // H5P modules.
 
-        'hvp-single-question' => [
+        'h5pactivity-single-question' => [
             'type' => 'http://vocab.xapi.fr/activities/poll',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'feedback',
         ],
-        'hvp-quiz' => [
+        'h5pactivity-quiz' => [
             'type' => 'http://vocab.xapi.fr/activities/quiz',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'assessment',
         ],
-        'hvp-summary' => [
+        'h5pactivity-summary' => [
             'type' => 'http://vocab.xapi.fr/activities/quiz',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'assessment',
         ],
-        'hvp-interactive-video' => [
+        'h5pactivity-interactive-video' => [
             'type' => 'http://vocab.xapi.fr/activities/interactive-video',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'resource',
         ],
-        'hvp-course-presentation' => [
+        'h5pactivity-course-presentation' => [
             'type' => 'http://vocab.xapi.fr/activities/web-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'resource',
         ],
-        'hvp-column' => [
+        'h5pactivity-column' => [
             'type' => 'http://vocab.xapi.fr/activities/web-content',
             'level' => 'http://vocab.xapi.fr/categories/learning-unit',
             'family' => 'resource',
