@@ -12,7 +12,7 @@ When it is done, create a new BasicHTTP client in your LRS. You will be prompted
 
 ## Trax Logs installation
 
-1. [Download the lastest version of the plugin matching with your Moodle version.](https://github.com/trax-project/moodle-trax-logs/releases)
+1. [Download the right version of the plugin for your Moodle.](https://github.com/trax-project/moodle-trax-logs/releases)
 
 2. Drag and drop the ZIP file in `http://my-moodle-address.com/admin/tool/installaddon/index.php`.
 For a manual installation, unzip the ZIP file in `my-moodle-install-folder/admin/tool/log/store/`and rename the plugin folder as `trax`. Be sure that all the plugin files are located at the root of the `my-moodle-install-folder/admin/tool/log/store/trax` folder.
@@ -43,6 +43,18 @@ This plugin may use CRON jobs in order to sent statements to the LRS on a regula
 - *Trax Logs: define courses*: this job sends statements containing courses definitions to the LRS. By default, these statements are sent each day.
 
 - *Trax Logs: define groups*: this job sends statements containing cohorts definitions to the LRS. By default, these statements are sent each day.
+
+
+## LRS Proxy
+
+Some Moodle plugins which rely on TRAX Logs (e.g.
+[TRAX Video](https://github.com/trax-project/moodle-trax-video),
+[TRAX Launch](https://github.com/trax-project/moodle-trax-launch)) are using its LRS proxy
+to send statements, states (and so on) to the LRS.
+
+The LRS Proxy uses the `/admin/tool/log/store/trax/proxy/.htaccess` file in order to make some URL rewritings.
+Be sure that this file is correctly taken into account by your web server.
+If you are using NGINX, you may have to write equivalent directives in you NGINX config.
 
 
 ## Contents
