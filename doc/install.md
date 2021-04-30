@@ -53,7 +53,7 @@ Some Moodle plugins which rely on TRAX Logs (e.g.
 to send statements, states (and so on) to the LRS.
 
 The LRS Proxy uses the `/admin/tool/log/store/trax/proxy/.htaccess` file in order to make some URL rewritings.
-Be sure that this file is correctly taken into account by your web server.
+Be sure that this file is taken into account by your web server.
 If you are using NGINX, you may have to write equivalent directives in you NGINX config.
 
 
