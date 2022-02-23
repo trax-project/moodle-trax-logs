@@ -152,13 +152,23 @@ class logs {
     }
 
     /**
-     * Log an unselected event.
+     * Log an unselected event (unselected in the plugin settings, but this may change later).
      *
      * @param stdClass $event event
      * @return void
      */
     public function log_unselected(\stdClass $event) {
         $this->log_event($event, 4);
+    }
+
+    /**
+     * Log a disabled event (e.g. no LRS for a given course).
+     *
+     * @param stdClass $event event
+     * @return void
+     */
+    public function log_disabled(\stdClass $event) {
+        $this->log_event($event, 5);
     }
 
     /**

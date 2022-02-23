@@ -26,6 +26,8 @@ namespace logstore_trax\src;
 
 defined('MOODLE_INTERNAL') || die();
 
+use logstore_trax\src\services\settings;
+
 /**
  * Config functions.
  *
@@ -34,6 +36,21 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class config {
+
+    /**
+     * No LRS.
+     */
+    const TARGET_NO = 0;
+
+    /**
+     * Main LRS.
+     */
+    const TARGET_MAIN = 1;
+
+    /**
+     * Secondary LRS.
+     */
+    const TARGET_SECONDARY = 2;
 
     /**
      * Synchronous mode.
@@ -60,6 +77,71 @@ class config {
      */
     const ID_MBOX = 2;
 
+    /**
+     * Get the target options.
+     *
+     * @param bool $remove_empty_lrs
+     * @return array
+     */
+    public static function targets(bool $remove_empty_lrs = false) {
+        $targets = [
+            self::TARGET_NO => get_string('no_lrs', 'logstore_trax'),
+        ];
+        if (!$remove_empty_lrs || get_config('logstore_trax', 'lrs_endpoint')) {
+            $targets[self::TARGET_MAIN] = get_string('main_lrs', 'logstore_trax');
+        }
+        if (!$remove_empty_lrs || get_config('logstore_trax', 'lrs2_endpoint')) {
+            $targets[self::TARGET_SECONDARY] = get_string('secondary_lrs', 'logstore_trax');
+        }
+        return $targets;
+    }
+
+    /**
+     * Get the default target.
+     *
+     * @return integer
+     */
+    public static function default_target() {
+        return get_config('logstore_trax', 'courses_default_target');
+    }
+
+    /**
+     * Get a course target: in fact the current target of the course.
+     *
+     * @param int $course_id
+     * @return integer
+     */
+    public static function course_target($course_id) {
+        $setting = (new settings)->get_last_setting('course', $course_id);
+        return $setting === false
+            ? self::default_target()
+            : $setting->target;
+    }
+
+    /**
+     * Get a course target at a given time.
+     *
+     * @param int $course_id
+     * @param string $time
+     * @return integer
+     */
+    public static function course_target_at($course_id, $time) {
+        $setting = (new settings)->get_setting_at('course', $course_id, $time);
+        return $setting === false
+            ? self::default_target()
+            : $setting->target;
+    }
+
+    /**
+     * Get a course target.
+     *
+     * @param int $course_id
+     * @param int $target
+     * @return void
+     */
+    public static function set_course_target($course_id, $target) {
+        (new settings)->add_setting('course', $course_id, $target);
+    }
     
     /**
      * Get the sync modes.

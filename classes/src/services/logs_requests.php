@@ -229,10 +229,22 @@ trait logs_requests {
     }
 
     /**
+     * Get the target of an event.
+     *
+     * @param \stdClass $event
+     * @return int
+     */
+    public function target($event) {
+        return isset($event->courseid) && $event->courseid
+            ? config::course_target_at($event->courseid, $event->timecreated)
+            : config::TARGET_MAIN;
+    }
+
+    /**
      * Log an event.
      *
-     * @param stdClass $event event
-     * @error int $error error code
+     * @param stdClass $event
+     * @param int $error
      * @return void
      */
     protected function log_event(\stdClass $event, int $error) {
@@ -251,16 +263,19 @@ trait logs_requests {
                 'mid' => $event->id,
                 'error' => $error,
                 'attempts' => $event->attempts + 1,
-                'newattempt' => 0
+                'newattempt' => 0,
+                'target' => $this->target($event)
             ]);
 
-        } else if (isset($event->id) && $event->id) {
+        } elseif (isset($event->id) && $event->id) {
 
             // New log from a Moodle log store.
 
-            // May already exist (already recorded for security reason).
             $log = $DB->get_record('logstore_trax_logs', ['mid' => $event->id]);
             if ($log) {
+
+                // We have a temporary log recorded before trying to send the statement.
+                // Only the error status need to be updated.
                 $log->error = $error;
                 $DB->update_record('logstore_trax_logs', $log);
 
@@ -270,14 +285,20 @@ trait logs_requests {
                 $DB->insert_record('logstore_trax_logs', (object)[
                     'mid' => $event->id,
                     'error' => $error,
+                    'target' => $this->target($event)
                 ]);
             }
 
-        } else if (!isset($event->virtual)) {
+        } elseif (isset($event->virtual)) {
+
+            // We don't log virtual events.
+
+        } else {
 
             // Sync mode.
             $DB->insert_record('logstore_trax_logs', (object)[
                 'error' => $error,
+                'target' => $this->target($event)
             ]);
         }
     }

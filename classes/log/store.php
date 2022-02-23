@@ -26,7 +26,6 @@ namespace logstore_trax\log;
 
 defined('MOODLE_INTERNAL') || die();
 
-use \core\event\base as moodle_event;
 use \tool_log\log\writer as log_writer;
 use \tool_log\log\manager as log_manager;
 use \tool_log\helper\store as helper_store;

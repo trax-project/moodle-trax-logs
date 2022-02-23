@@ -114,7 +114,9 @@ class statements {
             $dateobj = \DateTime::createFromFormat('d/m/Y', get_config('logstore_trax', 'resend_livelogs_until'));
             $resenduntil = strtotime($dateobj->format('d-m-Y'));
 
-            // Don't send the statement, just log it.
+            // Don't send the statement because the proxy already sent it in real time.
+            // This is required for the behavior of most xAPI contents.
+            // So here we just have to log the events.
             if ($event->timecreated > $resenduntil + (60 * 60 * 24)) {
                 if (!$eventother = json_decode($event->other)) {
                     $eventother = (object)unserialize($event->other);
@@ -127,8 +129,15 @@ class statements {
                 return;
             }
     
-            // Resend the statement.
+            // The statement was already sent in real time but we want to resent it
+            // beacuse of the 'resend_livelogs_until' setting.
             $class = '\\logstore_trax\\src\\statements\\proxy\\statements_post';
+        }
+
+        // Check if xAPI has been disabled in the event context.
+        if (!$this->logs->target($event)) {
+            $this->logs->log_disabled($event);
+            return;
         }
 
         // Check if this event is selected.

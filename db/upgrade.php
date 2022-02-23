@@ -246,5 +246,35 @@ function xmldb_logstore_trax_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2018050818, 'logstore', 'trax');
     }
 
+    // Add settings table & target column to logs table.
+    if ($oldversion < 2020060901) {
+
+        // Define the table.
+        $table = new xmldb_table('logstore_trax_settings');
+
+        // Add fields.
+        $table->add_field('id', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED, XMLDB_NOTNULL, XMLDB_SEQUENCE);
+        $table->add_field('objecttable', XMLDB_TYPE_CHAR, '50');
+        $table->add_field('objectid', XMLDB_TYPE_INTEGER, '10', XMLDB_UNSIGNED);
+        $table->add_field('target', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '0');
+        $table->add_field('timecreated', XMLDB_TYPE_INTEGER, '10', null, XMLDB_NOTNULL, null, null);
+
+        // Adding keys to table.
+        $table->add_key('primary', XMLDB_KEY_PRIMARY, array('id'));
+
+        // Create the table.
+        $dbman->create_table($table);
+
+        // Add target column to logs table.
+        $table = new xmldb_table('logstore_trax_logs');
+        $field = new xmldb_field('target', XMLDB_TYPE_INTEGER, '1', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, '1');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Savepoint.
+        upgrade_plugin_savepoint(true, 2020060901, 'logstore', 'trax');
+    }
+
     return true;
 }

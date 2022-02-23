@@ -29,6 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Http\Message\ResponseInterface as GuzzleResponse;
+use logstore_trax\src\config;
 
 /**
  * HTTP client to communicate with the LRS.
@@ -64,14 +65,29 @@ class client {
     /**
      * Constructor.
      *
+     * @param int $target
      * @return void
      */
-    public function __construct() {
-        $this->config = (object)[
-            'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
-            'username' => get_config('logstore_trax', 'lrs_username'),
-            'password' => get_config('logstore_trax', 'lrs_password'),
-        ];
+    public function __construct(int $target = 1) {
+
+        if ($target == config::TARGET_MAIN) {
+
+            // Main LRS config.
+            $this->config = (object)[
+                'endpoint' => get_config('logstore_trax', 'lrs_endpoint'),
+                'username' => get_config('logstore_trax', 'lrs_username'),
+                'password' => get_config('logstore_trax', 'lrs_password'),
+            ];
+
+        } elseif ($target == config::TARGET_SECONDARY) {
+
+            // Secondary LRS config.
+            $this->config = (object)[
+                'endpoint' => get_config('logstore_trax', 'lrs2_endpoint'),
+                'username' => get_config('logstore_trax', 'lrs2_username'),
+                'password' => get_config('logstore_trax', 'lrs2_password'),
+            ];
+        }
         if (substr($this->config->endpoint, -1) != '/') {
             $this->config->endpoint .= '/';
         }

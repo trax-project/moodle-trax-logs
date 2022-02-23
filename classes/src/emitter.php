@@ -27,6 +27,7 @@ namespace logstore_trax\src;
 defined('MOODLE_INTERNAL') || die();
 
 use logstore_trax\src\services\logs;
+use logstore_trax\src\config;
 
 /**
  * Statements emitter.
@@ -56,14 +57,37 @@ class emitter {
     }
 
     /**
-     * Send an array of Statements.
+     * Send an array of Statements + Events.
      *
      * @param array $items Array of items containing a Statement and a Moodle event.
      * @return void
      */
     public function send(array $items) {
+
+        // Split the items in 2 groups: one per target.
+        $targetedItems = [
+            config::TARGET_MAIN => [],
+            config::TARGET_SECONDARY => []
+        ];
+        foreach ($items as $item) {
+            $targetedItems[$this->logs->target($item->event)][] = $item;
+        }
+        
+        // Send them separatly.
+        $this->sendToTarget($targetedItems[config::TARGET_MAIN], config::TARGET_MAIN);
+        $this->sendToTarget($targetedItems[config::TARGET_SECONDARY], config::TARGET_SECONDARY);
+    }
+
+    /**
+     * Send an array of Statements + Events.
+     *
+     * @param array $items Array of items containing a Statement and a Moodle event.
+     * @param int $target
+     * @return void
+     */
+    public function sendToTarget(array $items, int $target) {
         $config = get_config('logstore_trax');
-        $client = $this->client();
+        $client = new client($target);
         for ($i = 0; 1; $i++) {
 
             // Get a batch
@@ -86,7 +110,7 @@ class emitter {
             $resp = $client->statements()->post($statements);
 
             // Manage success and errors
-            foreach($events as $event) {
+            foreach ($events as $event) {
                 if ($resp->code == 200) {
                     $this->logs->log_success($event);
                 } else {
@@ -95,15 +119,4 @@ class emitter {
             }
         }
     }
-
-    /**
-     * Get a HTTP client.
-     *
-     * @return client
-     */
-    protected function client() {
-        return new client();
-    }
-
-
 }

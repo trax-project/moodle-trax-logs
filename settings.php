@@ -28,7 +28,7 @@ use logstore_trax\src\config;
 
 if ($hassiteconfig) {
 
-    // -------------------- LRS settings --------------------.
+    // -------------------- Main LRS settings --------------------.
 
     $settings->add(new admin_setting_heading(
         'lrs',
@@ -61,6 +61,60 @@ if ($hassiteconfig) {
         new lang_string('lrs_password_help', 'logstore_trax'),
         '',
         PARAM_TEXT
+    ));
+
+
+    // -------------------- Secondary LRS settings --------------------.
+
+    $settings->add(new admin_setting_heading(
+        'lrs2',
+        get_string('lrs2_settings', 'logstore_trax'),
+        get_string('lrs2_settings_help', 'logstore_trax')
+    ));
+
+    // Endpoint.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/lrs2_endpoint',
+        new lang_string('lrs_endpoint', 'logstore_trax'),
+        new lang_string('lrs_endpoint_help', 'logstore_trax'),
+        'http://my.lrs/endpoint',
+        PARAM_URL
+    ));
+
+    // Username.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/lrs2_username',
+        new lang_string('lrs_username', 'logstore_trax'),
+        new lang_string('lrs_username_help', 'logstore_trax'),
+        '',
+        PARAM_TEXT
+    ));
+
+    // Password.
+    $settings->add(new admin_setting_configtext(
+        'logstore_trax/lrs2_password',
+        new lang_string('lrs_password', 'logstore_trax'),
+        new lang_string('lrs_password_help', 'logstore_trax'),
+        '',
+        PARAM_TEXT
+    ));
+
+
+    // -------------------- Contextual settings --------------------.
+
+    $settings->add(new admin_setting_heading(
+        'contexts',
+        get_string('contextual_settings', 'logstore_trax'),
+        get_string('contextual_settings_help', 'logstore_trax')
+    ));
+
+    // Courses default LRS.
+    $settings->add(new admin_setting_configselect(
+        'logstore_trax/courses_default_target',
+        get_string('courses_default_lrs', 'logstore_trax'),
+        get_string('courses_default_lrs_help', 'logstore_trax'),
+        config::TARGET_MAIN,
+        config::targets()
     ));
 
 

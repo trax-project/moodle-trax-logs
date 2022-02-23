@@ -29,13 +29,31 @@ $string['pluginname'] = 'Trax Logs';
 $string['pluginname_desc'] = 'A log plugin which transforms Moodle logs into xAPI statements, and sends then to your LRS.';
 
 // Settings.
-$string['lrs_settings'] = 'LRS Settings';
+$string['lrs_settings'] = 'Main LRS';
 $string['lrs_settings_help'] = "The following settings should be found in your LRS.
     If you did'n choose an LRS yet, you should take a look at 
-    <a href='http://traxlrs.com' target='_blank'>Trax LRS</a>.
+    <a href='http://traxlrs.com' target='_blank'>TRAX LRS</a>.
     However, this plugin should work with any 
     <a href='https://adopters.adlnet.gov/products/all/0' target='_blank'>xAPI compliant LRS</a>.";
 
+$string['lrs2_settings'] = 'Secondary LRS';
+$string['lrs2_settings_help'] = "Optionaly, you can configure a secondary LRS that may be selected in specific contexts.
+    For example, you can use the <a href='https://github.com/trax-project/moodle-trax-block' target='_blank'>TRAX Block</a> plugin
+    to let course managers choose the target LRS for their courses.";
+    
+$string['contextual_settings'] = 'Contextual Settings';
+$string['contextual_settings_help'] = "Here you can configure the default LRS to be used in some contexts.
+    Users may be allowed to override these settings for each context individually, using tools such as the
+    <a href='https://github.com/trax-project/moodle-trax-block' target='_blank'>TRAX Block</a> plugin.
+    <br><span class='text-danger'>
+    You should define these settings now and avoid changing them later
+    or you will get unpredictable behaviors depending on multiple factors (sync mode, CRON job settings, course settings, etc.).
+    </span>
+    ";
+
+$string['courses_default_lrs'] = 'Default LRS for courses';
+$string['courses_default_lrs_help'] = "Default LRS to be used in courses.";
+                
 $string['lrs_endpoint'] = 'LRS endpoint';
 $string['lrs_endpoint_help'] = "This is the URL used to call the xAPI services of your LRS.";
 
@@ -45,7 +63,11 @@ $string['lrs_username_help'] = "This is the username of the Basic HTTP account c
 $string['lrs_password'] = 'LRS password (Basic HTTP)';
 $string['lrs_password_help'] = "This is the password of the Basic HTTP account created on your LRS.";
 
-$string['xapi_identification_settings'] = 'xAPI Identification Settings';
+$string['no_lrs'] = 'No LRS';
+$string['main_lrs'] = 'Main LRS';
+$string['secondary_lrs'] = 'Secondary LRS';
+
+$string['xapi_identification_settings'] = 'xAPI Identification';
 $string['xapi_identification_settings_help'] = "In this section, you can define how users will 
     be identified in the Statements. Be carefull with data privacy and take a look at the 
     <a href='https://eugdpr.org/' target='_blank'>GDPR</a>.";
@@ -100,7 +122,7 @@ $string['resend_livelogs_until'] = 'Resend live logs until';
 $string['resend_livelogs_until_help'] = 'Format: DD/MM/YYYY. 
     Live logs which were sent until this date will be resent.';
 
-$string['data_transfert_settings'] = 'Data Transfer Settings';
+$string['data_transfert_settings'] = 'Data Transfer';
 $string['data_transfert_settings_help'] = 'This section defines how this plugin will transfer
     data to the LRS. Please, take the time to make tests and define the right settings 
     before going into production.';

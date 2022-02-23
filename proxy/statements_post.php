@@ -27,6 +27,8 @@ require_once(__DIR__ . '/protect.php');
 
 use \logstore_trax\src\controller as trax_controller;
 use \logstore_trax\event\proxy_statements_post;
+use \logstore_trax\src\client;
+use logstore_trax\src\config;
 
 $controller = new trax_controller();
 
@@ -61,7 +63,14 @@ $contextmodule = context_module::instance($cm->id);
 $data = $controller->proxy($objecttable)->get($data, $userid, $course, $cm, $activity, $contextmodule);
 
 // POST the statements.
-$response = $controller->client()->statements()->post($data);
+$target = config::course_target($course->id);
+if ($target == config::TARGET_NO) {
+    // xAPI deactivated.
+    // This may cause issues with contents waiting for a 200 response with statements IDs.
+    http_response_code(204);
+    die;
+}
+$response = (new client($target))->statements()->post($data);
 
 // Return error.
 if ($response->code != 200) {
