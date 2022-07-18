@@ -73,7 +73,7 @@ class user_graded extends base_statement {
 
         // Build the statement.
         return array_replace($this->base($gradeitem->itemmodule, true, $this->activitytype, $this->plugin), [
-            'actor' => $this->actors->get('user', $this->event->userid),
+            'actor' => $this->actors->get('user', $this->event->relateduserid),
             'verb' => $this->verbs->get('graded'),
             'object' => $this->activities->get($gradeitem->itemmodule, $gradeitem->iteminstance, true, 'module', $this->activitytype, $this->plugin),
             'result' => $this->get_result($grade, $gradeitem)
@@ -113,7 +113,7 @@ class user_graded extends base_statement {
         // Get grade.
         $grade = $DB->get_record('grade_grades_history', [
             'itemid' => $this->eventother->itemid,
-            'userid' => $this->event->userid,
+            'userid' => $this->event->relateduserid,
             'timemodified' => $this->event->timecreated,
             'source' => 'mod/' . $gradeitem->itemmodule,
         ], '*', MUST_EXIST);
