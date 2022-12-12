@@ -71,7 +71,7 @@
         </KEYS>
     </TABLE>
 
-    <TABLE NAME="logstore_trax_status" COMMENT="Logs settings">
+    <TABLE NAME="logstore_trax_settings" COMMENT="Logs settings">
         <FIELDS>
             <FIELD NAME="id" TYPE="int" LENGTH="10" UNSIGNED="true" NOTNULL="true" SEQUENCE="true"/>
             <FIELD NAME="objecttable" TYPE="char" LENGTH="50" NOTNULL="false" SEQUENCE="false"/>
