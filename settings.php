@@ -55,7 +55,7 @@ if ($hassiteconfig) {
     ));
 
     // Password.
-    $settings->add(new admin_setting_configtext(
+    $settings->add(new admin_setting_configpasswordunmask(
         'logstore_trax/lrs_password',
         new lang_string('lrs_password', 'logstore_trax'),
         new lang_string('lrs_password_help', 'logstore_trax'),
@@ -91,7 +91,7 @@ if ($hassiteconfig) {
     ));
 
     // Password.
-    $settings->add(new admin_setting_configtext(
+    $settings->add(new admin_setting_configpasswordunmask(
         'logstore_trax/lrs2_password',
         new lang_string('lrs_password', 'logstore_trax'),
         new lang_string('lrs_password_help', 'logstore_trax'),
