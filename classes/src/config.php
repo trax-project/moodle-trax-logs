@@ -142,7 +142,7 @@ class config {
     public static function set_course_target($course_id, $target) {
         (new settings)->add_setting('course', $course_id, $target);
     }
-    
+
     /**
      * Get the sync modes.
      *
@@ -219,7 +219,7 @@ class config {
         $default = array_map(function ($key, $comp) {
             return [$key => 1];
         }, array_keys(self::loggable_core_events()), self::loggable_core_events());
-        return call_user_func_array("array_merge", $default);
+        return call_user_func_array("array_merge", array_values($default));
     }
 
     /**
@@ -232,7 +232,7 @@ class config {
         $families = explode(',', $config->core_events);
         $families = array_intersect_key(events::core(), array_flip($families));
         if (empty($families)) return [];
-        return call_user_func_array("array_merge", $families);
+        return call_user_func_array("array_merge", array_values($families));
     }
 
     /**
@@ -246,7 +246,7 @@ class config {
             $parts = explode('_', $key);
             return [$key => get_string('modulename', $parts[1])];
         }, array_keys($components), $components);
-        $components = call_user_func_array("array_merge", $components);
+        $components = call_user_func_array("array_merge", array_values($components));
         return $components;
     }
 
@@ -259,7 +259,7 @@ class config {
         $default = array_map(function ($key, $comp) {
             return [$key => 1];
         }, array_keys(self::loggable_moodle_components()), self::loggable_moodle_components());
-        return call_user_func_array("array_merge", $default);
+        return call_user_func_array("array_merge", array_values($default));
 
     }
 
@@ -273,7 +273,7 @@ class config {
         $components = explode(',', $config->moodle_components);
         $components = array_intersect_key(events::moodle_components(), array_flip($components));
         if (empty($components)) return [];
-        return call_user_func_array("array_merge", $components);
+        return call_user_func_array("array_merge", array_values($components));
 
     }
 
@@ -287,7 +287,7 @@ class config {
         $components = array_map(function($key, $comp) {
             return [$key => get_string($key, 'logstore_trax')];
         }, array_keys($components), $components);
-        $components = call_user_func_array("array_merge", $components);
+        $components = call_user_func_array("array_merge", array_values($components));
         $components['other'] = get_string('other_components', 'logstore_trax');
         return $components;
     }
@@ -301,7 +301,7 @@ class config {
         $default = array_map(function ($key, $comp) {
             return [$key => 1];
         }, array_keys(self::loggable_additional_components()), self::loggable_additional_components());
-        return call_user_func_array("array_merge", $default);
+        return call_user_func_array("array_merge", array_values($default));
     }
 
     /**
@@ -316,7 +316,7 @@ class config {
         unset($components[$key]);
         $components = array_intersect_key(events::additional_components(), array_flip($components));
         if (empty($components)) return [];
-        return call_user_func_array("array_merge", $components);
+        return call_user_func_array("array_merge", array_values($components));
     }
 
     /**
@@ -340,7 +340,7 @@ class config {
         $components = array_map(function($key, $comp) {
             return [$key => get_string($key, 'logstore_trax')];
         }, array_keys($components), $components);
-        return call_user_func_array("array_merge", $components);
+        return call_user_func_array("array_merge", array_values($components));
     }
 
     /**
@@ -352,7 +352,7 @@ class config {
         $default = array_map(function ($key, $comp) {
             return [$key => 1];
         }, array_keys(self::loggable_scheduled_statements()), self::loggable_scheduled_statements());
-        return call_user_func_array("array_merge", $default);
+        return call_user_func_array("array_merge", array_values($default));
     }
 
     /**
@@ -365,7 +365,7 @@ class config {
         $components = explode(',', $config->scheduled_statements);
         $components = array_intersect_key(events::scheduled_statements(), array_flip($components));
         if (empty($components)) return [];
-        return call_user_func_array("array_merge", $components);
+        return call_user_func_array("array_merge", array_values($components));
     }
 
     /**
@@ -402,10 +402,10 @@ class config {
      * @return array
      */
     public static function known_events() {
-        $coreEvents = call_user_func_array("array_merge", events::core());
-        $moodleEvents = call_user_func_array("array_merge", events::moodle_components());
-        $additionalEvents = call_user_func_array("array_merge", events::additional_components());
-        $scheduledEvents = call_user_func_array("array_merge", events::scheduled_statements());
+        $coreEvents = call_user_func_array("array_merge", array_values(events::core()));
+        $moodleEvents = call_user_func_array("array_merge", array_values(events::moodle_components()));
+        $additionalEvents = call_user_func_array("array_merge", array_values(events::additional_components()));
+        $scheduledEvents = call_user_func_array("array_merge", array_values(events::scheduled_statements()));
         return array_merge($coreEvents, $moodleEvents, $additionalEvents, $scheduledEvents);
     }
 
