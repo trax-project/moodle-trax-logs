@@ -35,22 +35,35 @@ $controller = new trax_controller();
 // Get data.
 $input = file_get_contents('php://input');
 $data = json_decode($input);
+
+
 if (!$data || empty($data)) {
     http_response_code(400);
     die;
 }
 
-// Get profile.
-$statement = is_array($data) ? $data[0] : $data;
-$mbox = substr($statement->actor->mbox, 7);
-list($objectid, $rest) = explode('@', $mbox);
-list($objecttable, $objecttype) = explode('.', $rest);
+if(isset($data->actor->account)){
 
-// Only modules.
-if ($objecttype != 'mod') {
-    http_response_code(400);
-    die;
+    if($data->object->objectType != "Activity"){
+        http_response_code(400);
+        die;
+    }
+
 }
+else {
+    // Get profile.
+    $statement = is_array($data) ? $data[0] : $data;
+    $mbox = substr($statement->actor->mbox, 7);
+    
+    list($objectid, $rest) = explode('@', $mbox);
+    list($objecttable, $objecttype) = explode('.', $rest);
+    
+    // Only modules.
+    if ($objecttype != 'mod') {
+        http_response_code(400);
+        die;
+    }
+}  
 
 // Get data records.
 $activity = $DB->get_record($objecttable, ['id' => $objectid], '*', MUST_EXIST);
