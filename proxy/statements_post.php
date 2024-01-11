@@ -40,11 +40,30 @@ if (!$data || empty($data)) {
     die;
 }
 
-// Get profile.
+// We need to know which Moodle plugin is calling the proxy. So we use a trick to get this information.
+// The actor of the statements MUST contain the `objectid`, `objecttable` and `objecttype`.
+// We accept 2 formats for this actor: email (currently used by TRAX Launch) and account (may be required for CMI5 contents).
+//
+// Structure:
+//      {"mbox": "mailto:objectid@objecttable.objecttype"}
+//      {"account": {"name":"objectid", "homePage":"http://objecttable.objecttype"}}
+
 $statement = is_array($data) ? $data[0] : $data;
-$mbox = substr($statement->actor->mbox, 7);
-list($objectid, $rest) = explode('@', $mbox);
-list($objecttable, $objecttype) = explode('.', $rest);
+
+if (isset($statement->actor->account)) {
+    // Account format.
+    $objectid = $statement->actor->account->name;
+    $rest = substr($statement->actor->account->homePage, 7);
+    list($objecttable, $objecttype) = explode('.', $rest);
+} elseif (isset($statement->actor->mbox)) {
+    // Mbox format.
+    $mbox = substr($statement->actor->mbox, 7);
+    list($objectid, $rest) = explode('@', $mbox);
+    list($objecttable, $objecttype) = explode('.', $rest);
+} else {
+    http_response_code(400);
+    die;
+}
 
 // Only modules.
 if ($objecttype != 'mod') {
