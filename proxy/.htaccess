@@ -1,3 +1,8 @@
 RewriteEngine On
 RewriteRule "^statements" "statements.php" [PT,QSA]
 RewriteRule "^activities/state" "states.php" [PT,QSA]
+RewriteRule "^activities/profile" "activity_profiles.php" [PT,QSA]
+RewriteRule "^activities" "activities.php" [PT,QSA]
+RewriteRule "^agents/profile" "agent_profiles.php" [PT,QSA]
+RewriteRule "^agents" "agents.php" [PT,QSA]
+RewriteRule "^about" "about.php" [PT,QSA]

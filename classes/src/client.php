@@ -115,12 +115,52 @@ class client {
     }
 
     /**
-     * Get the agents profile API.
+     * Get the activities API.
+     *
+     * @return $this
+     */
+    public function activities() {
+        $this->endpoint = $this->config->endpoint.'activities';
+        return $this;
+    }
+
+    /**
+     * Get the agents API.
+     *
+     * @return $this
+     */
+    public function agents() {
+        $this->endpoint = $this->config->endpoint.'agents';
+        return $this;
+    }
+
+    /**
+     * Get the activity profiles API.
+     *
+     * @return $this
+     */
+    public function activityProfiles() {
+        $this->endpoint = $this->config->endpoint.'activities/profile';
+        return $this;
+    }
+
+    /**
+     * Get the agent profiles API.
      *
      * @return $this
      */
     public function agentProfiles() {
         $this->endpoint = $this->config->endpoint.'agents/profile';
+        return $this;
+    }
+
+    /**
+     * Get the about API.
+     *
+     * @return $this
+     */
+    public function about() {
+        $this->endpoint = $this->config->endpoint.'about';
         return $this;
     }
 
@@ -172,6 +212,21 @@ class client {
                 'headers' => $this->headers(),
                 'query' => $query,
                 'json' => $data,
+            ]);
+        } catch (GuzzleException $e) {
+            $response = $e->getResponse();
+        }
+        return $this->response($response);
+    }
+
+    /**
+     * DELETE xAPI data.
+     */
+    public function delete($query = []) {
+        try {
+            $response = $this->guzzle->delete($this->endpoint, [
+                'headers' => $this->headers(),
+                'query' => $query,
             ]);
         } catch (GuzzleException $e) {
             $response = $e->getResponse();

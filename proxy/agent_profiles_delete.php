@@ -22,23 +22,29 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-switch ($_SERVER['REQUEST_METHOD']) {
-    case 'GET':
-        require_once(__DIR__ . '/states_get.php');
-        break;
-    case 'POST':
-        require_once(__DIR__ . '/states_post.php');
-        break;
-    case 'PUT':
-        require_once(__DIR__ . '/states_put.php');
-        break;
-    case 'DELETE':
-        require_once(__DIR__ . '/states_delete.php');
-        break;
-    default:
-        http_response_code(403);
-        die;
+// Protect and get $userid.
+require_once(__DIR__ . '/protect.php');
+
+use \logstore_trax\src\controller as trax_controller;
+
+$controller = new trax_controller();
+
+// Get params (there is no $_DELETE var).
+$params = [
+    'profileId' => required_param('profileId', PARAM_RAW),
+    'agent' => json_encode($controller->actors->get('user', $userid)),
+];
+
+// DELETE the profile.
+$response = $controller->client()->agentProfiles()->delete($params);
+
+// Return error.
+if ($response->code != 200) {
+    http_response_code($response->code);
+    die;
 }
 
-
-
+// JSON response.
+header('Content-Type: application/json');
+header('X-Experience-API-Version: ' . $response->headers->xapi_version);
+echo json_encode($response->content);

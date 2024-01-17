@@ -24,16 +24,16 @@
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET':
-        require_once(__DIR__ . '/states_get.php');
+        require_once(__DIR__ . '/agent_profiles_get.php');
         break;
     case 'POST':
-        require_once(__DIR__ . '/states_post.php');
+        require_once(__DIR__ . '/agent_profiles_post.php');
         break;
     case 'PUT':
-        require_once(__DIR__ . '/states_put.php');
+        require_once(__DIR__ . '/agent_profiles_put.php');
         break;
     case 'DELETE':
-        require_once(__DIR__ . '/states_delete.php');
+        require_once(__DIR__ . '/agent_profiles_delete.php');
         break;
     default:
         http_response_code(403);
