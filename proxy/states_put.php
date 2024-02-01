@@ -13,7 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
+ 
 /**
  * LRS proxy.
  *
@@ -21,38 +21,51 @@
  * @copyright  2019 Sébastien Fraysse {@link http://fraysse.eu}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
+ 
 // Protect and get $userid.
+ 
 require_once(__DIR__ . '/protect.php');
+require_once(__DIR__ . '/../classes/src/decodeStateData.php');
 
 use \logstore_trax\src\controller as trax_controller;
-
+ 
 $controller = new trax_controller();
-
+ 
 // Get params (there is no $_PUT var).
 $params = [
     'activityId' => required_param('activityId', PARAM_RAW),
     'stateId' => required_param('stateId', PARAM_RAW),
     'agent' => json_encode($controller->actors->get('user', $userid)),
 ];
-$registration = optional_param('registration', '', PARAM_RAW); 
+$registration = optional_param('registration', '', PARAM_RAW);
 if (!empty($registration)) {
     $params['registration'] = $registration;
 }
-
+ 
 // Get data.
 $input = file_get_contents('php://input');
-$data = json_decode($input, true);
 
+//if input contains ~ and ^
+//then it is a slide number from a articulate storyline package
+if(strpos($input,'~') !== false && strpos($input,'^') !== false) {
+ 
+    $rawSlides  = decodeStateData::slides($input);
+    $slides     = decodeStateData::translateSlides($rawSlides);
+    echo json_encode($slides);
+    die;
+}
+
+$data       = json_decode($input, true);
+ 
 // PUT the state.
 $response = $controller->client()->states()->put($data, $params);  // Not necessarily JSON !!!!!!!!!!!!!!!!!!!.
-
+ 
 // Return error.
 if ($response->code != 200) {
     http_response_code($response->code);
     die;
 }
-
+ 
 // JSON response.
 header('Content-Type: application/json');  // Not necessarily JSON !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.
 header('X-Experience-API-Version: ' . $response->headers->xapi_version);
