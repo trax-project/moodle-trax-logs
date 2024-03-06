@@ -182,17 +182,25 @@ class client {
     /**
      * POST xAPI data.
      *
-     * @param array $data xAPI data to be posted
+     * @param mixed $data xAPI data to be posted
      * @param array $query query string
      * @return stdClass
      */
-    public function post(array $data, array $query = []) {
+    public function post(array $data, array $query = [], string $type = 'application/json') {
         try {
-            $response = $this->guzzle->post($this->endpoint, [
-                'headers' => $this->headers(),
-                'query' => $query,
-                'json' => $data,
-            ]);
+            if ($type == 'application/json') {
+                $response = $this->guzzle->post($this->endpoint, [
+                    'headers' => $this->headers(),
+                    'query' => $query,
+                    'json' => $data,
+                ]);
+            } else {
+                $response = $this->guzzle->post($this->endpoint, [
+                    'headers' => $this->headers(['Content-Type' => $type]),
+                    'query' => $query,
+                    'body' => $data,
+                ]);
+            }
         } catch (GuzzleException $e) {
             $response = $e->getResponse();
         }
@@ -202,17 +210,26 @@ class client {
     /**
      * PUT xAPI data.
      *
-     * @param array $data xAPI data to be posted
+     * @param mixed $data xAPI data to be posted
      * @param array $query query string
+     * @param string $type
      * @return stdClass
      */
-    public function put(array $data, array $query = []) {
+    public function put(mixed $data, array $query = [], string $type = 'application/json') {
         try {
-            $response = $this->guzzle->put($this->endpoint, [
-                'headers' => $this->headers(),
-                'query' => $query,
-                'json' => $data,
-            ]);
+            if ($type == 'application/json') {
+                $response = $this->guzzle->put($this->endpoint, [
+                    'headers' => $this->headers(),
+                    'query' => $query,
+                    'json' => $data,
+                ]);
+            } else {
+                $response = $this->guzzle->put($this->endpoint, [
+                    'headers' => $this->headers(['Content-Type' => $type]),
+                    'query' => $query,
+                    'body' => $data,
+                ]);
+            }
         } catch (GuzzleException $e) {
             $response = $e->getResponse();
         }
@@ -239,11 +256,11 @@ class client {
      *
      * @return array HTTP headers
      */
-    protected function headers() {
-        return [
+    protected function headers(array $headers = []) {
+        return array_merge($headers, [
             'X-Experience-API-Version' => '1.0.3',
             'Authorization' => 'Basic ' . base64_encode($this->config->username . ':' . $this->config->password),
-        ];
+        ]);
     }
 
     /**

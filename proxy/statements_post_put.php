@@ -22,45 +22,37 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Protect and get $userid.
-require_once(__DIR__ . '/protect.php');
+require_once(__DIR__ . '/lib.php');
 
 use \logstore_trax\src\controller as trax_controller;
 use \logstore_trax\event\proxy_statements_post;
 use \logstore_trax\src\client;
 use logstore_trax\src\config;
 
+$userid = protectedUserId();
 $controller = new trax_controller();
+$putRequest = $_SERVER['REQUEST_METHOD'] == 'PUT';
+
+// Get params.
+$params = $putRequest ? [
+    'statementId' => required_param('statementId', PARAM_RAW),
+] : [];
+
 
 // Get data.
 $input = file_get_contents('php://input');
 $data = json_decode($input);
 if (!$data || empty($data)) {
+    // Requests with attachments (multipart) are not supported by this proxy.
     http_response_code(400);
     die;
 }
 
-// We need to know which Moodle plugin is calling the proxy. So we use a trick to get this information.
-// The actor of the statements MUST contain the `objectid`, `objecttable` and `objecttype`.
-// We accept 2 formats for this actor: email (currently used by TRAX Launch) and account (may be required for CMI5 contents).
-//
-// Structure:
-//      {"mbox": "mailto:objectid@objecttable.objecttype"}
-//      {"account": {"name":"objectid", "homePage":"http://objecttable.objecttype"}}
+// We need to know which Moodle plugin is calling the proxy.
+list($objectid, $objecttable, $objecttype) = objectInfo($data);
 
-$statement = is_array($data) ? $data[0] : $data;
-
-if (isset($statement->actor->account)) {
-    // Account format.
-    $objectid = $statement->actor->account->name;
-    $rest = substr($statement->actor->account->homePage, 7);
-    list($objecttable, $objecttype) = explode('.', $rest);
-} elseif (isset($statement->actor->mbox)) {
-    // Mbox format.
-    $mbox = substr($statement->actor->mbox, 7);
-    list($objectid, $rest) = explode('@', $mbox);
-    list($objecttable, $objecttype) = explode('.', $rest);
-} else {
+// Info not found.
+if (!$objectid) {
     http_response_code(400);
     die;
 }
@@ -89,7 +81,11 @@ if ($target == config::TARGET_NO) {
     http_response_code(204);
     die;
 }
-$response = (new client($target))->statements()->post($data);
+if ($putRequest) {
+    $response = (new client($target))->statements()->put($data, $params);
+} else {
+    $response = (new client($target))->statements()->post($data, $params);
+}
 
 // Return error.
 if ($response->code != 200) {

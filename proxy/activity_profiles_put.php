@@ -22,25 +22,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Protect and get $userid.
-require_once(__DIR__ . '/protect.php');
+require_once(__DIR__ . '/lib.php');
 
 use \logstore_trax\src\controller as trax_controller;
 
+$userid = protectedUserId();
 $controller = new trax_controller();
 
-// Get params (there is no $_PUT var).
+// Get params.
 $params = [
     'activityId' => required_param('activityId', PARAM_RAW),
     'profileId' => required_param('profileId', PARAM_RAW),
 ];
 
 // Get data.
-$input = file_get_contents('php://input');
-$data = json_decode($input, true);
+list($data, $contenttype) = requestDataAndType();
 
 // PUT the state.
-$response = $controller->client()->activityProfiles()->put($data, $params);  // Not necessarily JSON !!!!!!!!!!!!!!!!!!!.
+$response = $controller->client()->activityProfiles()->put($data, $params, $contenttype);
 
 // Return error.
 if ($response->code != 200) {
@@ -49,6 +48,6 @@ if ($response->code != 200) {
 }
 
 // JSON response.
-header('Content-Type: application/json');  // Not necessarily JSON !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.
+header("Content-Type: $contenttype");
 header('X-Experience-API-Version: ' . $response->headers->xapi_version);
 echo json_encode($response->content);

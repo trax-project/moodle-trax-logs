@@ -22,16 +22,15 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-// Protect and get $userid.
-require_once(__DIR__ . '/protect.php');
+require_once(__DIR__ . '/lib.php');
 
 use \logstore_trax\src\controller as trax_controller;
 
+$userid = protectedUserId();
 $controller = new trax_controller();
 
 // Get params
-$params = $_GET;
-unset($params['token']);
+$params = requestParams();
 
 // Get the state.
 $response = $controller->client()->activities()->get($params);

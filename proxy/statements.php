@@ -27,10 +27,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
         require_once(__DIR__ . '/statements_get.php');
         break;
     case 'POST':
-        require_once(__DIR__ . '/statements_post.php');
+    case 'PUT':
+        require_once(__DIR__ . '/statements_post_put.php');
         break;
     default:
-        http_response_code(403);
+        http_response_code(405);
         die;
 }
 
