@@ -24,9 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2023042500;
+$plugin->version = 2023042501;
 $plugin->requires = 2020060900;
 $plugin->component = 'logstore_trax';
 
-$plugin->release = 'v0.20';
+$plugin->release = 'v0.21';
 $plugin->maturity = MATURITY_ALPHA;
