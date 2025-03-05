@@ -281,7 +281,11 @@ class client {
 
         // Body.
         if ($res->code == 200) {
-            $res->content = json_decode($guzzleresponse->getBody());
+            if (strpos($guzzleresponse->getHeaderLine('Content-Type'), 'application/json') !== false) {
+                $res->content = json_decode($guzzleresponse->getBody());
+            } else {
+                $res->content = (string)$guzzleresponse->getBody();
+           }
         }
 
         // Headers.
