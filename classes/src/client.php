@@ -27,6 +27,7 @@ namespace logstore_trax\src;
 defined('MOODLE_INTERNAL') || die();
 
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Http\Message\ResponseInterface as GuzzleResponse;
 use logstore_trax\src\config;
@@ -173,8 +174,14 @@ class client {
                 'headers' => $this->headers(),
                 'query' => $query,
             ]);
-        } catch (GuzzleException $e) {
+        } catch (ConnectException $e) {
+            return (object)['code' => 0, 'error' => 'Connection error', 'message' => $e->getMessage()];
+        } catch (RequestException $e) {
             $response = $e->getResponse();
+            if ($response) {
+                return $this->response($response);
+            }
+            return (object)['code' => 0, 'error' => 'Request error', 'message' => $e->getMessage()];
         }
         return $this->response($response);
     }
@@ -201,8 +208,17 @@ class client {
                     'body' => $data,
                 ]);
             }
-        } catch (GuzzleException $e) {
+        // } catch (GuzzleException $e) {
+        //     $response = $e->getResponse();
+        // }
+        }catch (ConnectException $e) {
+            return (object)['code' => 0, 'error' => 'Connection error', 'message' => $e->getMessage()];
+        } catch (RequestException $e) {
             $response = $e->getResponse();
+            if ($response) {
+                return $this->response($response);
+            }
+            return (object)['code' => 0, 'error' => 'Request error', 'message' => $e->getMessage()];
         }
         return $this->response($response);
     }
@@ -230,8 +246,14 @@ class client {
                     'body' => $data,
                 ]);
             }
-        } catch (GuzzleException $e) {
+        } catch (ConnectException $e) {
+            return (object)['code' => 0, 'error' => 'Connection error', 'message' => $e->getMessage()];
+        } catch (RequestException $e) {
             $response = $e->getResponse();
+            if ($response) {
+                return $this->response($response);
+            }
+            return (object)['code' => 0, 'error' => 'Request error', 'message' => $e->getMessage()];
         }
         return $this->response($response);
     }
@@ -245,8 +267,14 @@ class client {
                 'headers' => $this->headers(),
                 'query' => $query,
             ]);
-        } catch (GuzzleException $e) {
+        } catch (ConnectException $e) {
+            return (object)['code' => 0, 'error' => 'Connection error', 'message' => $e->getMessage()];
+        } catch (RequestException $e) {
             $response = $e->getResponse();
+            if ($response) {
+                return $this->response($response);
+            }
+            return (object)['code' => 0, 'error' => 'Request error', 'message' => $e->getMessage()];
         }
         return $this->response($response);
     }
