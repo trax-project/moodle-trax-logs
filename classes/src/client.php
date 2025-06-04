@@ -28,6 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Client as GuzzleClient;
 use Psr\Http\Message\ResponseInterface as GuzzleResponse;
 use logstore_trax\src\config;
@@ -208,9 +210,6 @@ class client {
                     'body' => $data,
                 ]);
             }
-        // } catch (GuzzleException $e) {
-        //     $response = $e->getResponse();
-        // }
         }catch (ConnectException $e) {
             return (object)['code' => 0, 'error' => 'Connection error', 'message' => $e->getMessage()];
         } catch (RequestException $e) {
