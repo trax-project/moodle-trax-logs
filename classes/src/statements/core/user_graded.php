@@ -149,16 +149,18 @@ class user_graded extends base_statement {
             $passed = $raw >= floatval($gradeitem->gradepass);
         }
 
-        // Define the result.
-        $scaled = ($raw - $min) / ($max - $min);
         $result = [
             'score' => [
-                'raw' => round($raw, 2),
-                'min' => round($min, 2),
-                'max' => round($max, 2),
-                'scaled' => round($scaled, 2)
+                'raw' => round($raw, 2)
             ]
         ];
+
+        if ($max > $min) {
+            $result['score']['min'] = round($min, 2);
+            $result['score']['max'] = round($max, 2);
+            $result['score']['scaled'] = ($raw - $min) / ($max - $min);
+        }
+
         if (!is_null($passed)) {
             $result['success'] = $passed;
         }
