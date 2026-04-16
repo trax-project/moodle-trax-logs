@@ -158,7 +158,7 @@ class user_graded extends base_statement {
         if ($max > $min) {
             $result['score']['min'] = round($min, 2);
             $result['score']['max'] = round($max, 2);
-            $result['score']['scaled'] = ($raw - $min) / ($max - $min);
+            $result['score']['scaled'] = round(($raw - $min) / ($max - $min), 2);
         }
 
         if (!is_null($passed)) {
