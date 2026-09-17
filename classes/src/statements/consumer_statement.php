@@ -45,7 +45,7 @@ trait consumer_statement {
         global $DB;
         if ($user = $DB->get_record('user', ['id' => $userid])) {
             if ($user->auth == 'lti') {
-                if ($enrol = $DB->get_record('enrol_lti_users', ['userid' => $user->id])) {
+                if ($enrol = $DB->get_record('enrol_lti_users', ['userid' => $user->id]) && !empty($enrol->serviceurl)) {
 
                     return [
                         'objectType' => 'Activity',
@@ -63,5 +63,4 @@ trait consumer_statement {
 
         return false;
     }
-
 }
