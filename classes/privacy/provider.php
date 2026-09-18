@@ -78,7 +78,12 @@ class provider implements metadata_provider, logstore_provider, core_userlist_pr
      * @return void
      */
     public static function add_contexts_for_userid(contextlist $contextlist, $userid) {
-        $contextlist->add_system_context();
+        global $DB;
+        // logstore_trax considers all user data to be at the system level, so if the user id matches any of the log data,
+        // add the system context.
+        if ($DB->record_exists('logstore_trax_actors', ['mid' => $userid])) {
+            $contextlist->add_system_context();
+        }
     }
 
     /**
